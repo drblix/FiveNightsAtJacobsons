@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CCTVMonitor : MonoBehaviour
-{   
+{
+    private const string PUPPET_CAM = "2A";
     public bool camerasOpen = false;
 
     private Player player;
@@ -20,6 +21,9 @@ public class CCTVMonitor : MonoBehaviour
     private GameObject cctvObj;
 
     [SerializeField]
+    private GameObject puppetControls;
+
+    [SerializeField]
     private CCTVCam[] cctvCams;
 
     [SerializeField]
@@ -28,17 +32,18 @@ public class CCTVMonitor : MonoBehaviour
     private float ambienceTimer = 0f;
     private float randWait;
 
-    private void Awake() 
+    private void Awake()
     {
         player = FindObjectOfType<Player>();
         randWait = Random.Range(15f, 30f);
     }
 
-    private void Update() 
-    {   
-        if (camerasOpen) 
+    private void Update()
+    {
+        if (camerasOpen)
         {
-            if (ambienceTimer > randWait) 
+            // randomly plays ambience after a certain time threshold
+            if (ambienceTimer > randWait)
             {
                 cctvSources[1].clip = cctvClips[Random.Range(0, 1)];
                 cctvSources[1].Play();
@@ -53,22 +58,23 @@ public class CCTVMonitor : MonoBehaviour
 
     public void ToggleCams()
     {
+        // sets camera open to the opposite of cctvObj's activity in hierarchy
         camerasOpen = !cctvObj.activeInHierarchy;
         cctvObj.SetActive(camerasOpen);
         player.canLook = !camerasOpen;
 
         if (!camerasOpen && cctvSources[1].isPlaying) { cctvSources[1].Stop(); }
 
-        if (camerasOpen) 
+        if (camerasOpen)
         {
             cctvSources[2].Play();
         }
-        else 
+        else
         {
             cctvSources[2].Pause();
         }
 
-        for (int i = 0; i < cctvCams.Length; i++) 
+        for (int i = 0; i < cctvCams.Length; i++)
         {
             bool state = camDisplay.texture.name.Equals(cctvCams[i].transform.name) && cctvObj.activeInHierarchy;
             cctvCams[i].inUse = state;
@@ -86,11 +92,21 @@ public class CCTVMonitor : MonoBehaviour
             if (camTextures[i].name.Equals(name))
             {
                 camDisplay.texture = camTextures[i];
+
+                if (camTextures[i].name.Equals(PUPPET_CAM))
+                {
+                    puppetControls.SetActive(true);
+                }
+                else
+                {
+                    puppetControls.SetActive(false);
+                }
+
                 break;
             }
         }
 
-        for (int i = 0; i < cctvCams.Length; i++) 
+        for (int i = 0; i < cctvCams.Length; i++)
         {
             bool state = cctvCams[i].transform.name.Equals(name);
             cctvCams[i].inUse = state;
