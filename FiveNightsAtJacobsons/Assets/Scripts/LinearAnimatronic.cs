@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class Animatronic : MonoBehaviour
+// Animatronic that moves in a linear path with no special behaviors
+// !! DO NOT EDIT ANYTHING OUTSIDE OF THE !!
+// !! INSPECTOR UNLESS YOU KNOW WHAT YOU'RE DOING !!
+public class LinearAnimatronic : MonoBehaviour
 {
     public enum AnimatronicNames 
     {
@@ -56,6 +59,8 @@ public class Animatronic : MonoBehaviour
 
     private void Update()
     {
+        enabled = !(activity == 0);
+
         if (timer > moveTimer + tVar && currentPoint != movePath.Length - 1)
         {
             MoveEvent();
@@ -63,9 +68,9 @@ public class Animatronic : MonoBehaviour
             timer = 0f;
             tVar = Random.Range(-moveVariation, moveVariation);
         }
-        else if (currentPoint == movePath.Length - 1 && timer > attackTimer) 
+        else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !GameManager.GameOver) 
         {
-            Debug.Log("attacking player");
+            GameManager.PlayerDeath();
         }
 
         timer += Time.deltaTime;
@@ -73,10 +78,7 @@ public class Animatronic : MonoBehaviour
 
     private void MoveEvent()
     {
-        int r = Random.Range(0, 20);
-        Debug.Log(r);
-
-        if (activity > r)
+        if (GameManager.DoMoveRoll(activity))
         {
             currentPoint += 1;
             if (currentPoint <= movePath.Length - 1)
@@ -92,5 +94,5 @@ public class Animatronic : MonoBehaviour
         }
     }
 
-    public void SetDifficulty(int d) => activity = Mathf.Clamp(d, 0, 20);
+    public void SetActivity(int d) => activity = Mathf.Clamp(d, 0, 20);
 }

@@ -27,12 +27,13 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (canLook) {
+        if (canLook)
+        {
             PlayerRotation();
         }
     }
 
-    private void PlayerRotation() 
+    private void PlayerRotation()
     {
         // getting mouse position relative to the game viewport
         Vector2 mousePos = Camera.main.ScreenToViewportPoint(Mouse.current.position.ReadValue());
@@ -40,12 +41,12 @@ public class Player : MonoBehaviour
         Vector3 rotAmount = camSpeed * Time.deltaTime * Vector3.up;
 
         // if mouse is on left side of screen, rotate left
-        if (mousePos.x < .2f)
+        if (mousePos.x < .3f)
         {
             mainCam.Rotate(-rotAmount);
         }
         // if mouse is on right side of screen, rotate right
-        else if (mousePos.x > .8f) 
+        else if (mousePos.x > .7f)
         {
             mainCam.Rotate(rotAmount);
         }

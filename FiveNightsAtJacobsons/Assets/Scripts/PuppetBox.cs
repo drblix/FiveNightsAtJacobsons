@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class PuppetBox : MonoBehaviour
 {
-    private const float MAX_ATTACK_TIME = 90f;
+    private const float MAX_WINDDOWN_TIME = 120f;
 
     [SerializeField]
     private Image puppetWheel;
@@ -12,43 +12,95 @@ public class PuppetBox : MonoBehaviour
     private int activity = 0;
 
     [SerializeField]
-    private float windRate = 2.5f;
+    private float windRate = 3f;
 
     private bool beingWound = false;
 
-    private float attackTime;
+    private float windDownTime;
 
-    private float timer = 0f;
+    // timer before leaving box
+    private float timer1 = 0f;
+
+    // timer after leaving box
+    private float timer2 = 0f;
+
+    private bool puppetOut = false;
 
 
     private void Awake()
     {
-        attackTime = MAX_ATTACK_TIME - (activity * 2f);
-        enabled = !(activity == 0);
+        // winddown time will be fixed between the nights
+        // activity will only affect the puppet after being released
+        DetermineWinddownTime();
     }
 
     private void Update()
     {
-        if (timer > attackTime)
+        enabled = !(activity == 0);
+
+        if ((timer1 > windDownTime || puppetOut) && !GameManager.GameOver)
         {
-            Debug.Log("Puppet is out");
+            puppetOut = true;
+            if (timer2 > 8f)
+            {
+                timer2 = 0f;
+                if (GameManager.DoMoveRoll(activity))
+                {
+                    GameManager.PlayerDeath();
+                }
+            }
+
+            timer2 += Time.deltaTime;
         }
 
-        if (beingWound)
+        if (!puppetOut)
         {
-            timer -= Time.deltaTime * windRate;
-        }
-        else
-        {
-            timer += Time.deltaTime;
-        }
+            if (beingWound)
+            {
+                timer1 -= Time.deltaTime * windRate;
+            }
+            else
+            {
+                timer1 += Time.deltaTime;
+            }
 
-        timer = Mathf.Clamp(timer, 0f, MAX_ATTACK_TIME);
-
-        float fill = 1f - timer / attackTime;
-        puppetWheel.fillAmount = fill;
+            timer1 = Mathf.Clamp(timer1, 0f, MAX_WINDDOWN_TIME);
+            
+            float fill = 1f - timer1 / windDownTime;
+            puppetWheel.fillAmount = fill;
+        }
     }
 
+    private void DetermineWinddownTime()
+    {
+        switch (GameManager.CurrentNight)
+        {
+            case 1:
+                windDownTime = 110f;
+                break;
+
+            case 2:
+                windDownTime = 95f;
+                break;
+
+            case 3:
+                windDownTime = 80f;
+                break;
+
+            case 4:
+                windDownTime = 70f;
+                break;
+
+            case 5:
+                windDownTime = 55f;
+                break;
+
+            // default for night 6 and custom night
+            default:
+                windDownTime = 50f;
+                break;
+        }
+    }
 
     public void SetActivity(int a) => activity = a;
     public void SetWound(bool state) => beingWound = state;
