@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         return activity > roll;
     }
 
+    // static function here for now
+    // has no purpose currently
     public static void PlayerDeath()
     {
         gameOver = true;

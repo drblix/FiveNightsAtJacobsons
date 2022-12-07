@@ -3,8 +3,12 @@ using UnityEngine;
 // Animatronic that moves in a linear path with no special behaviors
 // !! DO NOT EDIT ANYTHING OUTSIDE OF THE !!
 // !! INSPECTOR UNLESS YOU KNOW WHAT YOU'RE DOING !!
+// poses will be handled by the skinned mesh renderer
+// with multiple gameobjects that can activated/deactivated
 public class LinearAnimatronic : MonoBehaviour
 {
+    // enum for later
+    // will likely be removed in favor of a different system
     public enum AnimatronicNames 
     {
         Demo1,
@@ -63,6 +67,7 @@ public class LinearAnimatronic : MonoBehaviour
 
         if (timer > moveTimer + tVar && currentPoint != movePath.Length - 1)
         {
+            // will continously keep moving until is in front of the office
             MoveEvent();
 
             timer = 0f;
@@ -70,6 +75,8 @@ public class LinearAnimatronic : MonoBehaviour
         }
         else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !GameManager.GameOver) 
         {
+            // if the animatronic is on their last waypoint, and their way of access
+            // is not blocked, kill the player
             GameManager.PlayerDeath();
         }
 
@@ -78,6 +85,7 @@ public class LinearAnimatronic : MonoBehaviour
 
     private void MoveEvent()
     {
+        // if can move, move up path by one and change position, etc.
         if (GameManager.DoMoveRoll(activity))
         {
             currentPoint += 1;
@@ -87,6 +95,7 @@ public class LinearAnimatronic : MonoBehaviour
                 transform.position = point.transform.position;
             }
 
+            // at the end of the path and is now by the office
             if (currentPoint == movePath.Length - 1) 
             {
                 Debug.Log(animatronicName.ToString() + " is at office entrance");

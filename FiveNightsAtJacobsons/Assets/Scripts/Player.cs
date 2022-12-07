@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    private SecurityOffice office;
+
     private Transform mainCam;
 
     [Header("Player Settings")]
@@ -16,6 +18,7 @@ public class Player : MonoBehaviour
 
     private float startingAngle;
 
+    [HideInInspector]
     public bool canLook = true;
 
     private void Awake()
@@ -23,6 +26,7 @@ public class Player : MonoBehaviour
         // assigning variables
         mainCam = Camera.main.transform;
         startingAngle = mainCam.eulerAngles.y;
+        office = GetComponent<SecurityOffice>();
     }
 
     private void Update()
@@ -30,6 +34,21 @@ public class Player : MonoBehaviour
         if (canLook)
         {
             PlayerRotation();
+
+            // if mouse was pressed, perform raycast and send result to office function
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                GameObject mouseObj = GetMouseGameObject();
+
+                if (mouseObj)
+                    office.ToggleButton(mouseObj);
+            }
+
+            // if mouse was released, disable all lights by default
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                office.DisableLights();
+            }
         }
     }
 
@@ -77,5 +96,19 @@ public class Player : MonoBehaviour
 
         // otherwise, returns min value between angle and to value
         return Mathf.Min(angle, to);
+    }
+
+    private GameObject GetMouseGameObject()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 1.5f);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Player")))
+        {
+            if (hit.collider)
+                return hit.collider.gameObject;
+        }
+
+        return null;
     }
 }

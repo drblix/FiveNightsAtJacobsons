@@ -36,10 +36,15 @@ public class PuppetBox : MonoBehaviour
 
     private void Update()
     {
+        // disables script if activity is 0
         enabled = !(activity == 0);
 
+        // if puppet is out and not game over
+        // constantly perform move rolls until the player is killed
         if ((timer1 > windDownTime || puppetOut) && !GameManager.GameOver)
-        {
+        {   
+            // move timer for puppet is 8 seconds, meaning
+            // every 8 seconds it will attempt to kill the player
             puppetOut = true;
             if (timer2 > 8f)
             {
@@ -53,8 +58,10 @@ public class PuppetBox : MonoBehaviour
             timer2 += Time.deltaTime;
         }
 
+        // runs as long as puppet is still in the box
         if (!puppetOut)
         {
+            // if being wound by camera, reduce time elapsed, else keep adding
             if (beingWound)
             {
                 timer1 -= Time.deltaTime * windRate;
@@ -64,13 +71,16 @@ public class PuppetBox : MonoBehaviour
                 timer1 += Time.deltaTime;
             }
 
+            // clamping timer value to prevent errors with the fill calculation
             timer1 = Mathf.Clamp(timer1, 0f, MAX_WINDDOWN_TIME);
             
+            // calculating fill amount of the UI element
             float fill = 1f - timer1 / windDownTime;
             puppetWheel.fillAmount = fill;
         }
     }
 
+    // manual choosing of winddown time for balance reasons
     private void DetermineWinddownTime()
     {
         switch (GameManager.CurrentNight)
@@ -102,6 +112,7 @@ public class PuppetBox : MonoBehaviour
         }
     }
 
+    // lambda functions for assignment
     public void SetActivity(int a) => activity = a;
     public void SetWound(bool state) => beingWound = state;
 }
