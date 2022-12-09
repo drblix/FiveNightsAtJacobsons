@@ -6,6 +6,9 @@ public class PuppetBox : MonoBehaviour
     private const float MAX_WINDDOWN_TIME = 120f;
 
     [SerializeField]
+    private Animator[] cautionAnimators;
+
+    [SerializeField]
     private Image puppetWheel;
 
     [SerializeField]
@@ -77,6 +80,29 @@ public class PuppetBox : MonoBehaviour
             // calculating fill amount of the UI element
             float fill = 1f - timer1 / windDownTime;
             puppetWheel.fillAmount = fill;
+
+            if (timer1 > (windDownTime / 1.15f))
+            {
+                for (int i = 0; i < cautionAnimators.Length; i++)
+                    cautionAnimators[i].SetBool("Red", true);
+            }
+            else if (timer1 > (windDownTime / 1.6f))
+            {
+                for (int i = 0; i < cautionAnimators.Length; i++)
+                {
+                    cautionAnimators[i].SetBool("Red", false);
+                    cautionAnimators[i].SetBool("Yellow", true);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < cautionAnimators.Length; i++)
+                {
+                    cautionAnimators[i].SetBool("Red", false);
+                    cautionAnimators[i].SetBool("Yellow", false);
+                }
+            }
+            
         }
     }
 
