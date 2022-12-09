@@ -41,6 +41,11 @@ public class CCTVMonitor : MonoBehaviour
     [SerializeField]
     private Animator monitorAnimator;
 
+    [SerializeField]
+    private Animator[] camAnimators;
+    [SerializeField]
+    private Sprite idleCam;
+
     private float ambienceTimer = 0f;
     private float randWait;
 
@@ -121,6 +126,21 @@ public class CCTVMonitor : MonoBehaviour
                 {
                     puppetControls.SetActive(false);
                 }
+
+            }
+
+            // substrings the end of the gameobject's name
+            // if string is equal to name, enable the camera blinking animation
+            // else disable the animator and set the sprite to default
+            string digit = camAnimators[i].name.Substring(3);
+            if (digit.Equals(name))
+            {
+                camAnimators[i].enabled = true;
+            }
+            else
+            {
+                camAnimators[i].enabled = false;
+                camAnimators[i].GetComponent<Image>().sprite = idleCam;
             }
 
             // code reused from ToggleCams()
