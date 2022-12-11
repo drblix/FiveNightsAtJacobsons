@@ -14,9 +14,12 @@ public class CCTVCam : MonoBehaviour
 
     private float startingAngle;
 
+    private AudioSource motorWhir;
+
     private void Awake()
     {
         startingAngle = transform.eulerAngles.y;
+        motorWhir = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -37,14 +40,26 @@ public class CCTVCam : MonoBehaviour
         Vector3 rotAmount = CAM_SPEED * Time.deltaTime * Vector3.up;
 
         // if mouse is on left side of screen, rotate left
-        if (mousePos.x < .2f)
+        if (mousePos.x < .1f)
         {
             transform.Rotate(-rotAmount, Space.World);
+            if (!motorWhir.isPlaying)
+            {
+                motorWhir.Play();
+            }
         }
         // if mouse is on right side of screen, rotate right
-        else if (mousePos.x > .8f)
+        else if (mousePos.x > .9f)
         {
             transform.Rotate(rotAmount, Space.World);
+            if (!motorWhir.isPlaying)
+            {
+                motorWhir.Play();
+            }
+        }
+        else
+        {
+            motorWhir.Stop();
         }
 
         // calculates the clamp angle using function

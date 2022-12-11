@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5163432255642393365}
   - component: {fileID: 8072677948682196144}
   - component: {fileID: 6332939152740589690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LunchTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}

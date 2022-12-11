@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class CCTVMonitor : MonoBehaviour
 {
-    private const string PUPPET_CAM = "2A";
+    private const string PUPPET_CAM = "3A";
 
     [HideInInspector]
     public bool camerasOpen = false;
@@ -53,6 +53,8 @@ public class CCTVMonitor : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         randWait = Random.Range(15f, 30f);
+        // sets default cam location on start
+        // CamPressed("2A");
     }
 
     private void Update()
@@ -82,6 +84,8 @@ public class CCTVMonitor : MonoBehaviour
         // sets camera open to the opposite of cctvObj's activity in hierarchy
         camerasOpen = !cctvObj.activeInHierarchy;
         player.canLook = !camerasOpen;
+        cctvSources[4].volume = camerasOpen ? .5f : 1f;
+        
 
         // plays monitor opening sound if not already playing
         if (!cctvSources[3].isPlaying) { cctvSources[3].Play(); }
@@ -94,11 +98,17 @@ public class CCTVMonitor : MonoBehaviour
         // loops through each camera and sets its activity state depending on
         // whether the cams are currently open and the active texture
         // matches the object's name
+        // also disables the whirring audio if the camera is disabled
         for (int i = 0; i < cctvCams.Length; i++)
         {
             bool state = camDisplay.texture.name.Equals(cctvCams[i].transform.name) && camerasOpen;
+            cctvCams[i].enabled = state;
             cctvCams[i].inUse = state;
             cctvCams[i].GetComponent<Camera>().enabled = state;
+            if (!state)
+            {
+                cctvCams[i].GetComponent<AudioSource>().Stop();
+            }
         }
     }
 
@@ -145,8 +155,13 @@ public class CCTVMonitor : MonoBehaviour
 
             // code reused from ToggleCams()
             bool state = cctvCams[i].transform.name.Equals(name);
+            cctvCams[i].enabled = state;
             cctvCams[i].inUse = state;
             cctvCams[i].GetComponent<Camera>().enabled = state;
+            if (!state)
+            {
+                cctvCams[i].GetComponent<AudioSource>().Stop();
+            }
         }
     }
 
