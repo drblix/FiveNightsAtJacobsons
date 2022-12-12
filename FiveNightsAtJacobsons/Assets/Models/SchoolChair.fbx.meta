@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c237006342697dc48b7f30c7b43f58e3
+guid: f590edc1393639c4989475e245dbe68e
 ModelImporter:
   serializedVersion: 22102
   internalIDToNameTable: []
@@ -52,8 +52,8 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
@@ -99,7 +99,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.5
+    globalScale: 50
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
