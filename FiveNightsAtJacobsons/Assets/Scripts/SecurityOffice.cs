@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SecurityOffice : MonoBehaviour
@@ -22,6 +23,9 @@ public class SecurityOffice : MonoBehaviour
     [SerializeField]
     private MeshRenderer lightButtonR;
 
+    private bool canUseR = true;
+    private bool canUseL = true;
+
 
     public void ToggleButton(GameObject obj)
     {
@@ -29,17 +33,22 @@ public class SecurityOffice : MonoBehaviour
         {   
             Animator anim = null;
 
+
             // if object is a door and is left one or right one specifically,
             // toggles animation boolean, plays audio, and modifies state in array
-            if (obj.name.EndsWith('L'))
+            if (obj.name.EndsWith('L') && canUseL)
             {
+                canUseL = false;
+                StartCoroutine(DoorCooldown(1));
                 leftVentAnimator.SetBool("Open", !leftVentAnimator.GetBool("Open"));
                 doorSounds[0].Play();
                 doorStates[0] = !leftVentAnimator.GetBool("Open");
                 anim = leftVentAnimator;
             }
-            else if (obj.name.EndsWith('R'))
+            else if (obj.name.EndsWith('R') && canUseR)
             {
+                canUseR = false;
+                StartCoroutine(DoorCooldown(0));
                 rightVentAnimator.SetBool("Open", !rightVentAnimator.GetBool("Open"));
                 doorSounds[1].Play();
                 doorStates[1] = !rightVentAnimator.GetBool("Open");
@@ -88,5 +97,19 @@ public class SecurityOffice : MonoBehaviour
         lightButtonL.material.SetColor("_EmissionColor", Color.black);
         doorSounds[2].Stop();
         doorSounds[3].Stop();
+    }
+
+    // 0 == right; 1 == left
+    private IEnumerator DoorCooldown(int doorNum)
+    {
+        yield return new WaitForSeconds(1f);
+        if (doorNum == 0)
+        {
+            canUseR = true;
+        }
+        else if (doorNum == 1)
+        {
+            canUseL = true;
+        }
     }
 }
