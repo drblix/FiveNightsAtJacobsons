@@ -22,9 +22,6 @@ public class CCTVMonitor : MonoBehaviour
     [SerializeField]
     private CCTVCam[] cctvCams;
 
-    [SerializeField]
-    private RenderTexture[] camTextures;
-
     [Header("Gameobjects")]
 
     [SerializeField]
@@ -41,8 +38,6 @@ public class CCTVMonitor : MonoBehaviour
     [SerializeField]
     private Animator monitorAnimator;
 
-    [SerializeField]
-    private Animator[] camAnimators;
     [SerializeField]
     private Sprite idleCam;
 
@@ -85,7 +80,7 @@ public class CCTVMonitor : MonoBehaviour
         camerasOpen = !cctvObj.activeInHierarchy;
         player.canLook = !camerasOpen;
         cctvSources[4].volume = camerasOpen ? .5f : 1f;
-        
+
 
         // plays monitor opening sound if not already playing
         if (!cctvSources[3].isPlaying) { cctvSources[3].Play(); }
@@ -103,7 +98,6 @@ public class CCTVMonitor : MonoBehaviour
         {
             bool state = camDisplay.texture.name.Equals(cctvCams[i].transform.name) && camerasOpen;
             cctvCams[i].enabled = state;
-            cctvCams[i].inUse = state;
             cctvCams[i].GetComponent<Camera>().enabled = state;
             if (!state)
             {
@@ -118,17 +112,19 @@ public class CCTVMonitor : MonoBehaviour
         cctvSources[0].pitch = Random.Range(0.9f, 1.1f);
         cctvSources[0].Play();
 
-        for (int i = 0; i < camTextures.Length; i++)
+        for (int i = 0; i < cctvCams.Length; i++)
         {
-            // sets camera texture in accordance with the
-            // string value passed in from the event on the camera button
-            if (camTextures[i].name.Equals(name))
+            // if is cam that was selected, enabled components
+            if (cctvCams[i].name.Equals(name))
             {
-                camDisplay.texture = camTextures[i];
+                // enables camera's script, animator, and sets render texture
+                cctvCams[i].enabled = true;
+                cctvCams[i].GetComponent<Camera>().enabled = true;
+                cctvCams[i].camAnimator.enabled = true;
+                camDisplay.texture = cctvCams[i].camTexture;
 
-                // shows the puppet controls if the said camera
-                // is the puppet cam
-                if (camTextures[i].name.Equals(PUPPET_CAM))
+                // shows puppet controls if it's the puppet cam
+                if (cctvCams[i].name.Equals(PUPPET_CAM))
                 {
                     puppetControls.SetActive(true);
                 }
@@ -136,37 +132,23 @@ public class CCTVMonitor : MonoBehaviour
                 {
                     puppetControls.SetActive(false);
                 }
-
-            }
-
-            // substrings the end of the gameobject's name
-            // if string is equal to name, enable the camera blinking animation
-            // else disable the animator and set the sprite to default
-            string digit = camAnimators[i].name.Substring(3);
-            if (digit.Equals(name))
-            {
-                camAnimators[i].enabled = true;
             }
             else
             {
-                camAnimators[i].enabled = false;
-                camAnimators[i].GetComponent<Image>().sprite = idleCam;
-            }
-
-            // code reused from ToggleCams()
-            bool state = cctvCams[i].transform.name.Equals(name);
-            cctvCams[i].enabled = state;
-            cctvCams[i].inUse = state;
-            cctvCams[i].GetComponent<Camera>().enabled = state;
-            if (!state)
-            {
+                // disables all components on camera
+                cctvCams[i].enabled = false;
+                cctvCams[i].GetComponent<Camera>().enabled = false;
                 cctvCams[i].GetComponent<AudioSource>().Stop();
+                cctvCams[i].camAnimator.enabled = false;
+                cctvCams[i].camAnimator.GetComponent<Image>().sprite = idleCam;
             }
         }
     }
 
     private IEnumerator ToggleMonitor()
     {
+        // the whole point of this is to just stop the camera from being spammed
+        // and to give that delay before the cctv stuff is shown
         if (camerasOpen)
         {
             monitorAnimator.gameObject.SetActive(true);

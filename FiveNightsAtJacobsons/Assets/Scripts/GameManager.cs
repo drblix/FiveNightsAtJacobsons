@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     // returns true if roll succeeded (animatronic can move)
     public static bool DoMoveRoll(int activity)
     {
-        int roll = Random.Range(0, 20);
+        int roll = Random.Range(0, 21);
         return activity > roll;
     }
 

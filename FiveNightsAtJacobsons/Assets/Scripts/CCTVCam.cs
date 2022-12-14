@@ -6,7 +6,14 @@ public class CCTVCam : MonoBehaviour
 {   
     private const float CAM_SPEED = 25f;
 
-    public bool inUse = false;
+    [Tooltip("Texture that is used to render the camera")]
+    public RenderTexture camTexture;
+
+    [Tooltip("UI animator that this cam is connected to")]
+    public Animator camAnimator;
+
+    [Tooltip("Name that is displayed on the CCTV monitor")]
+    public string camName;
 
     [SerializeField]
     [Tooltip("Max angle at which the player can rotate side-to-side")]
@@ -16,6 +23,7 @@ public class CCTVCam : MonoBehaviour
 
     private AudioSource motorWhir;
 
+
     private void Awake()
     {
         startingAngle = transform.eulerAngles.y;
@@ -24,10 +32,7 @@ public class CCTVCam : MonoBehaviour
 
     private void Update()
     {
-        if (inUse) 
-        {
-            UserRotations();
-        }
+        UserRotations();
     }
 
     private void UserRotations() 
