@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CCTVMonitor : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class CCTVMonitor : MonoBehaviour
 
     [SerializeField]
     private CCTVCam[] cctvCams;
+
+    [SerializeField]
+    private TextMeshProUGUI camName;
 
     [Header("Gameobjects")]
 
@@ -122,6 +126,7 @@ public class CCTVMonitor : MonoBehaviour
                 cctvCams[i].GetComponent<Camera>().enabled = true;
                 cctvCams[i].camAnimator.enabled = true;
                 camDisplay.texture = cctvCams[i].camTexture;
+                camName.SetText(cctvCams[i].camName);
 
                 // shows puppet controls if it's the puppet cam
                 if (cctvCams[i].name.Equals(PUPPET_CAM))

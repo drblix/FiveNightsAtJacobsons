@@ -84,22 +84,31 @@ public class PuppetBox : MonoBehaviour
             if (timer1 > (windDownTime / 1.15f))
             {
                 for (int i = 0; i < cautionAnimators.Length; i++)
-                    cautionAnimators[i].SetBool("Red", true);
+                    if (cautionAnimators[i].gameObject.activeInHierarchy)
+                    {
+                        cautionAnimators[i].SetBool("Red", true);
+                    }
             }
             else if (timer1 > (windDownTime / 1.6f))
             {
                 for (int i = 0; i < cautionAnimators.Length; i++)
                 {
-                    cautionAnimators[i].SetBool("Red", false);
-                    cautionAnimators[i].SetBool("Yellow", true);
+                    if (cautionAnimators[i].gameObject.activeInHierarchy)
+                    {
+                        cautionAnimators[i].SetBool("Red", false);
+                        cautionAnimators[i].SetBool("Yellow", true);
+                    }
                 }
             }
             else
             {
                 for (int i = 0; i < cautionAnimators.Length; i++)
                 {
-                    cautionAnimators[i].SetBool("Red", false);
-                    cautionAnimators[i].SetBool("Yellow", false);
+                    if (cautionAnimators[i].gameObject.activeInHierarchy)
+                    {
+                        cautionAnimators[i].SetBool("Red", false);
+                        cautionAnimators[i].SetBool("Yellow", false);
+                    }
                 }
             }
             

@@ -33,7 +33,8 @@ public class SecurityOffice : MonoBehaviour
         {   
             Animator anim = null;
 
-
+            if (!canUseL || !canUseR) { return; }
+            
             // if object is a door and is left one or right one specifically,
             // toggles animation boolean, plays audio, and modifies state in array
             if (obj.name.EndsWith('L') && canUseL)
