@@ -76,7 +76,6 @@ public class Zubek : MonoBehaviour
             {
                 Transform point = movePath[currentPoint];
                 transform.position = point.position;
-
             }
 
             // updates pose for animatronic
