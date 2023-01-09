@@ -1,16 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-// Animatronic that moves in a linear path with no special behaviors
-// !! DO NOT EDIT ANYTHING OUTSIDE OF THE !!
-// !! INSPECTOR UNLESS YOU KNOW WHAT YOU'RE DOING !!
-// poses will be handled by the skinned mesh renderer
-// with multiple gameobjects that can activated/deactivated
-public class LinearAnimatronic : MonoBehaviour
+public class Zubek : MonoBehaviour
 {
-
     [Tooltip("The animatronic's path; moves from the first element to the last randomly before appearing at the office")]
     [SerializeField]
     private Transform[] movePath;
+
+    [Tooltip("The different poses for the animatronic; correlates with path names")]
+    [SerializeField]
+    private GameObject[] poses;
 
     [Header("Activity Settings")]
 
@@ -33,11 +33,6 @@ public class LinearAnimatronic : MonoBehaviour
     [Tooltip("How long the animatronic will wait before attacking")]
     [Range(4f, 15f)]
     private float attackTimer = 10f;
-
-    [Header("Pose Settings")]
-    [SerializeField]
-    private Vector3[] posePositions;
-
 
     private int currentPoint = 0;
     private float timer = 0f;
@@ -81,7 +76,15 @@ public class LinearAnimatronic : MonoBehaviour
             {
                 Transform point = movePath[currentPoint];
                 transform.position = point.position;
+
             }
+
+            // updates pose for animatronic
+            // depending on the point it's currently at
+            for (int i = 0; i < poses.Length; i++)
+                poses[i].SetActive(false);
+            
+            poses[currentPoint].SetActive(true);
 
             // at the end of the path and is now by the office
             if (currentPoint == movePath.Length - 1) 
@@ -89,6 +92,11 @@ public class LinearAnimatronic : MonoBehaviour
                 Debug.Log("At office entrance");
             }
         }
+    }
+
+    private void SetPose(string name)
+    {
+
     }
 
     public void SetActivity(int d) => activity = Mathf.Clamp(d, 0, 20);
