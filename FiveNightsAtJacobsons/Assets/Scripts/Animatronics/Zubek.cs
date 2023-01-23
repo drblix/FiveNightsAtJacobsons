@@ -93,10 +93,5 @@ public class Zubek : MonoBehaviour
         }
     }
 
-    private void SetPose(string name)
-    {
-
-    }
-
     public void SetActivity(int d) => activity = Mathf.Clamp(d, 0, 20);
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a3746d38d42afca4785376085927575d
+guid: b1f0484d9b3ed944f90c9ddb3e05b4a9
 ModelImporter:
   serializedVersion: 22102
   internalIDToNameTable: []
@@ -7,43 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: ArmTexture
-    second: {fileID: 2100000, guid: a5cb00549f5a36e40bd041e7f5fff7bc, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ChestTexture
-    second: {fileID: 2100000, guid: 6a769d1dd83374c40a16085728ba0879, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: EyeTexture
-    second: {fileID: 2100000, guid: a0bf1dc72aae74a47af7c2d614321687, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: EyelidsTexture
-    second: {fileID: 2100000, guid: b2971d20a4d570748b09b48b9584967e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: GlowingEye
-    second: {fileID: 2100000, guid: 01337ca9b247d8043a73c3449ed61ff2, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: HeadTexture
-    second: {fileID: 2100000, guid: 84e9ebf24d8cb96498ca5b1142cf5892, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: JawTexture
-    second: {fileID: 2100000, guid: aea16d22a03c6b64aa27fdc3797f45d4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LegTexture
-    second: {fileID: 2100000, guid: c37220df36f92034e9d3d2d60b88c701, type: 2}
+      name: lambert1
+    second: {fileID: 2100000, guid: 92615cdcb40b011479d3cfddc9b0ded8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -75,7 +40,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 7.35
+    globalScale: 5.5
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -129,7 +94,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.0735
+    globalScale: 0.055
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
