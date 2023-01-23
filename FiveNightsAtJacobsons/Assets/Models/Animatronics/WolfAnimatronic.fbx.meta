@@ -1,49 +1,9 @@
 fileFormatVersion: 2
-guid: cd1cc62e7c4d0b54d9467a9e503636a9
+guid: 7598e428979a86f4bb48e31a915f1659
 ModelImporter:
   serializedVersion: 22102
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ArmTexture
-    second: {fileID: 2100000, guid: a5cb00549f5a36e40bd041e7f5fff7bc, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ChestTexture
-    second: {fileID: 2100000, guid: 6a769d1dd83374c40a16085728ba0879, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: EyeTexture
-    second: {fileID: 2100000, guid: a0bf1dc72aae74a47af7c2d614321687, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: EyelidsTexture
-    second: {fileID: 2100000, guid: b2971d20a4d570748b09b48b9584967e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: GlowingEye
-    second: {fileID: 2100000, guid: 01337ca9b247d8043a73c3449ed61ff2, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: HeadTexture
-    second: {fileID: 2100000, guid: 84e9ebf24d8cb96498ca5b1142cf5892, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: JawTexture
-    second: {fileID: 2100000, guid: aea16d22a03c6b64aa27fdc3797f45d4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LegTexture
-    second: {fileID: 2100000, guid: c37220df36f92034e9d3d2d60b88c701, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -75,7 +35,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 7.35
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -111,7 +71,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 1
-    tangentImportMode: 2
+    tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
@@ -129,7 +89,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 7.35
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
