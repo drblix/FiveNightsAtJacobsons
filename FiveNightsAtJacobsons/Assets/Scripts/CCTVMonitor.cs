@@ -5,7 +5,7 @@ using TMPro;
 
 public class CCTVMonitor : MonoBehaviour
 {
-    private const string PUPPET_CAM = "3A";
+    private const string PUPPET_CAM = "4";
 
     [HideInInspector]
     public bool camerasOpen = false;
