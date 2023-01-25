@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     private SecurityOffice office;
+    private PhoneScript phoneScript;
 
     private Transform mainCam;
 
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
         mainCam = Camera.main.transform;
         startingAngle = mainCam.eulerAngles.y;
         office = GetComponent<SecurityOffice>();
+        phoneScript = FindObjectOfType<PhoneScript>();
     }
 
     private void Update()
@@ -40,8 +42,10 @@ public class Player : MonoBehaviour
             {
                 GameObject mouseObj = GetMouseGameObject();
 
-                if (mouseObj)
+                if (mouseObj) {
                     office.ToggleButton(mouseObj);
+                    phoneScript.KeyPressed(mouseObj);
+                }
             }
 
             // if mouse was released, disable all lights by default

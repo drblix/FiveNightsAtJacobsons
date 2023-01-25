@@ -5,7 +5,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    private const int ANIMATRONIC_COUNT = 5;
+    private const int ANIMATRONIC_COUNT = 7;
    
     private const int NIGHT_LENGTH = 540; // in seconds
     private const int HOUR_SUBDIVISIONS = NIGHT_LENGTH / 6;
@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public bool gameStarted = false;
+    [SerializeField]
+    private bool displaySeconds = false;
 
     private void Update() 
     {
@@ -102,7 +104,9 @@ public class GameManager : MonoBehaviour
         // if currentHour is 0, assign 12 instead
         int hours = currentHour != 0 ? currentHour : 12;
         // lerping the seconds for each hour duration
-        int seconds = Mathf.FloorToInt(60 - Mathf.Lerp(0, 60, nightTimer / HOUR_SUBDIVISIONS));
+        int seconds = 0;
+        if (displaySeconds)
+            seconds = Mathf.FloorToInt(60 - Mathf.Lerp(0, 60, nightTimer / HOUR_SUBDIVISIONS));
         
         clockText.SetText((hours + ":" + seconds.ToString("00")));
     }
