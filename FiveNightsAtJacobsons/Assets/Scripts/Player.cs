@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [Tooltip("How fast the camera rotates side-to-side")]
     private float camSpeed = 50f;
 
-    private float startingAngle;
+    private float startingAngle = 0f;
 
     [HideInInspector]
     public bool canLook = true;
@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     {
         // assigning variables
         mainCam = Camera.main.transform;
-        startingAngle = mainCam.eulerAngles.y;
         office = GetComponent<SecurityOffice>();
         phoneScript = FindObjectOfType<PhoneScript>();
     }
