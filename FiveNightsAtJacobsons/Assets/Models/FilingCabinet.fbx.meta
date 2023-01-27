@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: a7fe50bc92152954bb7264d853c3fd84
+guid: 23df2620efc939f42a52002475319fa5
 ModelImporter:
   serializedVersion: 22102
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cabinet1
+    second: {fileID: 2100000, guid: 4a2c6279e9b494f458256b81e65e8175, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -35,7 +40,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 10
+    globalScale: 15
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -89,7 +94,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.099999994
+    globalScale: 15
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -35,6 +35,9 @@ public class CCTVMonitor : MonoBehaviour
     private GameObject puppetControls;
 
     [SerializeField]
+    private GameObject camDisconnected;
+
+    [SerializeField]
     private RawImage camDisplay;
 
     [Header("Animation")]
@@ -180,4 +183,10 @@ public class CCTVMonitor : MonoBehaviour
         }
     }
 
+    public IEnumerator DisconnectCams(float dur)
+    {
+        camDisconnected.SetActive(true);
+        yield return new WaitForSeconds(dur);
+        camDisconnected.SetActive(false);
+    }
 }
