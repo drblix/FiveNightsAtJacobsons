@@ -6,7 +6,8 @@ using TMPro;
 public class CCTVMonitor : MonoBehaviour
 {
     private const string PUPPET_CAM = "4";
-
+    private const string DOYLE_CAM = "5";
+    
     [HideInInspector]
     public bool camerasOpen = false;
 
@@ -50,6 +51,7 @@ public class CCTVMonitor : MonoBehaviour
 
     private float ambienceTimer = 0f;
     private float randWait;
+    private bool animatronicMoving = false;
 
     private void Awake()
     {
@@ -132,14 +134,10 @@ public class CCTVMonitor : MonoBehaviour
                 camName.SetText(cctvCams[i].camName);
 
                 // shows puppet controls if it's the puppet cam
-                if (cctvCams[i].name.Equals(PUPPET_CAM))
-                {
-                    puppetControls.SetActive(true);
-                }
-                else
-                {
-                    puppetControls.SetActive(false);
-                }
+                puppetControls.SetActive(cctvCams[i].name.Equals(PUPPET_CAM));
+                
+                if (!animatronicMoving)
+                    camDisconnected.SetActive(cctvCams[i].name.Equals(DOYLE_CAM));
             }
             else
             {
@@ -185,8 +183,10 @@ public class CCTVMonitor : MonoBehaviour
 
     public IEnumerator DisconnectCams(float dur)
     {
+        animatronicMoving = true;
         camDisconnected.SetActive(true);
         yield return new WaitForSeconds(dur);
         camDisconnected.SetActive(false);
+        animatronicMoving = false;
     }
 }
