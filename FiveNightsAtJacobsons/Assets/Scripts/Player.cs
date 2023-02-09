@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         float newY = ClampAngle(mainCam.eulerAngles.y, startingAngle - maxAngle, startingAngle + maxAngle);
         mainCam.rotation = Quaternion.Euler(0f, newY, 0f);
     }
-
+    
     private float ClampAngle(float angle, float from, float to)
     {
         // if both clamp parameters are positive, clamp angle between both

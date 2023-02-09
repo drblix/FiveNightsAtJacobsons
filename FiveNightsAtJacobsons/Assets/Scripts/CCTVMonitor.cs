@@ -8,8 +8,7 @@ public class CCTVMonitor : MonoBehaviour
     private const string PUPPET_CAM = "4";
     private const string DOYLE_CAM = "5";
     
-    [HideInInspector]
-    public bool camerasOpen = false;
+    public bool camerasOpen { get; set; }
 
     private Player player;
 

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Flowers : MonoBehaviour
 {
+    private CCTVMonitor cctvMonitor;
+
+    [SerializeField]
+    private AudioSource flowersVent;
+
     [SerializeField] [Range(0, 20)]
     private int activity = 20;
 
@@ -13,14 +18,34 @@ public class Flowers : MonoBehaviour
 
     private float moveTimer = 0f;
 
+    private bool attacking = false;
+
     private void Awake()
     {
+        cctvMonitor = FindObjectOfType<CCTVMonitor>();
         CalcPhaseDelay();
     }
 
     private void Update() 
     {
+        if (cctvMonitor.camerasOpen || attacking) { return; }
         moveTimer += Time.deltaTime;
+
+        if (moveTimer > phaseDelay) {
+            phase++;
+            moveTimer = 0f;
+
+            if (phase != 5)
+                SelectPhase();
+            else {
+                foreach (Transform child in transform)
+                    child.gameObject.SetActive(false);
+                StartCoroutine(FlowersAttack());
+                phase = 0;
+            }
+        }
+
+        print(moveTimer);
     }
 
 
@@ -68,17 +93,38 @@ public class Flowers : MonoBehaviour
                 phaseDelay = 28f;
                 break;
             case 13:
-                phaseDelay = 22f;
+                phaseDelay = 25f;
                 break;
             default:
-                phaseDelay = 15f;
+                //phaseDelay = 20f;
+                phaseDelay = 4f;
                 break;
         }
+    }
+
+    private void SelectPhase()
+    {
+        string objName = "Stage" + phase;
+
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(false);
+
+        transform.Find(objName).gameObject.SetActive(true);
     }
 
     public void SetActivity(int a) {
         activity = a;
         moveTimer = 0f;
         CalcPhaseDelay();
+    }
+
+    private IEnumerator FlowersAttack()
+    {
+        attacking = true;
+        yield return new WaitForSeconds(Random.Range(2f, 5f));
+        flowersVent.Play();
+        yield return new WaitForSeconds(Random.Range(2.5f, 5f));
+        flowersVent.Stop();
+        attacking = false;
     }
 }
