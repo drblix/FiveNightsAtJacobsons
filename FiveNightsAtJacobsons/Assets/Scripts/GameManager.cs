@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator NightFinished()
     {
         Debug.Log("Night finished");
-        const int CYCLES = 15; // how many times the text flashes
+        const int CYCLES = 12; // how many times the text flashes
 
         // mutes all other sounds in the game
         foreach (AudioSource source in FindObjectsOfType<AudioSource>())
