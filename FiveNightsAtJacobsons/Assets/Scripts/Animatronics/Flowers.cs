@@ -45,7 +45,7 @@ public class Flowers : MonoBehaviour
             }
         }
 
-        print(moveTimer);
+        // print(moveTimer);
     }
 
 

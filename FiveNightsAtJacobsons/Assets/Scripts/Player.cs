@@ -6,7 +6,11 @@ public class Player : MonoBehaviour
     private SecurityOffice office;
     private PhoneScript phoneScript;
 
+    private PlayerInput playerInput;
     private Transform mainCam;
+
+    [SerializeField]
+    private Light hallFlashlight;
 
     [Header("Player Settings")]
     [SerializeField]
@@ -22,12 +26,16 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool canLook = true;
 
+    [HideInInspector]
+    public bool canUseFlashlight = true;
+
     private void Awake()
     {
         // assigning variables
         mainCam = Camera.main.transform;
         office = GetComponent<SecurityOffice>();
         phoneScript = FindObjectOfType<PhoneScript>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void Update()
@@ -52,6 +60,8 @@ public class Player : MonoBehaviour
             {
                 office.DisableLights();
             }
+
+            hallFlashlight.enabled = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight;
         }
     }
 

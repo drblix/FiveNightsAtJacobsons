@@ -4,8 +4,30 @@
         {
             "name": "Player",
             "id": "4cf16dea-73fd-43f8-a7e4-b7ace2d411f7",
-            "actions": [],
-            "bindings": []
+            "actions": [
+                {
+                    "name": "LeftControl",
+                    "type": "Button",
+                    "id": "c676c575-2534-47cc-88ff-c796078d8a6f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "61e495f9-9476-4323-807a-b89cc0abb102",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

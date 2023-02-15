@@ -23,6 +23,11 @@ public class SecurityOffice : MonoBehaviour
     [SerializeField]
     private MeshRenderer lightButtonR;
 
+    [SerializeField]
+    private Light ventLightR;
+    [SerializeField]
+    private Light ventLightL;
+
     private bool canUseR = true;
     private bool canUseL = true;
 
@@ -75,15 +80,17 @@ public class SecurityOffice : MonoBehaviour
             // if the object is a light get the renderer and change the color
             // and start playing sound if haven't already
             MeshRenderer objRenderer = obj.GetComponent<MeshRenderer>();
-            objRenderer.material.SetColor("_Color", new Color(7f, 113f, 212f));
-            objRenderer.material.SetColor("_EmissionColor", Color.white);
+            objRenderer.material.SetColor("_Color", Color.white);
+            objRenderer.material.SetColor("_EmissionColor", Color.white * 1.01f);
 
             if (obj.name.EndsWith('L') && !doorSounds[2].isPlaying)
             {
+                ventLightL.enabled = true;
                 doorSounds[2].Play();
             }
             else if (obj.name.EndsWith('R') && !doorSounds[3].isPlaying)
             {
+                ventLightR.enabled = true;
                 doorSounds[3].Play();
             }            
         }
@@ -96,6 +103,8 @@ public class SecurityOffice : MonoBehaviour
         lightButtonR.material.SetColor("_EmissionColor", Color.black);
         lightButtonL.material.SetColor("_Color", Color.gray);
         lightButtonL.material.SetColor("_EmissionColor", Color.black);
+        ventLightR.enabled = false;
+        ventLightL.enabled = false;
         doorSounds[2].Stop();
         doorSounds[3].Stop();
     }

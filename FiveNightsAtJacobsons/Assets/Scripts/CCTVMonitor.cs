@@ -107,6 +107,7 @@ public class CCTVMonitor : MonoBehaviour
             bool state = camDisplay.texture.name.Equals(cctvCams[i].transform.name) && camerasOpen;
             cctvCams[i].enabled = state;
             cctvCams[i].GetComponent<Camera>().enabled = state;
+            cctvCams[i].GetComponent<Light>().enabled = state;
             if (!state)
             {
                 cctvCams[i].GetComponent<AudioSource>().Stop();
@@ -128,6 +129,7 @@ public class CCTVMonitor : MonoBehaviour
                 // enables camera's script, animator, and sets render texture
                 cctvCams[i].enabled = true;
                 cctvCams[i].GetComponent<Camera>().enabled = true;
+                cctvCams[i].GetComponent<Light>().enabled = true;
                 cctvCams[i].camAnimator.enabled = true;
                 camDisplay.texture = cctvCams[i].camTexture;
                 camName.SetText(cctvCams[i].camName);
@@ -135,6 +137,7 @@ public class CCTVMonitor : MonoBehaviour
                 // shows puppet controls if it's the puppet cam
                 puppetControls.SetActive(cctvCams[i].name.Equals(PUPPET_CAM));
                 
+                // prevents overriding
                 if (!animatronicMoving)
                     camDisconnected.SetActive(cctvCams[i].name.Equals(DOYLE_CAM));
             }
@@ -143,6 +146,7 @@ public class CCTVMonitor : MonoBehaviour
                 // disables all components on camera
                 cctvCams[i].enabled = false;
                 cctvCams[i].GetComponent<Camera>().enabled = false;
+                cctvCams[i].GetComponent<Light>().enabled = false;
                 cctvCams[i].GetComponent<AudioSource>().Stop();
                 cctvCams[i].camAnimator.enabled = false;
                 cctvCams[i].camAnimator.GetComponent<Image>().sprite = idleCam;
