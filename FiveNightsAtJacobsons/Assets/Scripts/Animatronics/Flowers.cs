@@ -1,22 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Flowers : MonoBehaviour
 {
+    [SerializeField] [Range(0, 20)]
+    private int activity = 20;
+    private float moveTimer = 0f;
+
+
     private CCTVMonitor cctvMonitor;
 
     [SerializeField]
     private AudioSource flowersVent;
 
-    [SerializeField] [Range(0, 20)]
-    private int activity = 20;
 
     private int phase = 1;
 
     private float phaseDelay = 0f;
 
-    private float moveTimer = 0f;
 
     private bool attacking = false;
 
@@ -44,8 +45,6 @@ public class Flowers : MonoBehaviour
                 phase = 0;
             }
         }
-
-        // print(moveTimer);
     }
 
 
@@ -116,6 +115,11 @@ public class Flowers : MonoBehaviour
         activity = a;
         moveTimer = 0f;
         CalcPhaseDelay();
+    }
+
+    public void SetSettings(AnimatronicSettings settings) {
+        activity = settings.activity;
+        phaseDelay = settings.phaseDelay;
     }
 
     private IEnumerator FlowersAttack()

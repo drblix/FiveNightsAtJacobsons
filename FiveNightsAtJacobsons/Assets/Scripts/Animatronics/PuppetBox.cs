@@ -11,6 +11,8 @@ public class PuppetBox : MonoBehaviour
     [SerializeField]
     private Image puppetWheel;
 
+    [Header("ACTIVITY SETTINGS - USE TO CHANGE DIFFICULTY")]
+
     [SerializeField]
     private int activity = 0;
 
@@ -139,7 +141,7 @@ public class PuppetBox : MonoBehaviour
     // manual choosing of winddown time for balance reasons
     private void DetermineWinddownTime()
     {
-        switch (GameManager.CurrentNight)
+        switch (GameManager.Night)
         {
             case 1:
                 windDownTime = windDownTimes[0];
@@ -170,5 +172,11 @@ public class PuppetBox : MonoBehaviour
 
     // lambda functions for assignment
     public void SetActivity(int a) => activity = a;
+
+    public void SetSettings(AnimatronicSettings settings) {
+        activity = settings.activity;
+        windDownTime = settings.windDownTime;
+    }
+
     public void SetWound(bool state) => beingWound = state;
 }

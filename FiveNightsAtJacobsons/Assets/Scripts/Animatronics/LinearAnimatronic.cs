@@ -28,22 +28,22 @@ public class LinearAnimatronic : MonoBehaviour
     [Header("! ACTIVITY SETTINGS - USE TO ADJUST DIFFICULTY !")]
 
     [Tooltip("The activity level of the animatronic; ranges from 0 to 20. (0 is inactive)")]
-    [SerializeField]
+    //[SerializeField]
     [Range(0, 20)]
     private int activity = 0;
 
     [Tooltip("The time it takes for the animatronic to move")]
-    [SerializeField]
+    //[SerializeField]
     [Range(3f, 20f)]
     private float moveTimer = 7f;
 
-    [SerializeField]
     [Tooltip("The variation between the moveTimer values (ex: 7 - 1f or 7 + 1f)")]
+    //[SerializeField]
     [Range(0f, 10f)]
     private float moveVariation = 1.5f;
 
-    [SerializeField]
     [Tooltip("How long the animatronic will wait before attacking")]
+    //[SerializeField]
     [Range(4f, 15f)]
     private float attackTimer = 10f;
 
@@ -132,5 +132,10 @@ public class LinearAnimatronic : MonoBehaviour
         }
     }
 
-    public void SetActivity(int d) => activity = Mathf.Clamp(d, 0, 20);
+    public void SetSettings(AnimatronicSettings settings) {
+        activity = settings.activity;
+        attackTimer = settings.attackTimer;
+        moveTimer = settings.moveTimer;
+        moveVariation = settings.moveVariation;
+    }
 }

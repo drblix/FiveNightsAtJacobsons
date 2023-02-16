@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -11,13 +10,12 @@ public class GameManager : MonoBehaviour
     private const int HOUR_SUBDIVISIONS = NIGHT_LENGTH / 6;
     //private const int HOUR_SUBDIVISIONS = 10; -- FOR TESTING --
 
-
     private static int[] animatronicActivities = new int[ANIMATRONIC_COUNT];
 
-    private static int currentNight = 1;
+    private static int night = 1;
+    public static int Night { get { return night; } }
     private static bool gameOver = false;
     public static bool GameOver { get { return gameOver; } }
-    public static int CurrentNight { get { return currentNight; } }
 
     private float nightTimer = HOUR_SUBDIVISIONS;
     private int currentHour = 0; // goes 0 - 5; 0 == 12 AM, 5 == 6 AM
@@ -33,11 +31,87 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject nightFinishedText;
 
+    [SerializeField]
+    private bool displaySeconds = false;
+
     #endregion
 
     public bool gameStarted = false;
+
+    [Header("ANIMATRONIC SETTINGS - USE TO ADJUST DIFFICULTY")]
+    [Header("0 - Wolf; 1 - Zubek; 2 - Morrison; 3 - Roush; 4 - Flowers")]
+
     [SerializeField]
-    private bool displaySeconds = false;
+    private AnimatronicSettings[] night1;
+    [SerializeField]
+    private AnimatronicSettings[] night2;
+    [SerializeField]
+    private AnimatronicSettings[] night3;
+    [SerializeField]
+    private AnimatronicSettings[] night4;
+    [SerializeField]
+    private AnimatronicSettings[] night5;
+    [SerializeField]
+    private AnimatronicSettings[] night6;
+
+    public enum Animatronic
+    {
+        Wolf,
+        Zubek,
+        Morrison,
+        Roush,
+        Flowers,
+        Gammon
+    }
+
+    private void Awake()
+    {
+        Debug.Log("CURRENTLY NIGHT " + night);
+        SetActivities();
+    }
+
+    private void SetActivities()
+    {
+        AnimatronicSettings[] nightArray;
+        switch (night)
+        {
+            case 1:
+                nightArray = night1;
+                break;
+            case 2:
+                nightArray = night2;
+                break;
+            case 3:
+                nightArray = night3;
+                break;
+            case 4:
+                nightArray = night4;
+                break;
+            case 5:
+                nightArray = night5;
+                break;
+            case 6:
+                nightArray = night6;
+                break;
+            default:
+                nightArray = night1;
+                break;
+        }
+
+        foreach (AnimatronicSettings settings in nightArray) {
+            GameObject animatronic = GameObject.Find(settings.animatronicName.ToString());
+            
+            if (animatronic.TryGetComponent<LinearAnimatronic>(out LinearAnimatronic linearAnimatronic)) {
+                linearAnimatronic.SetSettings(settings);
+            }
+            else if (animatronic.TryGetComponent<PuppetBox>(out PuppetBox puppetBox)) {
+                puppetBox.SetSettings(settings);
+            }
+            else if (animatronic.TryGetComponent<Flowers>(out Flowers flowers)) {
+                
+            }
+        }
+    }
 
     private void Update() 
     {
@@ -110,10 +184,38 @@ public class GameManager : MonoBehaviour
         
         clockText.SetText((hours + ":" + seconds.ToString("00")));
     }
+}
 
-    // used for applying activity levels
-    public static void ApplyActivities(int[] newA)
+[System.Serializable]
+public struct AnimatronicSettings
+{
+    public GameManager.Animatronic animatronicName;
+    [Range(0, 20)]
+    public int activity;
+    [Range(0f, 50f)]
+    public float moveTimer;
+    [Range(0f, 50f)]
+    public float moveVariation;
+    [Range(0f, 50f)]
+    public float attackTimer;
+
+    [Header("Flowers-specific settings")]
+    [Range(0f, 200f)]
+    public float phaseDelay;
+
+    // ROUSH SPECIFIC SETTINGS
+    [Header("Roush-specific settings")]
+    [Range(0f, 200f)]
+    public float windDownTime;
+
+    public AnimatronicSettings(GameManager.Animatronic name, int a, float m_t, float m_v, float a_t, float w_dt, float p_d)
     {
-
+        this.animatronicName = name;
+        this.activity = a; 
+        this.moveTimer = m_t;
+        this.moveVariation = m_v;
+        this.attackTimer = a_t;
+        this.windDownTime = w_dt;
+        this.phaseDelay = p_d;
     }
 }
