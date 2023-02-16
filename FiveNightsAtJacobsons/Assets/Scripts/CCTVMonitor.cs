@@ -88,6 +88,7 @@ public class CCTVMonitor : MonoBehaviour
         camerasOpen = !cctvObj.activeInHierarchy;
         player.canLook = !camerasOpen;
         cctvSources[4].volume = camerasOpen ? .5f : 1f;
+        cctvSources[5].volume = camerasOpen ? .3f : .65f;
 
 
         // plays monitor opening sound if not already playing
