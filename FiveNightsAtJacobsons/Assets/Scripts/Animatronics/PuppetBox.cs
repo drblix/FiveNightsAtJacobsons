@@ -5,6 +5,8 @@ public class PuppetBox : MonoBehaviour
 {
     private const float MAX_WINDDOWN_TIME = 120f;
 
+    private CCTVMonitor cctvMonitor;
+
     [SerializeField]
     private Animator[] cautionAnimators;
 
@@ -19,7 +21,8 @@ public class PuppetBox : MonoBehaviour
     [SerializeField]
     private float windRate = 3f;
 
-    [SerializeField] [Tooltip("Time it takes for the box to winddown to 0; lower values = faster; elements correspond to each night")]
+    [SerializeField]
+    [Tooltip("Time it takes for the box to winddown to 0; lower values = faster; elements correspond to each night")]
     private float[] windDownTimes = new float[6];
 
     private bool beingWound = false;
@@ -34,12 +37,10 @@ public class PuppetBox : MonoBehaviour
 
     private bool puppetOut = false;
 
-
     private void Awake()
     {
-        // winddown time will be fixed between the nights
-        // activity will only affect the puppet after being released
-        DetermineWinddownTime();
+        cctvMonitor = FindObjectOfType<CCTVMonitor>();
+        puppetWheel.fillAmount = 1;
     }
 
     private void Update()
@@ -51,6 +52,7 @@ public class PuppetBox : MonoBehaviour
         // constantly perform move rolls until the player is killed
         if ((timer1 > windDownTime || puppetOut) && !GameManager.GameOver)
         {
+            puppetWheel.fillAmount = 0;
             // move timer for puppet is 8 seconds, meaning
             // every 8 seconds it will attempt to kill the player
             puppetOut = true;
@@ -88,11 +90,17 @@ public class PuppetBox : MonoBehaviour
             timer1 = Mathf.Clamp(timer1, 0f, MAX_WINDDOWN_TIME);
             CalculateFill();
 
-            if (timer1 > (windDownTime / 1.15f))
+            int phase = 1;
+            if (timer1 >= windDownTime) {
+                phase = 4;
+                //puppetOut = true;
+            }
+            else if (timer1 > (windDownTime / 1.15f))
             {
                 for (int i = 0; i < cautionAnimators.Length; i++)
                     if (cautionAnimators[i].gameObject.activeInHierarchy)
                     {
+                        phase = 3;
                         cautionAnimators[i].SetBool("Red", true);
                     }
             }
@@ -102,6 +110,7 @@ public class PuppetBox : MonoBehaviour
                 {
                     if (cautionAnimators[i].gameObject.activeInHierarchy)
                     {
+                        phase = 2;
                         cautionAnimators[i].SetBool("Red", false);
                         cautionAnimators[i].SetBool("Yellow", true);
                     }
@@ -119,6 +128,18 @@ public class PuppetBox : MonoBehaviour
                 }
             }
 
+            if (phase != 4) {
+                if (!InPose(phase))
+                {
+                    // Debug.Log("CHANGING TO POSE " + phase);
+                    StartCoroutine(cctvMonitor.DisconnectCams(phase));
+                    SetPose(phase);
+                }
+            }
+            else {
+                foreach (Transform child in transform)
+                    child.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -128,52 +149,49 @@ public class PuppetBox : MonoBehaviour
         // calculating fill amount of the UI element
         float fill = 1f - timer1 / windDownTime;
 
-        for (int i = 8; i > 0; i--) 
+        for (int i = 8; i > 0; i--)
         {
             float incrementReq = 1f / INCREMENTS * i;
-            if (fill <= incrementReq) 
-            {   
+            if (fill <= incrementReq)
+            {
                 puppetWheel.fillAmount = incrementReq;
             }
         }
     }
 
-    // manual choosing of winddown time for balance reasons
-    private void DetermineWinddownTime()
+    private void SetPose(int phase)
     {
-        switch (GameManager.Night)
+        foreach (Transform child in transform)
         {
-            case 1:
-                windDownTime = windDownTimes[0];
-                break;
-
-            case 2:
-                windDownTime = windDownTimes[1];
-                break;
-
-            case 3:
-                windDownTime = windDownTimes[2];
-                break;
-
-            case 4:
-                windDownTime = windDownTimes[3];
-                break;
-
-            case 5:
-                windDownTime = windDownTimes[4];
-                break;
-
-            // default for night 6 and custom night
-            default:
-                windDownTime = windDownTimes[5];
-                break;
+            if (child.name.Equals("Stage" + phase))
+            {
+                child.gameObject.SetActive(true);
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
         }
+    }
+
+    private bool InPose(int phase)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.activeInHierarchy && child.name.Equals("Stage" + phase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // lambda functions for assignment
     public void SetActivity(int a) => activity = a;
 
-    public void SetSettings(AnimatronicSettings settings) {
+    public void SetSettings(AnimatronicSettings settings)
+    {
         activity = settings.activity;
         windDownTime = settings.windDownTime;
     }

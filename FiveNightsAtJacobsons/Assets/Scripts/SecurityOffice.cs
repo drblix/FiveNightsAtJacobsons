@@ -67,12 +67,12 @@ public class SecurityOffice : MonoBehaviour
             if (anim.GetBool("Open"))
             {
                 objRenderer.material.SetColor("_Color", Color.red);
-                objRenderer.material.SetColor("_EmissionColor", Color.red);
+                objRenderer.material.SetColor("_EmissionColor", Color.red * .5f);
             }
             else
             {
                 objRenderer.material.SetColor("_Color", Color.green);
-                objRenderer.material.SetColor("_EmissionColor", Color.green);
+                objRenderer.material.SetColor("_EmissionColor", Color.green * .5f);
             }
         }
         else if (obj.name.Contains("Light"))
@@ -81,7 +81,7 @@ public class SecurityOffice : MonoBehaviour
             // and start playing sound if haven't already
             MeshRenderer objRenderer = obj.GetComponent<MeshRenderer>();
             objRenderer.material.SetColor("_Color", Color.white);
-            objRenderer.material.SetColor("_EmissionColor", Color.white * 1.01f);
+            objRenderer.material.SetColor("_EmissionColor", Color.white * .5f);
 
             if (obj.name.EndsWith('L') && !doorSounds[2].isPlaying)
             {

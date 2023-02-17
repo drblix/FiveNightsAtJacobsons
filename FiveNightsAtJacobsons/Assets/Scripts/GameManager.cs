@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     private void SetActivities()
     {
         AnimatronicSettings[] nightArray;
-        switch (night)
+        switch (Night)
         {
             case 1:
                 nightArray = night1;
@@ -100,7 +100,8 @@ public class GameManager : MonoBehaviour
 
         foreach (AnimatronicSettings settings in nightArray) {
             GameObject animatronic = GameObject.Find(settings.animatronicName.ToString());
-            
+            if (!animatronic) { Debug.LogError(settings.animatronicName.ToString() + " was not found!"); return; }
+
             if (animatronic.TryGetComponent<LinearAnimatronic>(out LinearAnimatronic linearAnimatronic)) {
                 linearAnimatronic.SetSettings(settings);
             }
@@ -108,7 +109,7 @@ public class GameManager : MonoBehaviour
                 puppetBox.SetSettings(settings);
             }
             else if (animatronic.TryGetComponent<Flowers>(out Flowers flowers)) {
-                
+                flowers.SetSettings(settings);
             }
         }
     }
@@ -191,24 +192,24 @@ public struct AnimatronicSettings
 {
     public GameManager.Animatronic animatronicName;
     [Range(0, 20)]
+    [Tooltip("Animatronic's activity level; used in move rolls to determine if the animatronic can move")]
     public int activity;
     [Range(0f, 50f)]
+    [Tooltip("Time it takes for the animatronic to move down their path")]
     public float moveTimer;
     [Range(0f, 50f)]
+    [Tooltip("The variation amount between each move; basically the randomization threshold for the move timer; 0 for a constant move time")]
     public float moveVariation;
     [Range(0f, 50f)]
+    [Tooltip("How long it takes for an animatronic to attack while at the office")]
     public float attackTimer;
 
-    [Header("Flowers-specific settings")]
-    [Range(0f, 200f)]
-    public float phaseDelay;
-
-    // ROUSH SPECIFIC SETTINGS
-    [Header("Roush-specific settings")]
-    [Range(0f, 200f)]
+    [Header("Roush-only settings")]
+    [Range(0, 500)]
+    [Tooltip("The length in seconds it takes to wind down to 0")]
     public float windDownTime;
 
-    public AnimatronicSettings(GameManager.Animatronic name, int a, float m_t, float m_v, float a_t, float w_dt, float p_d)
+    public AnimatronicSettings(GameManager.Animatronic name, int a, float m_t, float m_v, float a_t, float w_dt)
     {
         this.animatronicName = name;
         this.activity = a; 
@@ -216,6 +217,5 @@ public struct AnimatronicSettings
         this.moveVariation = m_v;
         this.attackTimer = a_t;
         this.windDownTime = w_dt;
-        this.phaseDelay = p_d;
     }
 }
