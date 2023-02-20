@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     public bool gameStarted = false;
 
     [Header("ANIMATRONIC SETTINGS - USE TO ADJUST DIFFICULTY")]
-    [Header("0 - Wolf; 1 - Zubek; 2 - Morrison; 3 - Roush; 4 - Flowers")]
+    [Header("0 - Wolf; 1 - Zubek; 2 - Morrison; 3 - Roush; 4 - Flowers, 5 - Gammon")]
 
     [SerializeField]
     private AnimatronicSettings[] night1;

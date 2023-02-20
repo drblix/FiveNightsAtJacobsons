@@ -51,6 +51,8 @@ public class CCTVMonitor : MonoBehaviour
     private float ambienceTimer = 0f;
     private float randWait;
     private bool animatronicMoving = false;
+    private string currentCam = "";
+
 
     private void Awake()
     {
@@ -110,9 +112,7 @@ public class CCTVMonitor : MonoBehaviour
             cctvCams[i].GetComponent<Camera>().enabled = state;
             cctvCams[i].GetComponent<Light>().enabled = state;
             if (!state)
-            {
                 cctvCams[i].GetComponent<AudioSource>().Stop();
-            }
         }
     }
 
@@ -127,6 +127,8 @@ public class CCTVMonitor : MonoBehaviour
             // if is cam that was selected, enabled components
             if (cctvCams[i].name.Equals(name))
             {
+                currentCam = name;
+
                 // enables camera's script, animator, and sets render texture
                 cctvCams[i].enabled = true;
                 cctvCams[i].GetComponent<Camera>().enabled = true;
@@ -190,7 +192,10 @@ public class CCTVMonitor : MonoBehaviour
         animatronicMoving = true;
         camDisconnected.SetActive(true);
         yield return new WaitForSeconds(dur);
-        camDisconnected.SetActive(false);
+
+        if (!currentCam.Equals(DOYLE_CAM))
+            camDisconnected.SetActive(false);
+        
         animatronicMoving = false;
     }
 }

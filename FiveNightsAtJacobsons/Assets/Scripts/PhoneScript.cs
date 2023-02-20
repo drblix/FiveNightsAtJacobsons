@@ -53,7 +53,7 @@ public class PhoneScript : MonoBehaviour
                     break;
             }
 
-            if (enteredCode.Length > 6)
+            if (enteredCode.Length >= 50)
                 enteredCode = "";
 
             keyPress.Play();
@@ -63,16 +63,7 @@ public class PhoneScript : MonoBehaviour
 
     private void CheckCode()
     {
-        int enteredCodeInt = 0;
-        try
-        {
-            enteredCodeInt = int.Parse(enteredCode);
-        }
-        catch (System.Exception)
-        {
-            Debug.LogError("Failed parsing to integer");
-            throw;
-        }
+        print(enteredCode);
 
         enteredCode = "";
     }
