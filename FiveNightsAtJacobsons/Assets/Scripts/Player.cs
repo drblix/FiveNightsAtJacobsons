@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -123,5 +124,20 @@ public class Player : MonoBehaviour
         }
 
         return null;
+    }
+
+    public IEnumerator Jumpscare(GameManager.Animatronic animatronic)
+    {   
+        Vector3 camPos = transform.position;
+        Vector3 newPos = camPos + new Vector3(Random.Range(.1f, 1.2f), Random.Range(.1f, 1.2f), 0f);
+        float timer = 0f;
+
+        while (timer < 3f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, newPos, 2f * Time.deltaTime);
+
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
