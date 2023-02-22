@@ -5,6 +5,7 @@ public class PuppetBox : MonoBehaviour
 {
     private const float MAX_WINDDOWN_TIME = 120f;
 
+    private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
 
     [SerializeField]
@@ -39,6 +40,7 @@ public class PuppetBox : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
         puppetWheel.fillAmount = 1;
     }
@@ -61,7 +63,7 @@ public class PuppetBox : MonoBehaviour
                 timer2 = 0f;
                 if (GameManager.DoMoveRoll(activity))
                 {
-                    GameManager.PlayerDeath();
+                    gameManager.PlayerDeath(transform, Vector3.zero);
                 }
             }
 

@@ -88,7 +88,7 @@ public class CCTVMonitor : MonoBehaviour
 
         // sets camera open to the opposite of cctvObj's activity in hierarchy
         camerasOpen = !cctvObj.activeInHierarchy;
-        player.canLook = !camerasOpen;
+        player.canInteract = !camerasOpen;
         cctvSources[4].volume = camerasOpen ? .5f : 1f;
         cctvSources[5].volume = camerasOpen ? .3f : .65f;
 
@@ -190,6 +190,8 @@ public class CCTVMonitor : MonoBehaviour
     public IEnumerator DisconnectCams(float dur)
     {
         animatronicMoving = true;
+        player.canUseFlashlight = false;
+        player.canUseVentLight = false;
         camDisconnected.SetActive(true);
         yield return new WaitForSeconds(dur);
 
@@ -197,5 +199,7 @@ public class CCTVMonitor : MonoBehaviour
             camDisconnected.SetActive(false);
         
         animatronicMoving = false;
+        player.canUseFlashlight = true;
+        player.canUseVentLight = true;
     }
 }

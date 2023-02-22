@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class LinearAnimatronic : MonoBehaviour
 {
+    private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
 
     [Header("PATH & POSES - MODIFY IF CHANGING PATH")]
@@ -47,6 +48,9 @@ public class LinearAnimatronic : MonoBehaviour
     [Range(4f, 15f)]
     private float attackTimer = 10f;
 
+    [SerializeField] [Tooltip("How offset the animatronic should be from the player camera when jumpscare is performed")]
+    private Vector3 jumpscareOffset;
+
     private enum AccessPoint
     {
         Hallway,
@@ -54,15 +58,18 @@ public class LinearAnimatronic : MonoBehaviour
         RightVent
     }
 
-
     private int currentPoint = 0;
     private float timer = 0f;
 
     private void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
         UpdatePoses();
         transform.position = Vector3.zero;
+
+        if (moveVariation > moveTimer)
+            moveVariation = moveTimer;
     }
 
     private void Update()
@@ -76,11 +83,11 @@ public class LinearAnimatronic : MonoBehaviour
 
             timer = 0f;
         }
-        else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !GameManager.GameOver) 
+        else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !GameManager.GameOver && GameManager.DoMoveRoll(activity)) 
         {
             // if the animatronic is on their last waypoint, and their way of access
             // is not blocked, kill the player
-            GameManager.PlayerDeath();
+            gameManager.PlayerDeath(transform, jumpscareOffset);
         }
 
         timer += Time.deltaTime;

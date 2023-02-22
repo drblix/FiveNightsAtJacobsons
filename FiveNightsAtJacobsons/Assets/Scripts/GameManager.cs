@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private const int HOUR_SUBDIVISIONS = NIGHT_LENGTH / 6;
     //private const int HOUR_SUBDIVISIONS = 10; -- FOR TESTING --
 
-    private static int[] animatronicActivities = new int[ANIMATRONIC_COUNT];
+    private Player player;
 
     private static int night = 1;
     public static int Night { get { return night; } }
@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        player = FindObjectOfType<Player>();
         Debug.Log("CURRENTLY NIGHT " + night);
         SetActivities();
     }
@@ -141,12 +142,17 @@ public class GameManager : MonoBehaviour
     }
 
     // has no purpose until implemented
-    public static void PlayerDeath()
+    public void PlayerDeath(Transform animatronic, Vector3 jumpOffset)
     {
         if (gameOver) { return; }
 
         gameOver = true;
+        
         Debug.Log("Game over");
+        foreach (Transform child in animatronic)
+            child.gameObject.SetActive(false);
+        
+        StartCoroutine(player.Jumpscare(animatronic, jumpOffset));
     }
 
     private IEnumerator NightFinished()

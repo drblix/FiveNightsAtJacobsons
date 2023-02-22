@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SecurityOffice : MonoBehaviour
 {
+    private Player player;
+
     // true = closed; false = open
     private bool[] doorStates = new bool[2];
     public bool LeftVentClosed { get { return doorStates[0]; } }
@@ -31,6 +33,10 @@ public class SecurityOffice : MonoBehaviour
     private bool canUseR = true;
     private bool canUseL = true;
 
+
+    private void Awake() {
+        player = GetComponent<Player>();
+    }
 
     public void ToggleButton(GameObject obj)
     {
@@ -75,7 +81,7 @@ public class SecurityOffice : MonoBehaviour
                 objRenderer.material.SetColor("_EmissionColor", Color.green * .5f);
             }
         }
-        else if (obj.name.Contains("Light"))
+        else if (obj.name.Contains("Light") && player.canUseVentLight)
         {
             // if the object is a light get the renderer and change the color
             // and start playing sound if haven't already

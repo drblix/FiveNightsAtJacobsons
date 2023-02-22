@@ -25,10 +25,13 @@ public class Player : MonoBehaviour
     private float startingAngle = 0f;
 
     [HideInInspector]
-    public bool canLook = true;
+    public bool canInteract = true;
 
     [HideInInspector]
     public bool canUseFlashlight = true;
+
+    [HideInInspector]
+    public bool canUseVentLight = true;
 
     private void Awake()
     {
@@ -37,11 +40,13 @@ public class Player : MonoBehaviour
         office = GetComponent<SecurityOffice>();
         phoneScript = FindObjectOfType<PhoneScript>();
         playerInput = GetComponent<PlayerInput>();
+
+        //StartCoroutine(Jumpscare(GameObject.Find("Wolf").transform, new Vector3(.1f, -2.9f, .6f)));
     }
 
     private void Update()
     {
-        if (canLook)
+        if (canInteract)
         {
             PlayerRotation();
 
@@ -63,6 +68,11 @@ public class Player : MonoBehaviour
             }
 
             hallFlashlight.enabled = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight;
+        }
+        else
+        {
+            hallFlashlight.enabled = false;
+            office.DisableLights();
         }
     }
 
@@ -115,7 +125,7 @@ public class Player : MonoBehaviour
     private GameObject GetMouseGameObject()
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 1.5f);
+        // Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 1.5f);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Player")))
         {
@@ -126,18 +136,37 @@ public class Player : MonoBehaviour
         return null;
     }
 
-    public IEnumerator Jumpscare(GameManager.Animatronic animatronic)
-    {   
+    public IEnumerator Jumpscare(Transform animatronic, Vector3 offset)
+    {
+        const float SHAKE_SPEED = 4f;
+        const float MAX_INCLUSIVE = .085f;
+
+        // yield return new WaitForSeconds(2f);
+
+        canInteract = false;
+        animatronic.Find("Jumpscare").gameObject.SetActive(true);
+
+        animatronic.SetParent(transform);
+        animatronic.localPosition = offset;
+        animatronic.localRotation = Quaternion.Euler(Vector3.zero);
+
+        Vector3 animatronicPos = animatronic.position;
         Vector3 camPos = transform.position;
-        Vector3 newPos = camPos + new Vector3(Random.Range(.1f, 1.2f), Random.Range(.1f, 1.2f), 0f);
+        Vector3 newPos = camPos + new Vector3(Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE));
         float timer = 0f;
 
         while (timer < 3f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, newPos, 2f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, newPos, SHAKE_SPEED * Time.deltaTime);
+
+            if (transform.position == newPos)
+                newPos = camPos + new Vector3(Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE));
 
             timer += Time.deltaTime;
+            animatronic.position = animatronicPos;
             yield return new WaitForEndOfFrame();
         }
+
+        transform.position = camPos;
     }
 }
