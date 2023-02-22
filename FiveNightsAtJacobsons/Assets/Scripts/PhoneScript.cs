@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class PhoneScript : MonoBehaviour
 {
+
+    private AudioSource phoneRing;
     [SerializeField]
     private AudioSource keyPress;
+    [SerializeField]
+    private AudioSource phoneSpeaker;
+
+    [SerializeField]
+    private AudioClip[] phoneLines;
 
     private string enteredCode = "";
+
+    private void Awake() {
+        phoneRing = GetComponent<AudioSource>();
+        StartCoroutine(PhoneSequence());
+    }
 
     public void KeyPressed(GameObject key)
     {
@@ -64,7 +76,13 @@ public class PhoneScript : MonoBehaviour
     private void CheckCode()
     {
         print(enteredCode);
-
         enteredCode = "";
+    }
+
+    private IEnumerator PhoneSequence()
+    {
+        phoneRing.Play();
+        yield return new WaitForSeconds(phoneRing.clip.length + .8f);
+        phoneSpeaker.Play();
     }
 }

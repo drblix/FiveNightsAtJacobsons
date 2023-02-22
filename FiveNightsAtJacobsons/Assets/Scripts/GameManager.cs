@@ -123,6 +123,12 @@ public class GameManager : MonoBehaviour
             nightTimer = HOUR_SUBDIVISIONS;
             Debug.Log(string.Format("Hour finished : now {0}, was {1}", currentHour, currentHour - 1));
 
+            foreach (LinearAnimatronic anim in FindObjectsOfType<LinearAnimatronic>())
+            {
+                if (anim.activity != 0)
+                    anim.activity++;
+            }
+
             if (currentHour == 5)
             {
                 StartCoroutine(NightFinished());

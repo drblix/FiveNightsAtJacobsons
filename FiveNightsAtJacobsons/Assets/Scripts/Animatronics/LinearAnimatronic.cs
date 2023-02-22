@@ -26,27 +26,17 @@ public class LinearAnimatronic : MonoBehaviour
     [Tooltip("Where the animatronic attempts to attack from")]
     private AccessPoint accessPoint;
 
-    [Header("! ACTIVITY SETTINGS - USE TO ADJUST DIFFICULTY !")]
-
     [Tooltip("The activity level of the animatronic; ranges from 0 to 20. (0 is inactive)")]
-    //[SerializeField]
-    [Range(0, 20)]
-    private int activity = 0;
+    public int activity { get; set; }
 
     [Tooltip("The time it takes for the animatronic to move")]
-    //[SerializeField]
-    [Range(3f, 20f)]
-    private float moveTimer = 7f;
+    public float moveTimer { get; set; }
 
     [Tooltip("The variation between the moveTimer values (ex: 7 - 1f or 7 + 1f)")]
-    //[SerializeField]
-    [Range(0f, 10f)]
-    private float moveVariation = 1.5f;
+    private float moveVariation { get; set; }
 
     [Tooltip("How long the animatronic will wait before attacking")]
-    //[SerializeField]
-    [Range(4f, 15f)]
-    private float attackTimer = 10f;
+    private float attackTimer { get; set; }
 
     [SerializeField] [Tooltip("How offset the animatronic should be from the player camera when jumpscare is performed")]
     private Vector3 jumpscareOffset;

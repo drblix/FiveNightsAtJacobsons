@@ -89,9 +89,11 @@ public class CCTVMonitor : MonoBehaviour
         // sets camera open to the opposite of cctvObj's activity in hierarchy
         camerasOpen = !cctvObj.activeInHierarchy;
         player.canInteract = !camerasOpen;
+
+        // setting volume of objects in office
         cctvSources[4].volume = camerasOpen ? .5f : 1f;
         cctvSources[5].volume = camerasOpen ? .3f : .65f;
-
+        cctvSources[6].volume = camerasOpen ? .225f : .6f;
 
         // plays monitor opening sound if not already playing
         if (!cctvSources[3].isPlaying) { cctvSources[3].Play(); }
