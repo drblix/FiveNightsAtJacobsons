@@ -81232,6 +81232,10 @@ MonoBehaviour:
   phoneSpeaker: {fileID: 1079384987}
   phoneLines:
   - {fileID: 8300000, guid: 13dc0bfc9373c32419dccf74b2f77bac, type: 3}
+  - {fileID: 8300000, guid: b30a991a292db0447beac3e4db84706d, type: 3}
+  - {fileID: 8300000, guid: d64a070b62df63041b4ac77437518904, type: 3}
+  - {fileID: 8300000, guid: 0cdf820594ce1ed4898f9c7d9c571213, type: 3}
+  - {fileID: 8300000, guid: a15fc4d40e99bb44da7c26faee8167f6, type: 3}
 --- !u!164 &5631138842704092066
 AudioReverbFilter:
   m_ObjectHideFlags: 0

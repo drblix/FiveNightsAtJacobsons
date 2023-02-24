@@ -18,7 +18,11 @@ public class PhoneScript : MonoBehaviour
 
     private void Awake() {
         phoneRing = GetComponent<AudioSource>();
-        StartCoroutine(PhoneSequence());
+
+        if (GameManager.Night - 1 < phoneLines.Length) {
+            phoneRing.clip = phoneLines[GameManager.Night - 1];
+            StartCoroutine(PhoneSequence());
+        }
     }
 
     public void KeyPressed(GameObject key)

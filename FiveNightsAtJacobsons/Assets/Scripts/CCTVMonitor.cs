@@ -193,7 +193,6 @@ public class CCTVMonitor : MonoBehaviour
     {
         animatronicMoving = true;
         player.canUseFlashlight = false;
-        player.canUseVentLight = false;
         camDisconnected.SetActive(true);
         yield return new WaitForSeconds(dur);
 
@@ -202,6 +201,5 @@ public class CCTVMonitor : MonoBehaviour
         
         animatronicMoving = false;
         player.canUseFlashlight = true;
-        player.canUseVentLight = true;
     }
 }
