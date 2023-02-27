@@ -105,7 +105,6 @@ public class LinearAnimatronic : MonoBehaviour
             catch (UnassignedReferenceException)
             {
                 // block is called when at the start of the path if not visible
-                print("tick");
                 transform.position = Vector3.zero;
                 UpdatePoses();
             }

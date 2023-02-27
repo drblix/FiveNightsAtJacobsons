@@ -20,7 +20,7 @@ public class PhoneScript : MonoBehaviour
         phoneRing = GetComponent<AudioSource>();
 
         if (GameManager.Night - 1 < phoneLines.Length) {
-            phoneRing.clip = phoneLines[GameManager.Night - 1];
+            phoneSpeaker.clip = phoneLines[GameManager.Night - 1];
             StartCoroutine(PhoneSequence());
         }
     }

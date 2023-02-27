@@ -144,6 +144,12 @@ public class Player : MonoBehaviour
         // yield return new WaitForSeconds(2f);
 
         canInteract = false;
+
+        if (!animatronic.Find("Jumpscare")) {
+            Debug.LogError("Couldn't find jumpscare object for: " + animatronic.name);
+            yield break;
+        }
+
         animatronic.Find("Jumpscare").gameObject.SetActive(true);
 
         animatronic.SetParent(transform);
