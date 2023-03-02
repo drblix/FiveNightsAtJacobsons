@@ -26,6 +26,11 @@ public class SecurityOffice : MonoBehaviour
     private MeshRenderer lightButtonR;
 
     [SerializeField]
+    private MeshRenderer blackPlaneR;
+    [SerializeField]
+    private MeshRenderer blackPlaneL;
+
+    [SerializeField]
     private Light ventLightR;
     [SerializeField]
     private Light ventLightL;
@@ -92,11 +97,13 @@ public class SecurityOffice : MonoBehaviour
             if (obj.name.EndsWith('L') && !doorSounds[2].isPlaying)
             {
                 ventLightL.enabled = true;
+                blackPlaneL.enabled = false;
                 doorSounds[2].Play();
             }
             else if (obj.name.EndsWith('R') && !doorSounds[3].isPlaying)
             {
                 ventLightR.enabled = true;
+                blackPlaneR.enabled = false;
                 doorSounds[3].Play();
             }            
         }
@@ -110,7 +117,9 @@ public class SecurityOffice : MonoBehaviour
         lightButtonL.material.SetColor("_Color", Color.gray);
         lightButtonL.material.SetColor("_EmissionColor", Color.black);
         ventLightR.enabled = false;
+        blackPlaneR.enabled = true;
         ventLightL.enabled = false;
+        blackPlaneL.enabled = true;
         doorSounds[2].Stop();
         doorSounds[3].Stop();
     }
