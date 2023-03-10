@@ -11,6 +11,7 @@ public class LinearAnimatronic : MonoBehaviour
 {
     private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
+    private SecurityOffice securityOffice;
 
     [Header("PATH & POSES - MODIFY IF CHANGING PATH")]
 
@@ -55,6 +56,8 @@ public class LinearAnimatronic : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
+        securityOffice = FindObjectOfType<SecurityOffice>();
+        
         UpdatePoses();
         transform.position = Vector3.zero;
 
@@ -73,10 +76,27 @@ public class LinearAnimatronic : MonoBehaviour
 
             timer = 0f;
         }
-        else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !GameManager.GameOver && GameManager.DoMoveRoll(activity)) 
+        else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !gameManager.gameOver && GameManager.DoMoveRoll(activity)) 
         {
             // if the animatronic is on their last waypoint, and their way of access
             // is not blocked, kill the player
+            if (accessPoint == AccessPoint.LeftVent) {
+                if (securityOffice.LeftVentClosed) {
+                    currentPoint = 0;
+                    UpdatePoses();
+                    timer = 0f;
+                    return;
+                }
+            }
+            else if (accessPoint == AccessPoint.RightVent) {
+                if (securityOffice.RightVentClosed) {
+                    currentPoint = 0;
+                    UpdatePoses();
+                    timer = 0f;
+                    return;
+                }
+            }
+            
             gameManager.PlayerDeath(transform, jumpscareOffset);
         }
 

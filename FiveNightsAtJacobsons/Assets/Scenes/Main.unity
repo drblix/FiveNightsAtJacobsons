@@ -20240,7 +20240,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e14404dd55374ee469d4c659a059cfc7, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e14404dd55374ee469d4c659a059cfc7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -32167,7 +32167,7 @@ MonoBehaviour:
         - m_Target: {fileID: 1227227476}
           m_TargetAssemblyTypeName: CCTVMonitor, Assembly-CSharp
           m_MethodName: ToggleCams
-          m_Mode: 1
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -36128,7 +36128,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -36173,6 +36173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hallFlashlight: {fileID: 1965053971}
+  hallBlocker: {fileID: 1508615819}
   maxAngle: 60
   camSpeed: 75
   canInteract: 1
@@ -52825,7 +52826,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e12c4113adf46804ca48706ba359fa69, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e12c4113adf46804ca48706ba359fa69, type: 3}
       propertyPath: m_LocalScale.x
@@ -57277,7 +57278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef150b424471afe43a640dd7a222d74a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ef150b424471afe43a640dd7a222d74a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62676,16 +62677,16 @@ MonoBehaviour:
   displaySeconds: 0
   night1:
   - animatronicName: 0
-    activity: 1
-    moveTimer: 8
-    moveVariation: 1.5
-    attackTimer: 8
+    activity: 20
+    moveTimer: 2.2
+    moveVariation: 2
+    attackTimer: 10
     windDownTime: 0
   - animatronicName: 1
     activity: 0
-    moveTimer: 8
+    moveTimer: 1
     moveVariation: 2
-    attackTimer: 10
+    attackTimer: 5
     windDownTime: 0
   - animatronicName: 2
     activity: 1
@@ -66445,7 +66446,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7a0d85de8379ca9458a8c94f00cd1643, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a0d85de8379ca9458a8c94f00cd1643, type: 3}
       propertyPath: m_LocalPosition.x
@@ -93531,7 +93532,7 @@ Transform:
   - {fileID: 92561213}
   - {fileID: 1079384986}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -152.853, z: 0}
 --- !u!4 &5008833356738372811
 Transform:

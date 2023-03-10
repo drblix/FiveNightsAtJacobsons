@@ -4,14 +4,18 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    private GameManager gameManager;
     private SecurityOffice office;
     private PhoneScript phoneScript;
+    private CCTVMonitor cctvMonitor;
 
     private PlayerInput playerInput;
     private Transform mainCam;
 
     [SerializeField]
     private Light hallFlashlight;
+    [SerializeField]
+    private MeshRenderer hallBlocker;
 
     [Header("Player Settings")]
     [SerializeField]
@@ -37,11 +41,11 @@ public class Player : MonoBehaviour
     {
         // assigning variables
         mainCam = Camera.main.transform;
-        office = GetComponent<SecurityOffice>();
         phoneScript = FindObjectOfType<PhoneScript>();
+        cctvMonitor = FindObjectOfType<CCTVMonitor>();
+        gameManager = FindObjectOfType<GameManager>();
+        office = GetComponent<SecurityOffice>();
         playerInput = GetComponent<PlayerInput>();
-
-        //StartCoroutine(Jumpscare(GameObject.Find("Wolf").transform, new Vector3(.1f, -2.9f, .6f)));
     }
 
     private void Update()
@@ -67,10 +71,13 @@ public class Player : MonoBehaviour
                 office.DisableLights();
             }
 
-            hallFlashlight.enabled = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight;
+            bool lightState = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight;
+            hallFlashlight.enabled = lightState;
+            hallBlocker.enabled = !lightState;
         }
         else
         {
+            hallBlocker.enabled = true;
             hallFlashlight.enabled = false;
             office.DisableLights();
         }
@@ -141,9 +148,13 @@ public class Player : MonoBehaviour
         const float SHAKE_SPEED = 4f;
         const float MAX_INCLUSIVE = .085f;
 
+        if (cctvMonitor.camerasOpen)
+            cctvMonitor.ToggleCams(true);
+        
+        canInteract = false;
+        gameManager.gameOver = true;
         // yield return new WaitForSeconds(2f);
 
-        canInteract = false;
 
         if (!animatronic.Find("Jumpscare")) {
             Debug.LogError("Couldn't find jumpscare object for: " + animatronic.name);

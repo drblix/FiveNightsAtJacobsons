@@ -11,6 +11,7 @@ public class CCTVMonitor : MonoBehaviour
     public bool camerasOpen { get; set; }
 
     private Player player;
+    private GameManager gameManager;
 
     [Header("CCTV Variables")]
 
@@ -56,6 +57,7 @@ public class CCTVMonitor : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
         player = FindObjectOfType<Player>();
         randWait = Random.Range(15f, 30f);
         // sets default cam location on start
@@ -80,11 +82,13 @@ public class CCTVMonitor : MonoBehaviour
         }
     }
 
-    public void ToggleCams()
+    public void ToggleCams(bool bypass)
     {
         // returns early if animation to open/close monitor is currently playing
-        if (monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorUp") || monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorDown"))
-            return;
+        if (!bypass) {
+            if (monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorUp") || monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorDown") || gameManager.gameOver)
+                return;
+        }
 
         // sets camera open to the opposite of cctvObj's activity in hierarchy
         camerasOpen = !cctvObj.activeInHierarchy;
@@ -159,7 +163,7 @@ public class CCTVMonitor : MonoBehaviour
         }
     }
 
-    private IEnumerator ToggleMonitor()
+    public IEnumerator ToggleMonitor()
     {
         // the whole point of this is to just stop the camera from being spammed
         // and to give that delay before the cctv stuff is shown

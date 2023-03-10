@@ -14,8 +14,7 @@ public class GameManager : MonoBehaviour
 
     private static int night = 1;
     public static int Night { get { return night; } }
-    private static bool gameOver = false;
-    public static bool GameOver { get { return gameOver; } }
+    public bool gameOver { get; set;} 
 
     private float nightTimer = HOUR_SUBDIVISIONS;
     private int currentHour = 0; // goes 0 - 5; 0 == 12 AM, 5 == 6 AM

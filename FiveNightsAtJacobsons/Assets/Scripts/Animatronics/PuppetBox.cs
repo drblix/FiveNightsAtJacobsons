@@ -52,7 +52,7 @@ public class PuppetBox : MonoBehaviour
 
         // if puppet is out and not game over
         // constantly perform move rolls until the player is killed
-        if ((timer1 > windDownTime || puppetOut) && !GameManager.GameOver)
+        if ((timer1 > windDownTime || puppetOut) && !gameManager.gameOver)
         {
             puppetWheel.fillAmount = 0;
             // move timer for puppet is 8 seconds, meaning
