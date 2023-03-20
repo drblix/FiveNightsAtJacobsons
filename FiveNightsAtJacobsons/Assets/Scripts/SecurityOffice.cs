@@ -42,6 +42,7 @@ public class SecurityOffice : MonoBehaviour
 
     private void Awake() {
         player = GetComponent<Player>();
+        gameManager = FindObjectOfType<GameManager>();
 
         gameManager.gameOverEvent.AddListener(() => {
             DisableLights();

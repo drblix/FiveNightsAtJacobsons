@@ -154,6 +154,14 @@ public class LinearAnimatronic : MonoBehaviour
             attackTimer = settings.attackTimer;
             moveTimer = settings.moveTimer;
             moveVariation = settings.moveVariation;
+
+            if (activity > 0)
+            {
+                if (poses[0])
+                    poses[0].SetActive(true);
+                if (movePath[0])
+                    transform.position = movePath[0].position;
+            }
         }
 
     }
