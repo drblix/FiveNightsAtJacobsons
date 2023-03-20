@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PhoneScript : MonoBehaviour
@@ -19,8 +18,8 @@ public class PhoneScript : MonoBehaviour
     private void Awake() {
         phoneRing = GetComponent<AudioSource>();
 
-        if (GameManager.Night - 1 < phoneLines.Length) {
-            phoneSpeaker.clip = phoneLines[GameManager.Night - 1];
+        if (PlayerData.night - 1 < phoneLines.Length) {
+            phoneSpeaker.clip = phoneLines[PlayerData.night - 1];
             StartCoroutine(PhoneSequence());
         }
     }
@@ -85,6 +84,7 @@ public class PhoneScript : MonoBehaviour
 
     private IEnumerator PhoneSequence()
     {
+        yield return new WaitForSeconds(5f);
         phoneRing.Play();
         yield return new WaitForSeconds(phoneRing.clip.length + .8f);
         phoneSpeaker.Play();

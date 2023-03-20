@@ -6,14 +6,14 @@ public class Flowers : MonoBehaviour
 
     private const float MOVE_THRESHOLD = 27f;
 
-    [SerializeField] [Range(0, 20)]
-    private int activity = 20;
+    private GameManager gameManager;
+
+    [SerializeField] [Range(0, 20)] private int activity = 20;
     private float moveTimer = 0f;
 
     private CCTVMonitor cctvMonitor;
 
-    [SerializeField]
-    private AudioSource flowersVent;
+    [SerializeField] private AudioSource flowersVent;
 
     private int phase = 1;
 
@@ -22,6 +22,10 @@ public class Flowers : MonoBehaviour
     private void Awake()
     {
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
+        gameManager = FindObjectOfType<GameManager>();
+
+        gameManager.applySettings.AddListener(SetSettings);
+        gameManager.gameOverEvent.AddListener(() => enabled = false);
     }
 
     private void Update() 
@@ -31,10 +35,10 @@ public class Flowers : MonoBehaviour
 
         if (moveTimer > MOVE_THRESHOLD) {
             moveTimer = 0f;
-            StartCoroutine(cctvMonitor.DisconnectCams(1f));
 
             if (GameManager.DoMoveRoll(activity)) {
                 phase++;
+                StartCoroutine(cctvMonitor.DisconnectCams(1f));
 
                 if (phase != 5)
                     SelectPhase();
@@ -59,8 +63,11 @@ public class Flowers : MonoBehaviour
     }
 
     public void SetSettings(AnimatronicSettings settings) {
-        activity = settings.activity;
-        moveTimer = 0f;
+        if (settings.animatronicName.ToString().Equals(transform.name)) {
+            activity = settings.activity;
+            moveTimer = 0f;
+        }
+
     }
 
     private IEnumerator FlowersAttack()

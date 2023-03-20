@@ -16,22 +16,19 @@ public class LinearAnimatronic : MonoBehaviour
     [Header("PATH & POSES - MODIFY IF CHANGING PATH")]
 
     [Tooltip("The animatronic's path; moves from the first element to the last randomly before appearing at the office")]
-    [SerializeField]
-    private Transform[] movePath;
+    [SerializeField] private Transform[] movePath;
 
     [Tooltip("The different poses for the animatronic; MUST MATCH WITH PATH OBJECT'S INDEX!")]
-    [SerializeField]
-    private GameObject[] poses;
+    [SerializeField] private GameObject[] poses;
 
-    [SerializeField] 
     [Tooltip("Where the animatronic attempts to attack from")]
-    private AccessPoint accessPoint;
+    [SerializeField] private AccessPoint accessPoint;
 
     [Tooltip("The activity level of the animatronic; ranges from 0 to 20. (0 is inactive)")]
     public int activity { get; set; }
 
     [Tooltip("The time it takes for the animatronic to move")]
-    public float moveTimer { get; set; }
+    private float moveTimer { get; set; }
 
     [Tooltip("The variation between the moveTimer values (ex: 7 - 1f or 7 + 1f)")]
     private float moveVariation { get; set; }
@@ -39,8 +36,8 @@ public class LinearAnimatronic : MonoBehaviour
     [Tooltip("How long the animatronic will wait before attacking")]
     private float attackTimer { get; set; }
 
-    [SerializeField] [Tooltip("How offset the animatronic should be from the player camera when jumpscare is performed")]
-    private Vector3 jumpscareOffset;
+    [Tooltip("How offset the animatronic should be from the player camera when jumpscare is performed")]
+    [SerializeField] private Vector3 jumpscareOffset;
 
     private enum AccessPoint
     {
@@ -63,6 +60,9 @@ public class LinearAnimatronic : MonoBehaviour
 
         if (moveVariation > moveTimer)
             moveVariation = moveTimer;
+        
+        gameManager.applySettings.AddListener(SetSettings);
+        gameManager.gameOverEvent.AddListener(() => enabled = false);
     }
 
     private void Update()
@@ -149,9 +149,12 @@ public class LinearAnimatronic : MonoBehaviour
     }
 
     public void SetSettings(AnimatronicSettings settings) {
-        activity = settings.activity;
-        attackTimer = settings.attackTimer;
-        moveTimer = settings.moveTimer;
-        moveVariation = settings.moveVariation;
+        if (settings.animatronicName.ToString().Equals(transform.name)) {
+            activity = settings.activity;
+            attackTimer = settings.attackTimer;
+            moveTimer = settings.moveTimer;
+            moveVariation = settings.moveVariation;
+        }
+
     }
 }

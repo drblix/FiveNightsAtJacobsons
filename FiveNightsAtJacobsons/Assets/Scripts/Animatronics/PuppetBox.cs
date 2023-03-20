@@ -43,6 +43,9 @@ public class PuppetBox : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
         puppetWheel.fillAmount = 1;
+
+        gameManager.applySettings.AddListener(SetSettings);
+        gameManager.gameOverEvent.AddListener(() => enabled = false);
     }
 
     private void Update()
@@ -194,8 +197,10 @@ public class PuppetBox : MonoBehaviour
 
     public void SetSettings(AnimatronicSettings settings)
     {
-        activity = settings.activity;
-        windDownTime = settings.windDownTime;
+        if (settings.animatronicName.ToString().Equals(transform.name)) {
+            activity = settings.activity;
+            windDownTime = settings.windDownTime;
+        }
     }
 
     public void SetWound(bool state) => beingWound = state;

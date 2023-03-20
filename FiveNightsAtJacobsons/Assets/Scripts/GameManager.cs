@@ -1,55 +1,46 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     private const int ANIMATRONIC_COUNT = 7;
    
-    private const int NIGHT_LENGTH = 540; // in seconds
+    private const int NIGHT_LENGTH = 540; // seconds
     private const int HOUR_SUBDIVISIONS = NIGHT_LENGTH / 6;
-    //private const int HOUR_SUBDIVISIONS = 10; -- FOR TESTING --
 
     private Player player;
 
-    private static int night = 1;
-    public static int Night { get { return night; } }
-    public bool gameOver { get; set;} 
+    [HideInInspector] public UnityEvent<AnimatronicSettings> applySettings;
+    [HideInInspector] public UnityEvent gameOverEvent;
+    [HideInInspector] public static bool twentyMode = false;
+    [HideInInspector] public static bool sixthNight = false;
+
+    public bool gameOver { get; set; } = false;
 
     private float nightTimer = HOUR_SUBDIVISIONS;
     private int currentHour = 0; // goes 0 - 5; 0 == 12 AM, 5 == 6 AM
 
     #region Serializations
 
-    [SerializeField]
-    private TextMeshPro clockText;
-    [SerializeField]
-    private AudioSource alarmSound;
-    [SerializeField]
-    private GameObject nightFinishedContainer;
-    [SerializeField]
-    private GameObject nightFinishedText;
+    [SerializeField] private TextMeshPro clockText;
+    [SerializeField] private AudioSource alarmSound;
+    [SerializeField] private GameObject nightFinishedContainer;
+    [SerializeField] private GameObject nightFinishedText;
+    [SerializeField] private bool displaySeconds = false;
 
-    [SerializeField]
-    private bool displaySeconds = false;
-
-    #endregion
 
     [Header("ANIMATRONIC SETTINGS - USE TO ADJUST DIFFICULTY")]
-    [Header("0 - Wolf; 1 - Zubek; 2 - Morrison; 3 - Roush; 4 - Flowers, 5 - Gammon")]
+    
+    [SerializeField] private AnimatronicSettings[] night1;
+    [SerializeField] private AnimatronicSettings[] night2;
+    [SerializeField] private AnimatronicSettings[] night3;
+    [SerializeField] private AnimatronicSettings[] night4;
+    [SerializeField] private AnimatronicSettings[] night5;
+    [SerializeField] private AnimatronicSettings[] night6;
 
-    [SerializeField]
-    private AnimatronicSettings[] night1;
-    [SerializeField]
-    private AnimatronicSettings[] night2;
-    [SerializeField]
-    private AnimatronicSettings[] night3;
-    [SerializeField]
-    private AnimatronicSettings[] night4;
-    [SerializeField]
-    private AnimatronicSettings[] night5;
-    [SerializeField]
-    private AnimatronicSettings[] night6;
+    #endregion
 
     public enum Animatronic
     {
@@ -64,14 +55,15 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player>();
-        Debug.Log("CURRENTLY NIGHT " + night);
+
+        Debug.Log("CURRENTLY NIGHT " + PlayerData.night);
         SetActivities();
     }
 
     private void SetActivities()
     {
         AnimatronicSettings[] nightArray;
-        switch (Night)
+        switch (PlayerData.night)
         {
             case 1:
                 nightArray = night1;
@@ -96,19 +88,9 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        foreach (AnimatronicSettings settings in nightArray) {
-            GameObject animatronic = GameObject.Find(settings.animatronicName.ToString());
-            if (!animatronic) { Debug.LogError(settings.animatronicName.ToString() + " was not found!"); return; }
-
-            if (animatronic.TryGetComponent<LinearAnimatronic>(out LinearAnimatronic linearAnimatronic)) {
-                linearAnimatronic.SetSettings(settings);
-            }
-            else if (animatronic.TryGetComponent<PuppetBox>(out PuppetBox puppetBox)) {
-                puppetBox.SetSettings(settings);
-            }
-            else if (animatronic.TryGetComponent<Flowers>(out Flowers flowers)) {
-                flowers.SetSettings(settings);
-            }
+        foreach (AnimatronicSettings setting in nightArray)
+        {
+            applySettings.Invoke(setting);
         }
     }
 
@@ -144,11 +126,11 @@ public class GameManager : MonoBehaviour
         return activity > roll;
     }
 
-    // has no purpose until implemented
     public void PlayerDeath(Transform animatronic, Vector3 jumpOffset)
     {
         if (gameOver) { return; }
 
+        gameOverEvent.Invoke();
         gameOver = true;
         
         Debug.Log("Game over");
@@ -160,8 +142,28 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator NightFinished()
     {
-        Debug.Log("Night finished");
+        Debug.Log("Night finished!");
+        // Checks if the player beat night 5 or 6
+        if (PlayerData.night == 5)
+        {
+            PlayerData.SetStars(1);
+        }
+        else if (sixthNight)
+        {
+            PlayerData.SetStars(2);
+            sixthNight = false;
+        }
+        else if (twentyMode)
+        {
+            PlayerData.SetStars(3);
+            twentyMode = false;
+        }
+
+        PlayerData.SetNight(PlayerData.night + 1);
+
         const int CYCLES = 12; // how many times the text flashes
+        gameOver = true;
+        gameOverEvent.Invoke();
 
         // mutes all other sounds in the game
         foreach (AudioSource source in FindObjectsOfType<AudioSource>())

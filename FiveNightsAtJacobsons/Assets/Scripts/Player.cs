@@ -153,8 +153,6 @@ public class Player : MonoBehaviour
         
         canInteract = false;
         gameManager.gameOver = true;
-        // yield return new WaitForSeconds(2f);
-
 
         if (!animatronic.Find("Jumpscare")) {
             Debug.LogError("Couldn't find jumpscare object for: " + animatronic.name);

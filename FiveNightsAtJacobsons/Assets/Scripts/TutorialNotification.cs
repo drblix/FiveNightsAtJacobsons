@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
@@ -16,11 +15,13 @@ public class TutorialNotification : MonoBehaviour
     private TextMeshProUGUI info;
 
     private void Awake() {
-        if (GameManager.Night != 1)
+        if (PlayerData.night != 1) {
             gameObject.SetActive(false);
-        
-        info.SetText("");
-        StartCoroutine(DisplayMessage());
+        }
+        else {
+            info.SetText("");
+            StartCoroutine(DisplayMessage());
+        }
     }
 
     private void Update() {

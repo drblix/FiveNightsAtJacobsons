@@ -4,6 +4,7 @@ using UnityEngine;
 public class SecurityOffice : MonoBehaviour
 {
     private Player player;
+    private GameManager gameManager;
 
     // true = closed; false = open
     private bool[] doorStates = new bool[2];
@@ -41,6 +42,11 @@ public class SecurityOffice : MonoBehaviour
 
     private void Awake() {
         player = GetComponent<Player>();
+
+        gameManager.gameOverEvent.AddListener(() => {
+            DisableLights();
+            enabled = false;
+        });
     }
 
     public void ToggleButton(GameObject obj)

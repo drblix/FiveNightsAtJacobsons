@@ -31,5 +31,6 @@ public class SceneFader : MonoBehaviour
 
         if (timer >= FADE_DURATION)
             gameObject.SetActive(false);
+            enabled = false;
     }
 }
