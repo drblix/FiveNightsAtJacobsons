@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,23 +9,19 @@ public class PuppetBox : MonoBehaviour
     private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
 
-    [SerializeField]
-    private Animator[] cautionAnimators;
+    [SerializeField] private Transform[] runningPoints;
+    [SerializeField] private Animator[] cautionAnimators;
 
-    [SerializeField]
-    private Image puppetWheel;
+    [SerializeField] private Image puppetWheel;
 
     [Header("ACTIVITY SETTINGS - USE TO CHANGE DIFFICULTY")]
 
-    [SerializeField]
-    private int activity = 0;
+    [SerializeField] private int activity = 0;
 
-    [SerializeField]
-    private float windRate = 3f;
+    [SerializeField] private float windRate = 3f;
 
-    [SerializeField]
     [Tooltip("Time it takes for the box to winddown to 0; lower values = faster; elements correspond to each night")]
-    private float[] windDownTimes = new float[6];
+    [SerializeField] private float[] windDownTimes = new float[6];
 
     private bool beingWound = false;
 
@@ -37,6 +34,7 @@ public class PuppetBox : MonoBehaviour
     private float timer2 = 0f;
 
     private bool puppetOut = false;
+    private bool doingRunSequence = false;
 
     private void Awake()
     {
@@ -46,6 +44,9 @@ public class PuppetBox : MonoBehaviour
 
         gameManager.applySettings.AddListener(SetSettings);
         gameManager.gameOverEvent.AddListener(() => enabled = false);
+        transform.position = new Vector3(-44.79f, -0.991f, 55.49f);
+
+        puppetOut = true;
     }
 
     private void Update()
@@ -61,6 +62,14 @@ public class PuppetBox : MonoBehaviour
             // move timer for puppet is 8 seconds, meaning
             // every 8 seconds it will attempt to kill the player
             puppetOut = true;
+
+            if (!doingRunSequence) {
+                doingRunSequence = true;
+                StartCoroutine(RunningPhase());
+            }
+
+
+            /*
             if (timer2 > 8f)
             {
                 timer2 = 0f;
@@ -69,6 +78,7 @@ public class PuppetBox : MonoBehaviour
                     gameManager.PlayerDeath(transform, Vector3.zero);
                 }
             }
+            */
 
             timer2 += Time.deltaTime;
         }
@@ -201,6 +211,39 @@ public class PuppetBox : MonoBehaviour
             activity = settings.activity;
             windDownTime = settings.windDownTime;
         }
+    }
+
+    private IEnumerator RunningPhase()
+    {
+        int point = 0;
+        transform.position = runningPoints[point].position;
+
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(false);
+        
+        Transform running = transform.Find("Running");
+        running.gameObject.SetActive(true);
+
+        for (int i = 1; i < 5; i++) 
+        {
+            while (Vector3.Distance(transform.position, runningPoints[i].position) > .01f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, runningPoints[i].position, Time.deltaTime * 18f);
+                transform.rotation = Quaternion.Euler(transform.eulerAngles.x, LookAngle(runningPoints[i]), transform.eulerAngles.z);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        gameManager.PlayerDeath(transform, new Vector3(-0.05f, -2.53f, 0.88f));
+
+        yield return new WaitForEndOfFrame();
+    }
+
+    private float LookAngle(Transform toLook)
+    {
+        float s1 = toLook.transform.position.x - transform.position.x;
+        float s2 = toLook.transform.position.z - transform.position.z;
+        return Mathf.Atan2(s1, s2) * Mathf.Rad2Deg;
     }
 
     public void SetWound(bool state) => beingWound = state;

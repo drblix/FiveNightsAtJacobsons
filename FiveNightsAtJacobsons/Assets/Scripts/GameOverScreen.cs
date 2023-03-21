@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Rendering.PostProcessing;
 
 public class GameOverScreen : MonoBehaviour
 {
