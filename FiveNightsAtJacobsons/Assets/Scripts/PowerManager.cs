@@ -33,7 +33,7 @@ public class PowerManager : MonoBehaviour
         securityOffice = FindObjectOfType<SecurityOffice>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
         player = FindObjectOfType<Player>();
-        currentPower = 2f;
+        currentPower = 100f;
         powerEmpty = false;
 
         gameManager.gameOverEvent.AddListener(() => enabled = false);
@@ -94,7 +94,7 @@ public class PowerManager : MonoBehaviour
         yield return new WaitForSeconds(spookySources[0].clip.length + Random.Range(7f, 14f));
         //yield return new WaitForSeconds(2f);
         officeLight.enabled = true;
-        officeLight.intensity = .9f;
+        officeLight.intensity = 1.4f;
 
         powerOutWolf.SetActive(true);
         spookyLight.gameObject.SetActive(true);
