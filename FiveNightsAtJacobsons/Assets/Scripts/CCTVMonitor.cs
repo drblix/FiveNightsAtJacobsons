@@ -86,7 +86,7 @@ public class CCTVMonitor : MonoBehaviour
     {
         // returns early if animation to open/close monitor is currently playing
         if (!bypass) {
-            if (monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorUp") || monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorDown") || gameManager.gameOver)
+            if (monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorUp") || monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorDown") || gameManager.gameOver || PowerManager.powerEmpty)
                 return;
         }
 

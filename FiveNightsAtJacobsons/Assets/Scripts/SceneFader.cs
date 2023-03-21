@@ -6,12 +6,9 @@ public class SceneFader : MonoBehaviour
 {
     private const float FADE_DURATION = 3.5f;
 
-    [SerializeField]
-    private Image black;
-    [SerializeField]
-    private TextMeshProUGUI nightText;
-    [SerializeField]
-    private RawImage staticTexture;
+    [SerializeField] private Image black;
+    [SerializeField] private TextMeshProUGUI nightText;
+    [SerializeField] private RawImage staticTexture;
 
     private float timer = 0f;
 

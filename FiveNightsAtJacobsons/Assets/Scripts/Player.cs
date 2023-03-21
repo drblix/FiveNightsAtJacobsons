@@ -12,30 +12,22 @@ public class Player : MonoBehaviour
     private PlayerInput playerInput;
     private Transform mainCam;
 
-    [SerializeField]
-    private Light hallFlashlight;
-    [SerializeField]
-    private MeshRenderer hallBlocker;
+    [SerializeField] private Light hallFlashlight;
+    [SerializeField] private MeshRenderer hallBlocker;
 
-    [Header("Player Settings")]
-    [SerializeField]
-    [Tooltip("Max angle at which the player can rotate side-to-side")]
-    private float maxAngle = 60f;
+    [Header("Player Settings")] [Tooltip("Max angle at which the player can rotate side-to-side")]
+    [SerializeField] private float maxAngle = 60f;
 
-    [SerializeField]
     [Tooltip("How fast the camera rotates side-to-side")]
-    private float camSpeed = 50f;
+    [SerializeField] private float camSpeed = 50f;
 
     private float startingAngle = 0f;
 
-    [HideInInspector]
-    public bool canInteract = true;
+    [HideInInspector] public bool canInteract = true;
 
-    [HideInInspector]
-    public bool canUseFlashlight = true;
+    [HideInInspector] public bool canUseFlashlight = true;
 
-    [HideInInspector]
-    public bool canUseVentLight = true;
+    [HideInInspector] public bool canUseVentLight = true;
 
     private void Awake()
     {
@@ -55,7 +47,7 @@ public class Player : MonoBehaviour
             PlayerRotation();
 
             // if mouse was pressed, perform raycast and send result to office function
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (Mouse.current.leftButton.wasPressedThisFrame && !PowerManager.powerEmpty)
             {
                 GameObject mouseObj = GetMouseGameObject();
 
@@ -65,13 +57,11 @@ public class Player : MonoBehaviour
                 }
             }
 
-            // if mouse was released, disable all lights by default
+            // if mouse was released, disable all lights
             if (Mouse.current.leftButton.wasReleasedThisFrame)
-            {
                 office.DisableLights();
-            }
 
-            bool lightState = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight;
+            bool lightState = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight && !PowerManager.powerEmpty;
             hallFlashlight.enabled = lightState;
             hallBlocker.enabled = !lightState;
         }
@@ -81,6 +71,9 @@ public class Player : MonoBehaviour
             hallFlashlight.enabled = false;
             office.DisableLights();
         }
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     private void PlayerRotation()
@@ -154,6 +147,9 @@ public class Player : MonoBehaviour
         canInteract = false;
         gameManager.gameOver = true;
 
+        // plays jumpscare audio
+        GetComponent<AudioSource>().Play();
+
         if (!animatronic.Find("Jumpscare")) {
             Debug.LogError("Couldn't find jumpscare object for: " + animatronic.name);
             yield break;
@@ -168,8 +164,9 @@ public class Player : MonoBehaviour
         Vector3 animatronicPos = animatronic.position;
         Vector3 camPos = transform.position;
         Vector3 newPos = camPos + new Vector3(Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE));
-        float timer = 0f;
 
+        StartCoroutine(LoadGameOver());
+        float timer = 0f;
         while (timer < 3f)
         {
             transform.position = Vector3.MoveTowards(transform.position, newPos, SHAKE_SPEED * Time.deltaTime);
@@ -183,5 +180,11 @@ public class Player : MonoBehaviour
         }
 
         transform.position = camPos;
+    }
+
+    private IEnumerator LoadGameOver()
+    {
+        yield return new WaitForSeconds(1.25f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
     }
 }

@@ -7,15 +7,13 @@ public class TutorialNotification : MonoBehaviour
 {
     private GameManager gameManager;
 
-    [SerializeField]
     [TextArea(5, 20)]
-    private string tutorialMsg;
+    [SerializeField] private string tutorialMsg;
 
-    [SerializeField]
-    private TextMeshProUGUI info;
+    [SerializeField] private TextMeshProUGUI info;
 
     private void Awake() {
-        if (PlayerData.night != 1) {
+        if (PlayerData.Night != 1) {
             gameObject.SetActive(false);
         }
         else {

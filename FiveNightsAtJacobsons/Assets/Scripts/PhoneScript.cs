@@ -5,21 +5,18 @@ public class PhoneScript : MonoBehaviour
 {
 
     private AudioSource phoneRing;
-    [SerializeField]
-    private AudioSource keyPress;
-    [SerializeField]
-    private AudioSource phoneSpeaker;
+    [SerializeField] private AudioSource keyPress;
+    [SerializeField] private AudioSource phoneSpeaker;
 
-    [SerializeField]
-    private AudioClip[] phoneLines;
+    [SerializeField] private AudioClip[] phoneLines;
 
     private string enteredCode = "";
 
     private void Awake() {
         phoneRing = GetComponent<AudioSource>();
 
-        if (PlayerData.night - 1 < phoneLines.Length) {
-            phoneSpeaker.clip = phoneLines[PlayerData.night - 1];
+        if (PlayerData.Night - 1 < phoneLines.Length) {
+            phoneSpeaker.clip = phoneLines[PlayerData.Night - 1];
             StartCoroutine(PhoneSequence());
         }
     }

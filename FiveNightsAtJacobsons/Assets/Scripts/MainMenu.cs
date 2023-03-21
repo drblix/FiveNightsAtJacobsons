@@ -82,7 +82,7 @@ public class MainMenu : MonoBehaviour
             PlayerData.SetNight(1);
             StartCoroutine(NewspaperCutscene());
         }
-        else if (name.Equals(buttonNames[1]) && PlayerData.night != 1)
+        else if (name.Equals(buttonNames[1]) && PlayerData.Night != 1)
         {
             SceneManager.LoadScene(1);
         }

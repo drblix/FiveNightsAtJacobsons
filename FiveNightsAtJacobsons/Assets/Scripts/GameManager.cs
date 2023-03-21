@@ -56,14 +56,38 @@ public class GameManager : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
 
-        Debug.Log("CURRENTLY NIGHT " + PlayerData.night);
+        Debug.Log("CURRENTLY NIGHT " + PlayerData.Night);
+        
         SetActivities();
+    }
+
+    private void Update() 
+    {
+        if (nightTimer <= 0f)
+        {
+            currentHour++;
+            nightTimer = HOUR_SUBDIVISIONS;
+            Debug.Log(string.Format("Hour finished : now {0}, was {1}", currentHour, currentHour - 1));
+
+            foreach (LinearAnimatronic anim in FindObjectsOfType<LinearAnimatronic>())
+            {
+                if (anim.activity != 0)
+                    anim.activity++;
+            }
+
+            if (currentHour == 5)
+                StartCoroutine(NightFinished());
+        }
+        
+        UpdateClock();
+
+        nightTimer -= Time.deltaTime;
     }
 
     private void SetActivities()
     {
         AnimatronicSettings[] nightArray;
-        switch (PlayerData.night)
+        switch (PlayerData.Night)
         {
             case 1:
                 nightArray = night1;
@@ -89,33 +113,7 @@ public class GameManager : MonoBehaviour
         }
 
         foreach (AnimatronicSettings setting in nightArray)
-        {
             applySettings.Invoke(setting);
-        }
-    }
-
-    private void Update() 
-    {
-        if (nightTimer <= 0f)
-        {
-            currentHour++;
-            nightTimer = HOUR_SUBDIVISIONS;
-            Debug.Log(string.Format("Hour finished : now {0}, was {1}", currentHour, currentHour - 1));
-
-            foreach (LinearAnimatronic anim in FindObjectsOfType<LinearAnimatronic>())
-            {
-                if (anim.activity != 0)
-                    anim.activity++;
-            }
-
-            if (currentHour == 5)
-            {
-                StartCoroutine(NightFinished());
-            }
-        }
-        
-        UpdateClock();
-        nightTimer -= Time.deltaTime;
     }
 
     // method that streamlines move rolling for animatronics
@@ -144,7 +142,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Night finished!");
         // Checks if the player beat night 5 or 6
-        if (PlayerData.night == 5)
+        if (PlayerData.Night == 5)
         {
             PlayerData.SetStars(1);
         }
@@ -159,7 +157,7 @@ public class GameManager : MonoBehaviour
             twentyMode = false;
         }
 
-        PlayerData.SetNight(PlayerData.night + 1);
+        PlayerData.SetNight(PlayerData.Night + 1);
 
         const int CYCLES = 12; // how many times the text flashes
         gameOver = true;
@@ -198,6 +196,9 @@ public class GameManager : MonoBehaviour
     }
 }
 
+/// <summary>
+/// Container for holding various settings for animatronics
+/// </summary>
 [System.Serializable]
 public struct AnimatronicSettings
 {
