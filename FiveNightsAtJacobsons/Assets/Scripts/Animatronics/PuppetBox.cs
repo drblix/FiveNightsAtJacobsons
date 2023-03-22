@@ -8,7 +8,9 @@ public class PuppetBox : MonoBehaviour
 
     private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
+    private AudioSource stepSource;
 
+    [SerializeField] private AudioClip[] stepClips;
     [SerializeField] private Transform[] runningPoints;
     [SerializeField] private Animator[] cautionAnimators;
 
@@ -40,13 +42,19 @@ public class PuppetBox : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
+        stepSource = GetComponent<AudioSource>();
         puppetWheel.fillAmount = 1;
 
         gameManager.applySettings.AddListener(SetSettings);
         gameManager.gameOverEvent.AddListener(() => enabled = false);
         transform.position = new Vector3(-44.79f, -0.991f, 55.49f);
 
-        puppetOut = true;
+        // puppetOut = true;
+        FindObjectOfType<PowerManager>().powerOutEvent.AddListener(() =>
+        {
+            gameObject.SetActive(false);
+            enabled = false;
+        });
     }
 
     private void Update()
@@ -63,22 +71,19 @@ public class PuppetBox : MonoBehaviour
             // every 8 seconds it will attempt to kill the player
             puppetOut = true;
 
-            if (!doingRunSequence) {
-                doingRunSequence = true;
-                StartCoroutine(RunningPhase());
-            }
-
-
-            /*
-            if (timer2 > 8f)
+            if (timer2 > 3f)
             {
                 timer2 = 0f;
                 if (GameManager.DoMoveRoll(activity))
                 {
-                    gameManager.PlayerDeath(transform, Vector3.zero);
+                    if (!doingRunSequence)
+                    {
+                        doingRunSequence = true;
+                        StartCoroutine(RunningPhase());
+                    }
                 }
             }
-            */
+
 
             timer2 += Time.deltaTime;
         }
@@ -106,7 +111,8 @@ public class PuppetBox : MonoBehaviour
             CalculateFill();
 
             int phase = 1;
-            if (timer1 >= windDownTime) {
+            if (timer1 >= windDownTime)
+            {
                 phase = 4;
                 //puppetOut = true;
             }
@@ -143,7 +149,8 @@ public class PuppetBox : MonoBehaviour
                 }
             }
 
-            if (phase != 4) {
+            if (phase != 4)
+            {
                 if (!InPose(phase))
                 {
                     // Debug.Log("CHANGING TO POSE " + phase);
@@ -151,7 +158,8 @@ public class PuppetBox : MonoBehaviour
                     SetPose(phase);
                 }
             }
-            else {
+            else
+            {
                 foreach (Transform child in transform)
                     child.gameObject.SetActive(false);
             }
@@ -207,7 +215,8 @@ public class PuppetBox : MonoBehaviour
 
     public void SetSettings(AnimatronicSettings settings)
     {
-        if (settings.animatronicName.ToString().Equals(transform.name)) {
+        if (settings.animatronicName.ToString().Equals(transform.name))
+        {
             activity = settings.activity;
             windDownTime = settings.windDownTime;
         }
@@ -220,23 +229,32 @@ public class PuppetBox : MonoBehaviour
 
         foreach (Transform child in transform)
             child.gameObject.SetActive(false);
-        
+
         Transform running = transform.Find("Running");
         running.gameObject.SetActive(true);
 
-        for (int i = 1; i < 5; i++) 
+        for (int i = 1; i < 5; i++)
         {
             while (Vector3.Distance(transform.position, runningPoints[i].position) > .01f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, runningPoints[i].position, Time.deltaTime * 18f);
+                // 6f
+                transform.position = Vector3.MoveTowards(transform.position, runningPoints[i].position, Time.deltaTime * 10f);
                 transform.rotation = Quaternion.Euler(transform.eulerAngles.x, LookAngle(runningPoints[i]), transform.eulerAngles.z);
+
                 yield return new WaitForEndOfFrame();
             }
         }
 
-        gameManager.PlayerDeath(transform, new Vector3(-0.05f, -2.53f, 0.88f));
+        gameManager.PlayerDeath(transform, new Vector3(-0.05f, -2.7f, 0.8f));
 
         yield return new WaitForEndOfFrame();
+    }
+
+    private void PlayStep()
+    {
+        stepSource.clip = stepClips[Random.Range(0, stepClips.Length)];
+        stepSource.pitch = Random.Range(.95f, 1.51f);
+        stepSource.Play();
     }
 
     private float LookAngle(Transform toLook)

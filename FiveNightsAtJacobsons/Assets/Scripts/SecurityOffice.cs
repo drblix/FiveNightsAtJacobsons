@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SecurityOffice : MonoBehaviour
 {
     private Player player;
     private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
+
+    public UnityEvent shockEvent;
 
     // true = closed; false = open
     private bool[] doorStates = new bool[2];
@@ -123,6 +126,13 @@ public class SecurityOffice : MonoBehaviour
                 doorSounds[3].Play();
             }            
         }
+        else if (obj.CompareTag("ShockButton"))
+        {
+            obj.GetComponent<ParticleSystem>().Emit(Random.Range(10, 30));
+            shockEvent.Invoke();
+        }
+
+        Debug.Log(obj.name);
     }
 
     public void DisableLights()
@@ -157,7 +167,7 @@ public class SecurityOffice : MonoBehaviour
             canUseL = true;
         }
     }
-
+    
     public void DisableEverything()
     {
         // Disables all lights

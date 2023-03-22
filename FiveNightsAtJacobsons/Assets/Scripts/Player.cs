@@ -141,14 +141,26 @@ public class Player : MonoBehaviour
         const float SHAKE_SPEED = 4f;
         const float MAX_INCLUSIVE = .085f;
 
-        if (cctvMonitor.camerasOpen)
+        // Safeguard so the camera doesn't block the jumpscare
+        // Scenario only happens if the player opens the camera right as the jumpscare happens
+        if (cctvMonitor.camerasOpen && !cctvMonitor.monitorAnimating)
             cctvMonitor.ToggleCams(true);
+        else
+        {
+            cctvMonitor.enabled = false;
+
+            foreach (Transform child in cctvMonitor.transform.Find("CCTVSystem"))
+                child.gameObject.SetActive(false);
+
+            cctvMonitor.transform.Find("MonitorSprite").GetComponent<UnityEngine.UI.Image>().enabled = false;
+        }
         
         canInteract = false;
         gameManager.gameOver = true;
 
         // plays jumpscare audio
         GetComponent<AudioSource>().Play();
+        transform.Find("JumpscareLight").GetComponent<Light>().enabled = true;
 
         if (!animatronic.Find("Jumpscare")) {
             Debug.LogError("Couldn't find jumpscare object for: " + animatronic.name);
@@ -165,7 +177,7 @@ public class Player : MonoBehaviour
         Vector3 camPos = transform.position;
         Vector3 newPos = camPos + new Vector3(Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE), Random.Range(-MAX_INCLUSIVE, MAX_INCLUSIVE));
 
-        StartCoroutine(LoadGameOver());
+        StartCoroutine(LoadGameOver(animatronic.Find("Jumpscare").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length - .1f));
         float timer = 0f;
         while (timer < 3f)
         {
@@ -182,9 +194,9 @@ public class Player : MonoBehaviour
         transform.position = camPos;
     }
 
-    private IEnumerator LoadGameOver()
+    private IEnumerator LoadGameOver(float time)
     {
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(time);
         UnityEngine.SceneManagement.SceneManager.LoadScene(2);
     }
 }

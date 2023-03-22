@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Animatronic that moves in a linear path with no special behaviors
 
@@ -39,6 +41,11 @@ public class LinearAnimatronic : MonoBehaviour
     [Tooltip("How offset the animatronic should be from the player camera when jumpscare is performed")]
     [SerializeField] private Vector3 jumpscareOffset;
 
+    [Header("Zubek specific settings")]
+    [SerializeField] private Light officeLight;
+    [SerializeField] private Image blackFlash;
+    [SerializeField] private AudioSource electricShock;
+
     private enum AccessPoint
     {
         Hallway,
@@ -48,6 +55,9 @@ public class LinearAnimatronic : MonoBehaviour
 
     private int currentPoint = 0;
     private float timer = 0f;
+    private bool zubekWait = false;
+    private bool zubekCanAttack = false;
+    private bool standingInOffice = false;
 
     private void Awake()
     {
@@ -63,11 +73,16 @@ public class LinearAnimatronic : MonoBehaviour
         
         gameManager.applySettings.AddListener(SetSettings);
         gameManager.gameOverEvent.AddListener(() => enabled = false);
+        FindObjectOfType<PowerManager>().powerOutEvent.AddListener(() => enabled = false);
+        securityOffice.shockEvent.AddListener(ShockedReaction);
     }
 
     private void Update()
     {
         enabled = !(activity == 0);
+        Debug.Log(timer);
+
+        if (zubekWait) { return; }
 
         if (timer > moveTimer + Random.Range(-moveVariation, moveVariation) && currentPoint != movePath.Length - 1)
         {
@@ -100,7 +115,27 @@ public class LinearAnimatronic : MonoBehaviour
             gameManager.PlayerDeath(transform, jumpscareOffset);
         }
 
-        timer += Time.deltaTime;
+        if (accessPoint == AccessPoint.Hallway)
+        {
+            if (currentPoint != 4)
+            {
+                timer += Time.deltaTime;     
+            }
+            else if (!cctvMonitor.camerasOpen || zubekCanAttack)
+            {
+                zubekCanAttack = true;
+                if (!standingInOffice)
+                {
+                    standingInOffice = true;
+                    StartCoroutine(FlickerLights());
+                }
+                timer += Time.deltaTime;
+            }
+        }
+        else
+        {
+            timer += Time.deltaTime;
+        }
     }
 
     private void MoveEvent()
@@ -108,6 +143,14 @@ public class LinearAnimatronic : MonoBehaviour
         // if can move, move up path by one and change position, etc.
         if (GameManager.DoMoveRoll(activity))
         {
+            // Debug.Log(accessPoint == AccessPoint.Hallway && !cctvMonitor.camerasOpen && currentPoint == 3);
+            if (accessPoint == AccessPoint.Hallway && !cctvMonitor.camerasOpen && currentPoint == 3)
+            {
+                zubekWait = true;
+                StartCoroutine(ZubekWait());
+                return;
+            }
+
             currentPoint++;
 
             try
@@ -163,6 +206,73 @@ public class LinearAnimatronic : MonoBehaviour
                     transform.position = movePath[0].position;
             }
         }
+    }
 
+    // Waiting until player opens their cameras then moving into office poised to attack
+    private IEnumerator ZubekWait()
+    {
+        yield return new WaitUntil(() => cctvMonitor.camerasOpen);
+        yield return new WaitForSeconds(0.5f);
+
+        currentPoint++;
+
+        UpdatePoses();
+        transform.position = movePath[currentPoint].position;
+        poses[currentPoint].SetActive(true);
+
+        timer = 0f;
+        zubekWait = false;
+    }
+
+    private IEnumerator FlickerLights()
+    {
+        GetComponent<AudioSource>().Play();
+
+        while (standingInOffice)
+        {
+            officeLight.enabled = false;
+            yield return new WaitForSeconds(Random.Range(.05f, .1f));
+            officeLight.enabled = true;
+            yield return new WaitForSeconds(Random.Range(.01f, .15f));
+        }
+
+        GetComponent<AudioSource>().Stop();
+        officeLight.enabled = true;
+    }
+
+    private void ShockedReaction()
+    {
+        if (accessPoint == AccessPoint.Hallway && standingInOffice) 
+        {
+            StartCoroutine(BlackFlash());
+            electricShock.Play();
+
+            // Send to start with a black flash on player's view
+            // Reset standingInOffice = false, timer = 0f, zubekCanAttack = false
+            standingInOffice = false;
+            timer = 0f;
+            zubekCanAttack = false;
+
+            // Resetting poses and position
+            currentPoint = 0;
+            UpdatePoses();
+            transform.position = movePath[currentPoint].position;
+            poses[currentPoint].SetActive(true);
+        }
+    }
+
+    private IEnumerator BlackFlash()
+    {
+        blackFlash.color = Color.black;
+        yield return new WaitForSeconds(.35f);
+
+        float timer = 0f;
+        while (timer < 1.25f)
+        {
+            blackFlash.color = Color.Lerp(Color.black, Color.clear, timer / 1.25f);
+
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
     }
 }

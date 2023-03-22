@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 
 public class PowerManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class PowerManager : MonoBehaviour
     private Player player;
     private SecurityOffice securityOffice;
     private CCTVMonitor cctvMonitor;
+
+    public UnityEvent powerOutEvent;
 
     [SerializeField] private float divisionConstant = 9.5f;
     [SerializeField] private Transform wolfAnimatronic;
@@ -61,6 +64,7 @@ public class PowerManager : MonoBehaviour
         else if (!powerEmpty)
         {
             powerEmpty = true;
+            powerOutEvent.Invoke();
             StartCoroutine(OutOfPowerSequence());
         }
     }

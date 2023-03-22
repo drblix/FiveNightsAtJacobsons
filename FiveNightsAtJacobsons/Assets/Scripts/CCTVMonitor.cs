@@ -8,7 +8,8 @@ public class CCTVMonitor : MonoBehaviour
     private const string PUPPET_CAM = "4";
     private const string DOYLE_CAM = "5";
     
-    public bool camerasOpen { get; set; }
+    public bool camerasOpen { get; private set; }
+    public bool monitorAnimating { get; private set; } = false;
 
     private Player player;
     private GameManager gameManager;
@@ -53,6 +54,7 @@ public class CCTVMonitor : MonoBehaviour
     private float randWait;
     private bool animatronicMoving = false;
     private string currentCam = "";
+
 
 
     private void Awake()
@@ -165,6 +167,7 @@ public class CCTVMonitor : MonoBehaviour
 
     public IEnumerator ToggleMonitor()
     {
+        monitorAnimating = true;
         // the whole point of this is to just stop the camera from being spammed
         // and to give that delay before the cctv stuff is shown
         if (camerasOpen)
@@ -175,6 +178,7 @@ public class CCTVMonitor : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => !monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorUp"));
+            monitorAnimating = false;
 
             cctvObj.SetActive(camerasOpen);
             monitorAnimator.gameObject.SetActive(false);
@@ -188,6 +192,7 @@ public class CCTVMonitor : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => !monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorDown"));
+            monitorAnimating = false;
 
             monitorAnimator.gameObject.SetActive(false);
         }

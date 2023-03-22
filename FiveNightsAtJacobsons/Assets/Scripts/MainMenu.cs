@@ -9,7 +9,7 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
     private const float RESET_HOLD_TIME = 2f;
-    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back" };
+    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back", "Credits", "CreditsBack" };
 
     [SerializeField] private Light flashingLight;
     [SerializeField] private PostProcessVolume postProcessVolume;
@@ -27,6 +27,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject customNight;
     [SerializeField] private GameObject mainContainer;
     [SerializeField] private GameObject customContainer;
+    [SerializeField] private GameObject creditsContainer;
     [SerializeField] private GameObject[] stars;
     [SerializeField] private TextMeshProUGUI[] activityNums;
 
@@ -56,7 +57,7 @@ public class MainMenu : MonoBehaviour
 
     private void ResetDataTimer()
     {
-        if (Keyboard.current.deleteKey.isPressed)
+        if (Keyboard.current.deleteKey.isPressed && mainContainer.activeInHierarchy)
         {
             resetTimer += Time.deltaTime;
 
@@ -94,11 +95,19 @@ public class MainMenu : MonoBehaviour
         }
         else if (name.Equals(buttonNames[3]))
         {
-            StartCoroutine(FadeToFromCustom(true));
+            StartCoroutine(FadeToFrom(mainContainer, customContainer));
         }
         else if (name.Equals(buttonNames[4]))
         {
-            StartCoroutine(FadeToFromCustom(false));
+            StartCoroutine(FadeToFrom(customContainer, mainContainer));
+        }
+        else if (name.Equals(buttonNames[5]))
+        {
+            StartCoroutine(FadeToFrom(mainContainer, creditsContainer));
+        }
+        else if (name.Equals(buttonNames[6]))
+        {
+            StartCoroutine(FadeToFrom(creditsContainer, mainContainer));
         }
     }
 
@@ -167,9 +176,11 @@ public class MainMenu : MonoBehaviour
                 // Picking a random glitch pose for every animatronic
                 for (int i = 0; i < animatronics.Length; i++)
                 {
-                    
-                    SetAnimatronicPose(animatronics[i], Random.Range(0, 3));
-                    yield return new WaitForSeconds(Random.Range(.02f, .15f));
+                    if (animatronics[i].gameObject.activeInHierarchy)
+                    {
+                        SetAnimatronicPose(animatronics[i], Random.Range(0, 3));
+                        yield return new WaitForSeconds(Random.Range(.02f, .15f));
+                    }
                 }
 
                 // Returning all animatronics to their default pose
@@ -304,7 +315,7 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeToFromCustom(bool to)
+    private IEnumerator FadeToFrom(GameObject from, GameObject to)
     {
         // "to" is true if going to the custom menu
         const float LENGTH = 1.5f;
@@ -325,8 +336,25 @@ public class MainMenu : MonoBehaviour
         blackFade.color = Color.black;
         timer = 0f;
 
-        mainContainer.SetActive(!to);
-        customContainer.SetActive(to);
+        if (from == mainContainer && to == creditsContainer)
+        {
+            animatronics[0].gameObject.SetActive(false);
+            animatronics[1].gameObject.SetActive(false);
+            animatronics[2].gameObject.SetActive(false);
+            animatronics[3].gameObject.SetActive(true);
+            animatronics[4].gameObject.SetActive(true);
+        }
+        else if (from == creditsContainer && to == mainContainer)
+        {
+            animatronics[0].gameObject.SetActive(true);
+            animatronics[1].gameObject.SetActive(true);
+            animatronics[2].gameObject.SetActive(true);
+            animatronics[3].gameObject.SetActive(false);
+            animatronics[4].gameObject.SetActive(false);
+        }
+
+        from.SetActive(false);
+        to.SetActive(true);
 
         while (timer < LENGTH)
         {
