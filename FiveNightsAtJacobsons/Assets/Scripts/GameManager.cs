@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     #region Serializations
 
     [SerializeField] private TextMeshPro clockText;
+    [SerializeField] private TextMeshProUGUI nightDisplay;
     [SerializeField] private AudioSource alarmSound;
     [SerializeField] private GameObject nightFinishedContainer;
     [SerializeField] private GameObject nightFinishedText;
@@ -55,8 +56,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player>();
-
-        Debug.Log("CURRENTLY NIGHT " + PlayerData.Night);
+        print(PlayerData.Night);
+        nightDisplay.SetText($"Night {PlayerData.Night}");
         
         SetActivities();
     }

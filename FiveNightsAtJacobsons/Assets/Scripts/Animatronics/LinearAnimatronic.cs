@@ -80,7 +80,6 @@ public class LinearAnimatronic : MonoBehaviour
     private void Update()
     {
         enabled = !(activity == 0);
-        Debug.Log(timer);
 
         if (zubekWait) { return; }
 
