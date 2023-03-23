@@ -131,8 +131,6 @@ public class SecurityOffice : MonoBehaviour
             obj.GetComponent<ParticleSystem>().Emit(Random.Range(10, 30));
             shockEvent.Invoke();
         }
-
-        Debug.Log(obj.name);
     }
 
     public void DisableLights()

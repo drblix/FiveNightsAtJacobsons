@@ -56,7 +56,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player>();
-        print(PlayerData.Night);
         nightDisplay.SetText($"Night {PlayerData.Night}");
         
         SetActivities();

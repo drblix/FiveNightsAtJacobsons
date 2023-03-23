@@ -41,6 +41,10 @@ public class LinearAnimatronic : MonoBehaviour
     [Tooltip("How offset the animatronic should be from the player camera when jumpscare is performed")]
     [SerializeField] private Vector3 jumpscareOffset;
 
+    [Header("Vent Audio")]
+    [SerializeField] private AudioClip[] ventClips;
+    [SerializeField] private AudioSource ventSource;
+
     [Header("Zubek specific settings")]
     [SerializeField] private Light officeLight;
     [SerializeField] private Image blackFlash;
@@ -175,6 +179,13 @@ public class LinearAnimatronic : MonoBehaviour
             if (currentPoint == movePath.Length - 1) 
             {
                 Debug.Log("At office entrance");
+            }
+            
+            if (movePath[currentPoint].name.Contains("Vent") && !ventSource.isPlaying)
+            {
+                Debug.Log(movePath[currentPoint].name);
+                ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
+                ventSource.Play();
             }
 
             StartCoroutine(cctvMonitor.DisconnectCams(Random.Range(1.5f, 4f)));

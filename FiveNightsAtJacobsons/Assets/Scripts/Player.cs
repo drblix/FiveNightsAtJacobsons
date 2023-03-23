@@ -86,12 +86,14 @@ public class Player : MonoBehaviour
         // if mouse is on left side of screen, rotate left
         if (mousePos.x < .3f)
         {
-            mainCam.Rotate(-rotAmount);
+            float speed = Mathf.Lerp(1, 0, mousePos.x / .3f);
+            mainCam.Rotate(-rotAmount * speed);
         }
         // if mouse is on right side of screen, rotate right
         else if (mousePos.x > .7f)
         {
-            mainCam.Rotate(rotAmount);
+            float speed = Mathf.Lerp(1, 0, (1f - mousePos.x) / .3f);
+            mainCam.Rotate(rotAmount * speed);
         }
 
         // calculates the clamp angle using function
