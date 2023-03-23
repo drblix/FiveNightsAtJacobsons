@@ -57975,7 +57975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1228942561
 RectTransform:
   m_ObjectHideFlags: 0
@@ -74066,9 +74066,9 @@ MonoBehaviour:
   displaySeconds: 0
   night1:
   - animatronicName: 0
-    activity: 20
-    moveTimer: 1
-    moveVariation: 0
+    activity: 1
+    moveTimer: 13
+    moveVariation: 1
     attackTimer: 10
     windDownTime: 0
   - animatronicName: 1

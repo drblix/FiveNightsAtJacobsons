@@ -142,18 +142,16 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Night finished!");
         // Checks if the player beat night 5 or 6
-        if (PlayerData.Night == 5)
+        if (sixthNight)
         {
-            PlayerData.SetStars(1);
-        }
-        else if (sixthNight)
-        {
-            PlayerData.SetStars(2);
+            if (PlayerData.Stars < 2)
+                PlayerData.SetStars(2);
             sixthNight = false;
         }
         else if (twentyMode)
         {
-            PlayerData.SetStars(3);
+            if (PlayerData.Stars < 3)
+                PlayerData.SetStars(3);
             twentyMode = false;
         }
 
@@ -180,7 +178,9 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(.25f);
         }
 
-        alarmSound.Stop();        
+        alarmSound.Stop();
+
+        yield return new WaitForSeconds(1f);
     }
 
     private void UpdateClock()
