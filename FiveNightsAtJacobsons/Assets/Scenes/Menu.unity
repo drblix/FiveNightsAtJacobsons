@@ -5590,11 +5590,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Alex Dunham - </b>
+  m_text: '<b><size=21>Alex Dunham - </size=21></b>
 
     Game & Map Designer Lead,
 
-    Shadow Alex,
+    Shadow
+    Alex,
 
     Playtester,
 
@@ -5637,7 +5638,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -5778,7 +5779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Snoop Dogg -</b>
+  m_text: '<b><size=21>Snoop Dogg -</size=21></b>
 
     Phone Guy'
   m_isRightToLeft: 0
@@ -5819,7 +5820,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -7545,7 +7546,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -189.85999, y: -86.900024}
+  m_AnchoredPosition: {x: -189.85999, y: -96}
   m_SizeDelta: {x: -484.71, y: -299.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &900793872
@@ -7568,7 +7569,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Benjamin Neuenschwander -</b>
+  m_text: '<b><size=21>Benjamin Neuenschwander -</size=21></b>
 
     Project Manager,
 
@@ -7623,7 +7624,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -10564,8 +10565,8 @@ RectTransform:
   - {fileID: 2007992781}
   - {fileID: 564569796}
   - {fileID: 396592172}
-  - {fileID: 1334715422}
   - {fileID: 1026508319}
+  - {fileID: 1334715422}
   m_Father: {fileID: 472766290}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12757,7 +12758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -210.07, y: 34.200012}
+  m_AnchoredPosition: {x: -210.07, y: 31}
   m_SizeDelta: {x: -525.14, y: -409.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1455241847
@@ -12780,7 +12781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Juliusz Mazur -</b>
+  m_text: '<b><size=21>Juliusz Mazur -</size=21></b>
 
     Modeling & Texturing Lead,
 
@@ -12825,7 +12826,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

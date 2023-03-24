@@ -9,6 +9,7 @@ public static class PlayerData
     public static int Night { get; private set; } = 1;
     public static int Stars { get; private set; } = 0;
     public static bool UnlockedCustom { get; private set; } = false;
+    public static bool UnlockedSixth { get; private set; } = false;
 
     private static readonly string dataPath = Application.streamingAssetsPath + "/Player_Data/Data.json";
 
@@ -21,6 +22,7 @@ public static class PlayerData
             Night = data.night;
             Stars = data.stars;
             UnlockedCustom = data.unlockedCustom;
+            UnlockedSixth = data.unlockedSixth;
             return data;
         }
         else
@@ -35,7 +37,7 @@ public static class PlayerData
     private static void CreateSaveData() 
     {
         // Creating json file w/ public fields
-        string json = JsonUtility.ToJson(new SaveData(Night, Stars, UnlockedCustom));
+        string json = JsonUtility.ToJson(new SaveData(Night, Stars, UnlockedCustom, UnlockedSixth));
 
         // Creating directory for data
         Directory.CreateDirectory(Application.streamingAssetsPath + "/Player_Data/");
@@ -50,6 +52,7 @@ public static class PlayerData
         Night = 1;
         Stars = 0;
         UnlockedCustom = false;
+        UnlockedSixth = false;
         CreateSaveData();
     }
 
@@ -70,6 +73,12 @@ public static class PlayerData
         UnlockedCustom = c;
         CreateSaveData();
     }
+
+    public static void SetSixth(bool s)
+    {
+        UnlockedSixth = s;
+        CreateSaveData();
+    }
     
 }
 
@@ -82,11 +91,13 @@ public struct SaveData
     public int night;
     public int stars;
     public bool unlockedCustom;
+    public bool unlockedSixth;
 
-    public SaveData(int n, int s, bool u)
+    public SaveData(int n, int s, bool u, bool si)
     {
         night = n;
         stars = s;
         unlockedCustom = u;
+        unlockedSixth = si;
     }
 }

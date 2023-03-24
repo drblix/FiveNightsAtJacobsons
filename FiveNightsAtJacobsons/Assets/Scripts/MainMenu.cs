@@ -9,7 +9,7 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
     private const float RESET_HOLD_TIME = 2f;
-    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back", "Credits", "CreditsBack" };
+    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back", "Credits", "CreditsBack", "StartCustom" };
 
     [SerializeField] private Light flashingLight;
     [SerializeField] private PostProcessVolume postProcessVolume;
@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
 
     private float resetTimer = 0f;
     private bool inCutscene = false;
-    private int[] animActivities = new int[5];
+    public static int[] animActivities = new int[5];
 
     private void Start() 
     {
@@ -109,6 +109,17 @@ public class MainMenu : MonoBehaviour
         {
             StartCoroutine(FadeToFrom(creditsContainer, mainContainer));
         }
+        else if (name.Equals(buttonNames[7]))
+        {
+            int count = 0;
+            foreach (int a in animActivities)
+                if (a == 20)
+                    count++;
+
+            GameManager.twentyMode = count == 5;
+            PlayerData.SetNight(7);
+            SceneManager.LoadScene(1);
+        }
     }
 
     private void LoadOptions()
@@ -134,7 +145,7 @@ public class MainMenu : MonoBehaviour
         for (int i = 0; i < data.stars; i++)
             stars[i].SetActive(true);
 
-        sixthNight.SetActive(data.night >= 5);
+        sixthNight.SetActive(data.unlockedSixth);
         customNight.SetActive(data.unlockedCustom);
     }
 

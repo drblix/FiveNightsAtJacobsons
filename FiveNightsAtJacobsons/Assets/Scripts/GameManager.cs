@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     private const int ANIMATRONIC_COUNT = 7;
    
     private const int NIGHT_LENGTH = 540; // seconds
+    // private const int HOUR_SUBDIVISIONS = 2; -- for testing
     private const int HOUR_SUBDIVISIONS = NIGHT_LENGTH / 6;
 
     private Player player;
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour
     public bool gameOver { get; set; } = false;
 
     private float nightTimer = HOUR_SUBDIVISIONS;
-    private int currentHour = 0; // goes 0 - 5; 0 == 12 AM, 5 == 6 AM
+    public int currentHour { get; private set; } = 0; // goes 0 - 5; 0 == 12 AM, 5 == 6 AM
 
     #region Serializations
 
@@ -69,14 +71,20 @@ public class GameManager : MonoBehaviour
             nightTimer = HOUR_SUBDIVISIONS;
             Debug.Log(string.Format("Hour finished : now {0}, was {1}", currentHour, currentHour - 1));
 
-            foreach (LinearAnimatronic anim in FindObjectsOfType<LinearAnimatronic>())
+            if (PlayerData.Night > 2)
             {
-                if (anim.activity != 0)
-                    anim.activity++;
+                foreach (LinearAnimatronic anim in FindObjectsOfType<LinearAnimatronic>())
+                {
+                    if (anim.activity != 0)
+                        anim.activity++;
+                }
             }
 
-            if (currentHour == 5)
+            if (currentHour >= 6 && !gameOver)
+            {
+                gameOverEvent.Invoke();
                 StartCoroutine(NightFinished());
+            }
         }
         
         UpdateClock();
@@ -86,34 +94,49 @@ public class GameManager : MonoBehaviour
 
     private void SetActivities()
     {
-        AnimatronicSettings[] nightArray;
-        switch (PlayerData.Night)
+        if (PlayerData.Night != 7)
         {
-            case 1:
-                nightArray = night1;
-                break;
-            case 2:
-                nightArray = night2;
-                break;
-            case 3:
-                nightArray = night3;
-                break;
-            case 4:
-                nightArray = night4;
-                break;
-            case 5:
-                nightArray = night5;
-                break;
-            case 6:
-                nightArray = night6;
-                break;
-            default:
-                nightArray = night1;
-                break;
-        }
+            AnimatronicSettings[] nightArray;
+            switch (PlayerData.Night)
+            {
+                case 1:
+                    nightArray = night1;
+                    break;
+                case 2:
+                    nightArray = night2;
+                    break;
+                case 3:
+                    nightArray = night3;
+                    break;
+                case 4:
+                    nightArray = night4;
+                    break;
+                case 5:
+                    nightArray = night5;
+                    break;
+                case 6:
+                    nightArray = night6;
+                    break;
+                default:
+                    nightArray = night1;
+                    break;
+            }
 
-        foreach (AnimatronicSettings setting in nightArray)
-            applySettings.Invoke(setting);
+            foreach (AnimatronicSettings setting in nightArray)
+                applySettings.Invoke(setting);
+        }
+        else
+        {
+            AnimatronicSettings[] settings = new AnimatronicSettings[5];
+            settings[0] = new AnimatronicSettings(Animatronic.Wolf, MainMenu.animActivities[0], 9f, 3f, 6.5f, 0f);
+            settings[1] = new AnimatronicSettings(Animatronic.Morrison, MainMenu.animActivities[1], 9f, 3f, 6.5f, 0f);
+            settings[2] = new AnimatronicSettings(Animatronic.Zubek, MainMenu.animActivities[2], 11f, 3f, 6.5f, 0f);
+            settings[3] = new AnimatronicSettings(Animatronic.Roush, MainMenu.animActivities[3], 0f, 0f, 0f, 50f);
+            settings[4] = new AnimatronicSettings(Animatronic.Flowers, MainMenu.animActivities[4], 9f, 3f, 6.5f, 0f);
+
+            foreach (AnimatronicSettings setting in settings)
+                applySettings.Invoke(setting);
+        }
     }
 
     // method that streamlines move rolling for animatronics
@@ -146,20 +169,16 @@ public class GameManager : MonoBehaviour
         {
             if (PlayerData.Stars < 2)
                 PlayerData.SetStars(2);
-            sixthNight = false;
+            PlayerData.SetCustom(true);
         }
         else if (twentyMode)
         {
             if (PlayerData.Stars < 3)
                 PlayerData.SetStars(3);
-            twentyMode = false;
         }
-
-        PlayerData.SetNight(PlayerData.Night + 1);
 
         const int CYCLES = 12; // how many times the text flashes
         gameOver = true;
-        gameOverEvent.Invoke();
 
         // mutes all other sounds in the game
         foreach (AudioSource source in FindObjectsOfType<AudioSource>())
@@ -180,7 +199,24 @@ public class GameManager : MonoBehaviour
 
         alarmSound.Stop();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
+
+
+        if (sixthNight || twentyMode || PlayerData.Night >= 7)
+        {
+            sixthNight = false;
+            twentyMode = false;
+            SceneManager.LoadScene(0);
+        }
+        else if (PlayerData.Night == 5)
+        {
+            SceneManager.LoadScene(3);
+        }
+        else if (PlayerData.Night <= 4)
+        {
+            PlayerData.SetNight(PlayerData.Night + 1);
+            SceneManager.LoadScene(1);
+        }
     }
 
     private void UpdateClock()
@@ -221,6 +257,15 @@ public struct AnimatronicSettings
     [Tooltip("The length in seconds it takes to wind down to 0")]
     public float windDownTime;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="name">Animatronic Name</param>
+    /// <param name="a">Activity</param>
+    /// <param name="m_t">Move Timer</param>
+    /// <param name="m_v">Move Variation</param>
+    /// <param name="a_t">Attack Timer</param>
+    /// <param name="w_dt">Wind Down Time</param>
     public AnimatronicSettings(GameManager.Animatronic name, int a, float m_t, float m_v, float a_t, float w_dt)
     {
         this.animatronicName = name;

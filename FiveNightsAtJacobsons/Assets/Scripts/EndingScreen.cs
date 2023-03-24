@@ -58,6 +58,8 @@ public class EndingScreen : MonoBehaviour
         if (PlayerData.Stars < 1)
             PlayerData.SetStars(1);
         
+        PlayerData.SetSixth(true);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }

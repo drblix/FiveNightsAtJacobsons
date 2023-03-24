@@ -10,9 +10,11 @@ public class PowerManager : MonoBehaviour
     private SecurityOffice securityOffice;
     private CCTVMonitor cctvMonitor;
 
-    public UnityEvent powerOutEvent;
+    [HideInInspector] public UnityEvent powerOutEvent;
 
     [SerializeField] private float divisionConstant = 9.5f;
+
+    [Header("References")]
     [SerializeField] private Transform wolfAnimatronic;
     [SerializeField] private TextMeshProUGUI powerText;
     [SerializeField] private Light officeLight;

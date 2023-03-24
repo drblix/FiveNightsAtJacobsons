@@ -84,8 +84,9 @@ public class LinearAnimatronic : MonoBehaviour
     private void Update()
     {
         enabled = !(activity == 0);
-
-        if (zubekWait) { return; }
+        
+        if (zubekWait || (PlayerData.Night == 1 && gameManager.currentHour <= 3)) { return; }
+        // if (zubekWait) { return; }
 
         if (timer > moveTimer + Random.Range(-moveVariation, moveVariation) && currentPoint != movePath.Length - 1)
         {
@@ -153,8 +154,17 @@ public class LinearAnimatronic : MonoBehaviour
                 StartCoroutine(ZubekWait());
                 return;
             }
-
-            currentPoint++;
+            
+            // if not zubek, and currently at a point greater than their second point but less than their 3rd to last point
+            if (!transform.name.Equals("Zubek") && (currentPoint > 1 && currentPoint < movePath.Length - 3))
+            {
+                if (Random.Range(1, 4) == 1)
+                    currentPoint--;
+                else
+                    currentPoint++;
+            }
+            else
+                currentPoint++;
 
             try
             {
@@ -183,7 +193,6 @@ public class LinearAnimatronic : MonoBehaviour
             
             if (movePath[currentPoint].name.Contains("Vent") && !ventSource.isPlaying)
             {
-                Debug.Log(movePath[currentPoint].name);
                 ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
                 ventSource.Play();
             }

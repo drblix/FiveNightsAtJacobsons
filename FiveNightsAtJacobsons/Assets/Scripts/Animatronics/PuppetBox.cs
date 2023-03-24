@@ -22,9 +22,6 @@ public class PuppetBox : MonoBehaviour
 
     [SerializeField] private float windRate = 3f;
 
-    [Tooltip("Time it takes for the box to winddown to 0; lower values = faster; elements correspond to each night")]
-    [SerializeField] private float[] windDownTimes = new float[6];
-
     private bool beingWound = false;
 
     private float windDownTime;
