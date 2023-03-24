@@ -74219,8 +74219,8 @@ MonoBehaviour:
   displaySeconds: 0
   night1:
   - animatronicName: 0
-    activity: 1
-    moveTimer: 14
+    activity: 2
+    moveTimer: 11
     moveVariation: 3
     attackTimer: 10
     windDownTime: 0
@@ -74232,7 +74232,7 @@ MonoBehaviour:
     windDownTime: 0
   - animatronicName: 2
     activity: 1
-    moveTimer: 14
+    moveTimer: 11
     moveVariation: 3
     attackTimer: 10
     windDownTime: 0
@@ -74256,7 +74256,7 @@ MonoBehaviour:
     attackTimer: 10
     windDownTime: 0
   - animatronicName: 1
-    activity: 2
+    activity: 1
     moveTimer: 9
     moveVariation: 2
     attackTimer: 10
@@ -74434,7 +74434,7 @@ MonoBehaviour:
   powerOutEvent:
     m_PersistentCalls:
       m_Calls: []
-  divisionConstant: 11.5
+  divisionConstant: 9
   wolfAnimatronic: {fileID: 261492918}
   powerText: {fileID: 2137564385}
   officeLight: {fileID: 236232065}
