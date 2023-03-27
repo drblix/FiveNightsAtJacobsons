@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour
         }
         
         UpdateClock();
+        CheatBinds();
 
         nightTimer -= Time.deltaTime;
     }
@@ -163,7 +165,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator NightFinished()
     {
-        Debug.Log("Night finished!");
         // Checks if the player beat night 5 or 6
         if (sixthNight)
         {
@@ -229,6 +230,57 @@ public class GameManager : MonoBehaviour
             seconds = Mathf.FloorToInt(60 - Mathf.Lerp(0, 60, nightTimer / HOUR_SUBDIVISIONS));
         
         clockText.SetText((hours + ":" + seconds.ToString("00")));
+    }
+
+    private void CheatBinds()
+    {
+        if (gameOver) { return; }
+
+        if (Keyboard.current.altKey.isPressed && Keyboard.current.nKey.isPressed)
+        {   
+            if (Keyboard.current.numpad1Key.wasPressedThisFrame)
+            {
+                PlayerData.SetNight(1);
+                GameManager.sixthNight = false;
+                SceneManager.LoadScene(1);
+            }
+            else if (Keyboard.current.numpad2Key.wasPressedThisFrame)
+            {
+                PlayerData.SetNight(2);
+                GameManager.sixthNight = false;
+                SceneManager.LoadScene(1);
+            }
+            else if (Keyboard.current.numpad3Key.wasPressedThisFrame)
+            {
+                PlayerData.SetNight(3);
+                GameManager.sixthNight = false;
+                SceneManager.LoadScene(1);
+            }
+            else if (Keyboard.current.numpad4Key.wasPressedThisFrame)
+            {
+                PlayerData.SetNight(4);
+                GameManager.sixthNight = false;
+                SceneManager.LoadScene(1);
+            }
+            else if (Keyboard.current.numpad5Key.wasPressedThisFrame)
+            {
+                PlayerData.SetNight(5);
+                GameManager.sixthNight = false;
+                SceneManager.LoadScene(1);
+            }
+            else if (Keyboard.current.numpad6Key.wasPressedThisFrame)
+            {
+                PlayerData.SetNight(6);
+                GameManager.sixthNight = true;
+                SceneManager.LoadScene(1);
+            }
+            else if (Keyboard.current.numpad7Key.wasPressedThisFrame)
+            {
+                StartCoroutine(NightFinished());
+            }
+        }
+        else if (Keyboard.current.altKey.isPressed && Keyboard.current.pKey.wasPressedThisFrame)
+            PowerManager.cheatMode = !PowerManager.cheatMode;
     }
 }
 

@@ -30,6 +30,7 @@ public class PowerManager : MonoBehaviour
 
     public static float currentPower { get; private set; } = 100f;
     public static bool powerEmpty = false;
+    public static bool cheatMode = false;
 
 
     private void Awake() 
@@ -40,6 +41,7 @@ public class PowerManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         currentPower = 100f;
         powerEmpty = false;
+        cheatMode = false;
 
         gameManager.gameOverEvent.AddListener(() => enabled = false);
     }
@@ -61,7 +63,8 @@ public class PowerManager : MonoBehaviour
 
             // graph for viewing power consumption rates
             // https://www.desmos.com/calculator/weno3vl6rp
-            currentPower -= (Time.deltaTime / divisionConstant) * (1 + count);
+            if (!cheatMode)
+                currentPower -= (Time.deltaTime / divisionConstant) * (1 + count);
         }
         else if (!powerEmpty)
         {

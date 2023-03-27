@@ -16,39 +16,25 @@ public class CCTVMonitor : MonoBehaviour
 
     [Header("CCTV Variables")]
 
-    [SerializeField]
-    private AudioSource[] cctvSources;
-
-    [SerializeField]
-    private AudioClip[] cctvClips;
-
-    [SerializeField]
-    private CCTVCam[] cctvCams;
-
-    [SerializeField]
-    private TextMeshProUGUI camName;
+    [SerializeField] private AudioSource[] cctvSources;
+    [SerializeField] private AudioClip[] cctvClips;
+    [SerializeField] private CCTVCam[] cctvCams;
+    [SerializeField] private TextMeshProUGUI camName;
 
     [Header("Gameobjects")]
 
-    [SerializeField]
-    private GameObject cctvObj;
+    [SerializeField] private GameObject cctvObj;
+    [SerializeField] private GameObject puppetControls;
+    [SerializeField] private GameObject camDisconnected;
+    [SerializeField] private GameObject cctvBlack;
 
-    [SerializeField]
-    private GameObject puppetControls;
-
-    [SerializeField]
-    private GameObject camDisconnected;
-
-    [SerializeField]
-    private RawImage camDisplay;
+    [SerializeField] private RawImage camDisplay;
 
     [Header("Animation")]
 
-    [SerializeField]
-    private Animator monitorAnimator;
+    [SerializeField] private Animator monitorAnimator;
 
-    [SerializeField]
-    private Sprite idleCam;
+    [SerializeField] private Sprite idleCam;
 
     private float ambienceTimer = 0f;
     private float randWait;
@@ -179,6 +165,7 @@ public class CCTVMonitor : MonoBehaviour
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => !monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorUp"));
             monitorAnimating = false;
+            cctvBlack.SetActive(true);
 
             cctvObj.SetActive(camerasOpen);
             monitorAnimator.gameObject.SetActive(false);
@@ -189,6 +176,7 @@ public class CCTVMonitor : MonoBehaviour
             monitorAnimator.Play("MonitorDown");
             cctvSources[2].Stop();
             cctvObj.SetActive(camerasOpen);
+            cctvBlack.SetActive(false);
 
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => !monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorDown"));

@@ -11441,7 +11441,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: afca74bca3624ad4eb4c76e5a6448f3a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.65
+  m_Volume: 0.45
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -11745,7 +11745,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 359.3, y: -209}
+  m_AnchoredPosition: {x: 281, y: -209}
   m_SizeDelta: {x: -587.7, y: -428.94}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1350939155
@@ -11768,7 +11768,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b><size=24>\xA9</size></b> 2023 Racist Insects"
+  m_text: "<b><size=24>\xA9</size></b> 2023 Guantanamo Bay Escapees"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
   m_sharedMaterial: {fileID: -7813835905126009341, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
