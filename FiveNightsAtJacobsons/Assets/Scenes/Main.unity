@@ -75841,7 +75841,7 @@ MonoBehaviour:
     attackTimer: 10
     windDownTime: 0
   - animatronicName: 3
-    activity: 0
+    activity: 8
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
@@ -75863,16 +75863,16 @@ MonoBehaviour:
     activity: 6
     moveTimer: 9
     moveVariation: 2
-    attackTimer: 6.5
+    attackTimer: 7
     windDownTime: 0
   - animatronicName: 2
     activity: 6
     moveTimer: 8
     moveVariation: 3.5
-    attackTimer: 6
+    attackTimer: 8
     windDownTime: 0
   - animatronicName: 3
-    activity: 0
+    activity: 7
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
@@ -75885,34 +75885,34 @@ MonoBehaviour:
     windDownTime: 0
   night4:
   - animatronicName: 0
-    activity: 3
-    moveTimer: 8
-    moveVariation: 1.5
-    attackTimer: 10
+    activity: 6
+    moveTimer: 6
+    moveVariation: 2
+    attackTimer: 7
     windDownTime: 0
   - animatronicName: 1
-    activity: 2
-    moveTimer: 9
+    activity: 7
+    moveTimer: 8
     moveVariation: 2
-    attackTimer: 10
+    attackTimer: 6
     windDownTime: 0
   - animatronicName: 2
-    activity: 0
-    moveTimer: 0
-    moveVariation: 0
-    attackTimer: 0
+    activity: 7
+    moveTimer: 8
+    moveVariation: 3
+    attackTimer: 7
     windDownTime: 0
   - animatronicName: 3
-    activity: 0
+    activity: 6
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
     windDownTime: 75
   - animatronicName: 4
-    activity: 0
-    moveTimer: 0
-    moveVariation: 0
-    attackTimer: 0
+    activity: 5
+    moveTimer: 9
+    moveVariation: 3
+    attackTimer: 6
     windDownTime: 0
   night5:
   - animatronicName: 0
