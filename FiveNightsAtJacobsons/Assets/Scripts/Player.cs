@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private PlayerInput playerInput;
     private Transform mainCam;
 
+    [SerializeField] private AudioSource deadLight;
     [SerializeField] private Light hallFlashlight;
     [SerializeField] private MeshRenderer hallBlocker;
 
@@ -25,7 +26,7 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool canInteract = true;
 
-    [HideInInspector] public bool canUseFlashlight = true;
+    public bool canUseFlashlight = true;
 
     [HideInInspector] public bool canUseVentLight = true;
 
@@ -62,6 +63,17 @@ public class Player : MonoBehaviour
                 office.DisableLights();
 
             bool lightState = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight && !PowerManager.powerEmpty;
+
+            if (!canUseFlashlight && playerInput.actions["LeftControl"].IsPressed())
+            {
+                if (!deadLight.isPlaying)
+                    deadLight.Play();
+            }
+            else
+            {
+                deadLight.Stop();
+            }
+
             hallFlashlight.enabled = lightState;
             hallBlocker.enabled = !lightState;
         }

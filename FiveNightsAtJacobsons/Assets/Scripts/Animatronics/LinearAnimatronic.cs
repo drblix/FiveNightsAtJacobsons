@@ -101,6 +101,8 @@ public class LinearAnimatronic : MonoBehaviour
             // is not blocked, kill the player
             if (accessPoint == AccessPoint.LeftVent) {
                 if (securityOffice.LeftVentClosed) {
+                    ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
+                    ventSource.Play();
                     currentPoint = 0;
                     UpdatePoses();
                     timer = 0f;
@@ -109,6 +111,8 @@ public class LinearAnimatronic : MonoBehaviour
             }
             else if (accessPoint == AccessPoint.RightVent) {
                 if (securityOffice.RightVentClosed) {
+                    ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
+                    ventSource.Play();
                     currentPoint = 0;
                     UpdatePoses();
                     timer = 0f;
