@@ -10,6 +10,7 @@ public class PuppetBox : MonoBehaviour
     private CCTVMonitor cctvMonitor;
     private AudioSource stepSource;
 
+    [SerializeField] private GameObject zubek;
     [SerializeField] private AudioClip[] stepClips;
     [SerializeField] private Transform[] runningPoints;
     [SerializeField] private Animator[] cautionAnimators;
@@ -76,6 +77,9 @@ public class PuppetBox : MonoBehaviour
                     if (!doingRunSequence)
                     {
                         doingRunSequence = true;
+
+                        zubek.SetActive(false);
+                        StartCoroutine(cctvMonitor.DisconnectCams(1f));
                         StartCoroutine(RunningPhase());
                     }
                 }
@@ -151,7 +155,7 @@ public class PuppetBox : MonoBehaviour
                 if (!InPose(phase))
                 {
                     // Debug.Log("CHANGING TO POSE " + phase);
-                    StartCoroutine(cctvMonitor.DisconnectCams(phase));
+                    StartCoroutine(cctvMonitor.DisconnectCams(1f));
                     SetPose(phase);
                 }
             }

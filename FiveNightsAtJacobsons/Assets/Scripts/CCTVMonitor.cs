@@ -191,8 +191,11 @@ public class CCTVMonitor : MonoBehaviour
         animatronicMoving = true;
         player.canUseFlashlight = false;
         camDisconnected.SetActive(true);
+        camDisconnected.GetComponent<AudioSource>().Play();
+
         yield return new WaitForSeconds(dur);
 
+        camDisconnected.GetComponent<AudioSource>().Stop();
         if (!currentCam.Equals(DOYLE_CAM))
             camDisconnected.SetActive(false);
         

@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
     private PlayerInput playerInput;
     private Transform mainCam;
 
-    [SerializeField] private AudioSource deadLight;
+    [SerializeField] private AudioClip[] flashSounds;
+    [SerializeField] private AudioSource deadLight, flashSource;
     [SerializeField] private Light hallFlashlight;
     [SerializeField] private MeshRenderer hallBlocker;
 
@@ -74,6 +75,17 @@ public class Player : MonoBehaviour
                 deadLight.Stop();
             }
 
+            if (playerInput.actions["LeftControl"].WasPerformedThisFrame())
+            {
+                flashSource.clip = flashSounds[0]; 
+                flashSource.Play();
+            }
+            else if (playerInput.actions["LeftControl"].WasReleasedThisFrame())
+            {
+                flashSource.clip = flashSounds[1]; 
+                flashSource.Play();
+            }
+
             hallFlashlight.enabled = lightState;
             hallBlocker.enabled = !lightState;
         }
@@ -110,10 +122,26 @@ public class Player : MonoBehaviour
 
         // calculates the clamp angle using function
         // min and max are relative to the starting angle
-        float newY = ClampAngle(mainCam.eulerAngles.y, startingAngle - maxAngle, startingAngle + maxAngle);
+        float newY = ClampAngle(mainCam.eulerAngles.y, -maxAngle, maxAngle);
         mainCam.rotation = Quaternion.Euler(0f, newY, 0f);
     }
-    
+
+    // new method; should prevent the occasional snapping
+    private float ClampAngle(float current, float min, float max)
+    {
+        float dtAngle = Mathf.Abs(((min - max) + 180) % 360 - 180);
+        float hdtAngle = dtAngle * 0.5f;
+        float midAngle = min + hdtAngle;
+
+        float offset = Mathf.Abs(Mathf.DeltaAngle(current, midAngle)) - hdtAngle;
+        if (offset > 0)
+            current = Mathf.MoveTowardsAngle(current, midAngle, offset);
+        
+        return current;
+    }
+
+
+    /* previous method
     private float ClampAngle(float angle, float from, float to)
     {
         // if both clamp parameters are positive, clamp angle between both
@@ -135,6 +163,7 @@ public class Player : MonoBehaviour
         // otherwise, returns min value between angle and to value
         return Mathf.Min(angle, to);
     }
+    */
 
     private GameObject GetMouseGameObject()
     {

@@ -10,12 +10,15 @@ public class PhoneScript : MonoBehaviour
 
     [SerializeField] private AudioClip[] phoneLines;
 
+    [SerializeField] private bool shouldPlay = true;
     private string enteredCode = "";
 
-    private void Awake() {
+
+    private void Awake() 
+    {
         phoneRing = GetComponent<AudioSource>();
 
-        if (PlayerData.Night - 1 < phoneLines.Length) {
+        if (PlayerData.Night - 1 < phoneLines.Length && shouldPlay) {
             phoneSpeaker.clip = phoneLines[PlayerData.Night - 1];
             StartCoroutine(PhoneSequence());
         }
