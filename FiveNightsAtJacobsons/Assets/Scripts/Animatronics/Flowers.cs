@@ -4,18 +4,20 @@ using UnityEngine;
 public class Flowers : MonoBehaviour
 {
 
-    private const float MOVE_THRESHOLD = 22f;
 
     private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
     private SecurityOffice securityOffice;
 
     [SerializeField] [Range(0, 20)] private int activity = 20;
-    [SerializeField] private AudioSource flowersVent;
+    [SerializeField] private float moveTimer = 0f;
+    [SerializeField] private float moveVariation = 0f;
+
+    [SerializeField] private AudioSource flowersVent, ventSlam;
     [SerializeField] private bool testMode = false;
 
-    private float moveTimer = 0f;
-
+    private float moveTick = 0f;
+    private float currentMoveTime = 0f;
 
     private int phase = 1;
 
@@ -38,25 +40,28 @@ public class Flowers : MonoBehaviour
     private void Update() 
     {
         if (cctvMonitor.camerasOpen || attacking) { return; }
-        moveTimer += Time.deltaTime;
 
-        if (moveTimer > MOVE_THRESHOLD || testMode) {
-            moveTimer = 0f;
-
+        if (moveTick > currentMoveTime || testMode) {
             if (GameManager.DoMoveRoll(activity) || testMode) {
                 phase++;
                 StartCoroutine(cctvMonitor.DisconnectCams(1f));
 
                 if (phase != 5)
                     SelectPhase(false);
-                else {
+                else 
+                {
                     foreach (Transform child in transform)
                         child.gameObject.SetActive(false);
                     StartCoroutine(FlowersAttack());
                     phase = 0;
                 }
             }
+
+            moveTick = 0f;
+            currentMoveTime = moveTimer + Random.Range(-moveVariation, moveVariation);
         }
+
+        moveTick += Time.deltaTime;
     }
 
     private void SelectPhase(bool none)
@@ -73,7 +78,10 @@ public class Flowers : MonoBehaviour
     public void SetSettings(AnimatronicSettings settings) {
         if (settings.animatronicName.ToString().Equals(transform.name)) {
             activity = settings.activity;
-            moveTimer = 0f;
+            moveTimer = settings.moveTimer;
+            moveVariation = settings.moveVariation;
+            moveTick = 0f;
+            currentMoveTime = moveTimer + Random.Range(-moveVariation, moveVariation);
         }
 
     }
@@ -88,8 +96,18 @@ public class Flowers : MonoBehaviour
         flowersVent.Stop();
 
         if (!securityOffice.LeftVentClosed)
+        {
             gameManager.PlayerDeath(transform, new Vector3(0f, -3f, 1f));
-
-        attacking = false;
+        }
+        else
+        {
+            yield return new WaitForSeconds(.25f);
+            ventSlam.Play();    
+            // resets stuff
+            attacking = false;
+            phase = 1;
+            SelectPhase(false);
+            StartCoroutine(cctvMonitor.DisconnectCams(1f));
+        }
     }
 }

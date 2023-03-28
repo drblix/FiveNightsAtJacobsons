@@ -17,6 +17,7 @@ public class SceneFader : MonoBehaviour
     {
         staticSource = GetComponent<AudioSource>();
 
+        Debug.Log(PlayerData.Night);
         nightText.SetText($"Night {PlayerData.Night}");
         StartCoroutine(FadeSequence());
     }

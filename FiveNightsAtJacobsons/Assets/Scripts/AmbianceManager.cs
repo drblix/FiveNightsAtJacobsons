@@ -16,7 +16,7 @@ public class AmbianceManager : MonoBehaviour
     private void Update()
     {
         // Check if it's time to play a new audio clip
-        if (randReq > playTimer && !phoneRing.isPlaying && !phoneSpeaker.isPlaying)
+        if (playTimer > randReq && !phoneRing.isPlaying && !phoneSpeaker.isPlaying)
         {
             // Select a random audio clip from the ambianceClips array and play it
             ambianceSource.clip = ambianceClips[Random.Range(0, ambianceClips.Length)];

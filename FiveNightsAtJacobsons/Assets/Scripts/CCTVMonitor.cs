@@ -188,6 +188,9 @@ public class CCTVMonitor : MonoBehaviour
 
     public IEnumerator DisconnectCams(float dur)
     {
+        // prevents overlapping
+        if (animatronicMoving) { yield break; }
+
         animatronicMoving = true;
         player.canUseFlashlight = false;
         camDisconnected.SetActive(true);

@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AnimatronicSettings[] night4;
     [SerializeField] private AnimatronicSettings[] night5;
     [SerializeField] private AnimatronicSettings[] night6;
+    [SerializeField] private AnimatronicSettings[] twentyNight;
 
     #endregion
 
@@ -53,7 +54,6 @@ public class GameManager : MonoBehaviour
         Morrison,
         Roush,
         Flowers,
-        Gammon
     }
 
     private void Awake()
@@ -96,7 +96,13 @@ public class GameManager : MonoBehaviour
 
     private void SetActivities()
     {
-        if (PlayerData.Night != 7)
+        if (twentyMode)
+        {
+            // special twenty mode settings
+            foreach (AnimatronicSettings setting in twentyNight)
+                applySettings.Invoke(setting);
+        }
+        else if (PlayerData.Night != 7)
         {
             AnimatronicSettings[] nightArray;
             switch (PlayerData.Night)

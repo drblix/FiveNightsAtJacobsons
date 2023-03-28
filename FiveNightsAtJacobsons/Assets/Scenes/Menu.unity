@@ -3488,7 +3488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -239.38008, y: 145.43}
+  m_AnchoredPosition: {x: -239.38007, y: 145.43}
   m_SizeDelta: {x: -559.1088, y: -290.866}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &497255047
@@ -5567,7 +5567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -210.07002, y: 100.29001}
+  m_AnchoredPosition: {x: -210.07, y: 100.29001}
   m_SizeDelta: {x: -525.14, y: -372.34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &702315419
@@ -7546,7 +7546,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -189.86, y: -96}
+  m_AnchoredPosition: {x: -189.85999, y: -96}
   m_SizeDelta: {x: -484.71, y: -299.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &900793872
@@ -11745,8 +11745,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 281, y: -209}
-  m_SizeDelta: {x: -587.7, y: -428.94}
+  m_AnchoredPosition: {x: 301.92, y: -209}
+  m_SizeDelta: {x: -605.85, y: -428.94}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1350939155
 MonoBehaviour:
@@ -11768,7 +11768,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b><size=24>\xA9</size></b> 2023 Thug Shakers United"
+  m_text: "<b><size=24>\xA9</size></b> 2023 Dead Pixel Studios\u2122"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
   m_sharedMaterial: {fileID: -7813835905126009341, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
@@ -12758,7 +12758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -210.07002, y: 31}
+  m_AnchoredPosition: {x: -210.07, y: 31}
   m_SizeDelta: {x: -525.14, y: -409.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1455241847
@@ -14426,7 +14426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -239.00008, y: 182}
+  m_AnchoredPosition: {x: -239.00006, y: 182}
   m_SizeDelta: {x: -583, y: -396.87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1734012318

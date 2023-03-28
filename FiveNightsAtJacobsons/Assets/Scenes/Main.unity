@@ -3084,7 +3084,7 @@ Transform:
   - {fileID: 1250506594}
   - {fileID: 1062975184}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &70406781
 PrefabInstance:
@@ -9878,6 +9878,134 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23df2620efc939f42a52002475319fa5, type: 3}
   m_PrefabInstance: {fileID: 1447237762}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &242605855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 242605857}
+  - component: {fileID: 242605856}
+  m_Layer: 0
+  m_Name: FlowersSlam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &242605856
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242605855}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: af2e47d25d917d94bb9aaecca5466915, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1.2
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 0
+  MinDistance: 1
+  MaxDistance: 30
+  Pan2D: -0.2
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &242605857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242605855}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.08, y: 0, z: -8.29}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &243820404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f622f50231ff9e647a21fac8f87543de, type: 3}
@@ -9991,7 +10119,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b6810944cb7ed874a9628e1278170239, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 0.93
   Loop: 0
@@ -11128,7 +11256,7 @@ Transform:
   - {fileID: 2090704130}
   - {fileID: 1372584330}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &261492919
 MonoBehaviour:
@@ -32309,7 +32437,7 @@ Transform:
   - {fileID: 886859351}
   - {fileID: 742111125}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &668067210
 MonoBehaviour:
@@ -35901,10 +36029,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682c73f677e54b7428e0ba787f438d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialMsg: 'Left control for flashlight
-
-    (click to close)'
-  info: {fileID: 1054562062}
 --- !u!1001 &782700613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36530,7 +36654,7 @@ Transform:
   - {fileID: 1687696373}
   - {fileID: 1891911809}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &810063957
 MonoBehaviour:
@@ -37585,7 +37709,7 @@ Transform:
   - {fileID: 941642132}
   - {fileID: 1919605760}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &853477195
 GameObject:
@@ -38001,7 +38125,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &877181300
 Animator:
@@ -43599,7 +43723,7 @@ Transform:
   - {fileID: 508691631}
   - {fileID: 1387064296}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &966676544
 GameObject:
@@ -47299,7 +47423,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activity: 0
+  moveTimer: 0
+  moveVariation: 0
   flowersVent: {fileID: 279109117}
+  ventSlam: {fileID: 242605856}
   testMode: 0
 --- !u!1001 &1047226083
 PrefabInstance:
@@ -47757,9 +47884,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Left control for flashlight
-
-    (click to close)'
+  m_text: Left control to use your flashlight
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
   m_sharedMaterial: {fileID: -7813835905126009341, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
@@ -52192,7 +52317,7 @@ Transform:
   - {fileID: 622475829}
   - {fileID: 1944888325}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1173610108
 GameObject:
@@ -61233,7 +61358,7 @@ Transform:
   - {fileID: 1460989702}
   - {fileID: 167661415}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1255633830
 MonoBehaviour:
@@ -70071,7 +70196,7 @@ Transform:
   - {fileID: 438441108}
   - {fileID: 1673156497}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1402549236
 GameObject:
@@ -70379,7 +70504,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1413333041
 PrefabInstance:
@@ -75987,7 +76112,7 @@ MonoBehaviour:
     attackTimer: 0
     windDownTime: 0
   - animatronicName: 2
-    activity: 5
+    activity: 3
     moveTimer: 11
     moveVariation: 3
     attackTimer: 10
@@ -75997,7 +76122,7 @@ MonoBehaviour:
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 180
+    windDownTime: 0
   - animatronicName: 4
     activity: 0
     moveTimer: 0
@@ -76006,15 +76131,15 @@ MonoBehaviour:
     windDownTime: 0
   night2:
   - animatronicName: 0
-    activity: 4
-    moveTimer: 8
-    moveVariation: 1.5
+    activity: 5
+    moveTimer: 12
+    moveVariation: 2
     attackTimer: 10
     windDownTime: 0
   - animatronicName: 1
-    activity: 4
-    moveTimer: 9
-    moveVariation: 2
+    activity: 5
+    moveTimer: 11
+    moveVariation: 1
     attackTimer: 7
     windDownTime: 0
   - animatronicName: 2
@@ -76028,7 +76153,7 @@ MonoBehaviour:
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 95
+    windDownTime: 180
   - animatronicName: 4
     activity: 0
     moveTimer: 0
@@ -76037,125 +76162,156 @@ MonoBehaviour:
     windDownTime: 0
   night3:
   - animatronicName: 0
-    activity: 5
-    moveTimer: 8
+    activity: 8
+    moveTimer: 9
     moveVariation: 1.5
     attackTimer: 7
     windDownTime: 0
   - animatronicName: 1
-    activity: 6
+    activity: 7
     moveTimer: 9
-    moveVariation: 2
-    attackTimer: 7
+    moveVariation: 1
+    attackTimer: 5
     windDownTime: 0
   - animatronicName: 2
-    activity: 6
-    moveTimer: 8
-    moveVariation: 3.5
+    activity: 7
+    moveTimer: 11
+    moveVariation: 2
     attackTimer: 8
     windDownTime: 0
   - animatronicName: 3
-    activity: 7
+    activity: 10
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 85
+    windDownTime: 145
   - animatronicName: 4
-    activity: 4
+    activity: 5
     moveTimer: 10
-    moveVariation: 2
-    attackTimer: 7
+    moveVariation: 1
+    attackTimer: 0
     windDownTime: 0
   night4:
   - animatronicName: 0
-    activity: 6
-    moveTimer: 6
+    activity: 10
+    moveTimer: 9
     moveVariation: 2
     attackTimer: 7
     windDownTime: 0
   - animatronicName: 1
-    activity: 7
+    activity: 9
     moveTimer: 8
-    moveVariation: 2
-    attackTimer: 6
+    moveVariation: 1
+    attackTimer: 3
     windDownTime: 0
   - animatronicName: 2
-    activity: 7
-    moveTimer: 8
-    moveVariation: 3
-    attackTimer: 7
+    activity: 9
+    moveTimer: 10
+    moveVariation: 2
+    attackTimer: 8
     windDownTime: 0
   - animatronicName: 3
-    activity: 6
+    activity: 13
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 75
+    windDownTime: 110
   - animatronicName: 4
-    activity: 5
+    activity: 8
     moveTimer: 9
-    moveVariation: 3
-    attackTimer: 6
+    moveVariation: 1
+    attackTimer: 0
     windDownTime: 0
   night5:
   - animatronicName: 0
-    activity: 3
+    activity: 12
     moveTimer: 8
-    moveVariation: 1.5
-    attackTimer: 10
+    moveVariation: 2
+    attackTimer: 5
     windDownTime: 0
   - animatronicName: 1
-    activity: 2
+    activity: 11
     moveTimer: 9
     moveVariation: 2
-    attackTimer: 10
+    attackTimer: 2
     windDownTime: 0
   - animatronicName: 2
-    activity: 0
+    activity: 11
+    moveTimer: 9
+    moveVariation: 1
+    attackTimer: 5
+    windDownTime: 0
+  - animatronicName: 3
+    activity: 16
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
+    windDownTime: 80
+  - animatronicName: 4
+    activity: 12
+    moveTimer: 8
+    moveVariation: 1
+    attackTimer: 0
+    windDownTime: 0
+  night6:
+  - animatronicName: 0
+    activity: 15
+    moveTimer: 8
+    moveVariation: 1
+    attackTimer: 5
+    windDownTime: 0
+  - animatronicName: 1
+    activity: 15
+    moveTimer: 7
+    moveVariation: 0.5
+    attackTimer: 2
+    windDownTime: 0
+  - animatronicName: 2
+    activity: 15
+    moveTimer: 8
+    moveVariation: 1
+    attackTimer: 5
     windDownTime: 0
   - animatronicName: 3
-    activity: 0
+    activity: 17
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
     windDownTime: 60
   - animatronicName: 4
-    activity: 0
-    moveTimer: 0
-    moveVariation: 0
+    activity: 15
+    moveTimer: 7
+    moveVariation: 2
     attackTimer: 0
     windDownTime: 0
-  night6:
+  twentyNight:
   - animatronicName: 0
-    activity: 3
-    moveTimer: 8
-    moveVariation: 1.5
-    attackTimer: 10
+    activity: 20
+    moveTimer: 4.5
+    moveVariation: 0
+    attackTimer: 4
     windDownTime: 0
   - animatronicName: 1
-    activity: 2
-    moveTimer: 9
-    moveVariation: 2
-    attackTimer: 10
+    activity: 20
+    moveTimer: 6
+    moveVariation: 0.5
+    attackTimer: 2
     windDownTime: 0
   - animatronicName: 2
-    activity: 0
-    moveTimer: 0
+    activity: 20
+    moveTimer: 4.5
     moveVariation: 0
-    attackTimer: 0
+    attackTimer: 4
     windDownTime: 0
   - animatronicName: 3
-    activity: 0
+    activity: 20
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 50
+    windDownTime: 60
   - animatronicName: 4
-    activity: 0
-    moveTimer: 0
+    activity: 20
+    moveTimer: 6
     moveVariation: 0
     attackTimer: 0
     windDownTime: 0
@@ -79642,7 +79798,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1574936038
 GameObject:
@@ -86926,7 +87082,7 @@ Transform:
   - {fileID: 543450652546077541}
   - {fileID: 236232066}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1697010495
 PrefabInstance:
@@ -104430,7 +104586,7 @@ Transform:
   - {fileID: 1851782083}
   - {fileID: 1516340414}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2072643944
 PrefabInstance:
@@ -113002,7 +113158,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d64a070b62df63041b4ac77437518904, type: 3}
   - {fileID: 8300000, guid: 0cdf820594ce1ed4898f9c7d9c571213, type: 3}
   - {fileID: 8300000, guid: a15fc4d40e99bb44da7c26faee8167f6, type: 3}
-  shouldPlay: 0
+  shouldPlay: 1
 --- !u!164 &5631138842704092066
 AudioReverbFilter:
   m_ObjectHideFlags: 0

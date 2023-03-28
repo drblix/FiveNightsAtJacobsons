@@ -23,11 +23,9 @@ public class Player : MonoBehaviour
     [Tooltip("How fast the camera rotates side-to-side")]
     [SerializeField] private float camSpeed = 50f;
 
-    private float startingAngle = 0f;
-
     [HideInInspector] public bool canInteract = true;
 
-    public bool canUseFlashlight = true;
+    [HideInInspector] public bool canUseFlashlight = true;
 
     [HideInInspector] public bool canUseVentLight = true;
 

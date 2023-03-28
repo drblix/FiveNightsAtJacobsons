@@ -8,14 +8,17 @@ public class GameOverScreen : MonoBehaviour
 {
     [SerializeField] private RawImage staticVideo;
     [SerializeField] private Image holdBar;
-    [SerializeField] private AudioSource skillIssue;
-    [SerializeField] private AudioSource menuTheme;
+    [SerializeField] private AudioSource skillIssue, menuTheme;
     [SerializeField] private AudioDistortionFilter distortionFilter;
+    [SerializeField] private GameObject[] animatronicObjs;
+
+    public static GameManager.Animatronic diedTo;
 
     private float holdTimer = 0f;
 
     private void Awake() 
     {
+        animatronicObjs[(int)diedTo].SetActive(true);
         StartCoroutine(InitialFade());
     }
 

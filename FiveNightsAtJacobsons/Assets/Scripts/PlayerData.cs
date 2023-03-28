@@ -58,7 +58,7 @@ public static class PlayerData
 
     public static void SetNight(int n)
     {
-        Night = Mathf.Clamp(n, 1, 6);
+        Night = Mathf.Clamp(n, 1, 7);
         CreateSaveData();
     }
 

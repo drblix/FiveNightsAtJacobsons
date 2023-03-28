@@ -18,16 +18,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private AudioClip[] glitchSfxs;
 
     [Header("Title Page UI References")]
-    [SerializeField] private Image delFill;
-    [SerializeField] private Image newspaper;
-    [SerializeField] private Image blackFade;
-    [SerializeField] private TextMeshProUGUI continueBtn;
-    [SerializeField] private TextMeshProUGUI nightDisplay;
-    [SerializeField] private GameObject sixthNight;
-    [SerializeField] private GameObject customNight;
-    [SerializeField] private GameObject mainContainer;
-    [SerializeField] private GameObject customContainer;
-    [SerializeField] private GameObject creditsContainer;
+
+    [SerializeField] private Image delFill, newspaper, blackFade;
+    [SerializeField] private TextMeshProUGUI continueBtn, nightDisplay;
+    [SerializeField] private GameObject sixthNight, customNight, mainContainer, customContainer, creditsContainer;
     [SerializeField] private GameObject[] stars;
     [SerializeField] private TextMeshProUGUI[] activityNums;
 
@@ -85,6 +79,7 @@ public class MainMenu : MonoBehaviour
         }
         else if (name.Equals(buttonNames[1]) && PlayerData.Night != 1)
         {
+            PlayerData.SetNight(Mathf.Clamp(PlayerData.Night, 2, 5));
             SceneManager.LoadScene(1);
         }
         else if (name.Equals(buttonNames[2]))
