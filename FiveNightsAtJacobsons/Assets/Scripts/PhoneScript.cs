@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class PhoneScript : MonoBehaviour
 {
-
     private AudioSource phoneRing;
-    [SerializeField] private AudioSource keyPress;
-    [SerializeField] private AudioSource phoneSpeaker;
-
+    [SerializeField] private AudioSource keyPress, phoneSpeaker;
+    [SerializeField] private GameObject muteButton;
     [SerializeField] private AudioClip[] phoneLines;
 
     [SerializeField] private bool shouldPlay = true;
@@ -82,11 +80,23 @@ public class PhoneScript : MonoBehaviour
         enteredCode = "";
     }
 
+    public void MuteCall()
+    {
+        phoneRing.Stop();
+        phoneSpeaker.Stop();
+        muteButton.SetActive(false);
+    }
+
     private IEnumerator PhoneSequence()
     {
         yield return new WaitForSeconds(5f);
         phoneRing.Play();
+        muteButton.SetActive(true);
         yield return new WaitForSeconds(phoneRing.clip.length + .8f);
         phoneSpeaker.Play();
+
+        yield return new WaitWhile(() => phoneSpeaker.isPlaying);
+
+        muteButton.SetActive(false);
     }
 }

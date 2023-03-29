@@ -19,6 +19,7 @@ public class MainMenu : MonoBehaviour
 
     [Header("Title Page UI References")]
 
+    [SerializeField] private RawImage staticVid;
     [SerializeField] private Image delFill, newspaper, blackFade;
     [SerializeField] private TextMeshProUGUI continueBtn, nightDisplay;
     [SerializeField] private GameObject sixthNight, customNight, mainContainer, customContainer, creditsContainer;
@@ -32,6 +33,8 @@ public class MainMenu : MonoBehaviour
     private bool inCutscene = false;
     public static int[] animActivities = new int[5];
 
+    public static bool comingFromTrailer = false;
+
     private void Start() 
     {
         postProcessVolume.profile.TryGetSettings(out ca);
@@ -41,6 +44,15 @@ public class MainMenu : MonoBehaviour
 
         StartCoroutine(LightLoop());
         StartCoroutine(GlitchLoop());
+
+        if (comingFromTrailer)
+        {
+            comingFromTrailer = false;
+            staticVid.gameObject.SetActive(true);
+            StartCoroutine(FromTrailerFade());
+        }
+        else
+            staticVid.color = Color.clear;
     }
 
     private void Update()
@@ -376,5 +388,24 @@ public class MainMenu : MonoBehaviour
 
         blackFade.color = Color.clear;
         blackFade.gameObject.SetActive(false);
+    }
+
+    private IEnumerator FromTrailerFade()
+    {
+        yield return new WaitForSeconds(1f);
+
+        const float FADE_LENGTH = 3.5f;
+        float staticTimer = 0f;
+
+        while (staticTimer < FADE_LENGTH)
+        {
+            staticVid.color = new Color(1f, 1f, 1f, 1f - staticTimer / FADE_LENGTH);
+
+            staticTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        staticVid.gameObject.SetActive(false);
+        staticVid.color = Color.clear;
     }
 }

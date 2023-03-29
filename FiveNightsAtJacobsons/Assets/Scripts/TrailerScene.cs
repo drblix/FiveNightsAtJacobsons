@@ -10,6 +10,9 @@ public class TrailerScene : MonoBehaviour
     private void Update() 
     {
         if (videoPlayer.time >= 36f || Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            MainMenu.comingFromTrailer = true;
             SceneManager.LoadScene("Menu");
+        }
     }
 }
