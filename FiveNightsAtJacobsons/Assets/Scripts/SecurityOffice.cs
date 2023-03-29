@@ -8,7 +8,9 @@ public class SecurityOffice : MonoBehaviour
     private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
 
-    public UnityEvent shockEvent;
+    [SerializeField] private LinearAnimatronic zubek;
+
+    [HideInInspector] public UnityEvent shockEvent;
 
     // true = closed; false = open
     private bool[] doorStates = new bool[2];
@@ -17,21 +19,11 @@ public class SecurityOffice : MonoBehaviour
 
     public bool[] PowerStates { get; private set; } = new bool[6];
 
-    [SerializeField] private Animator leftVentAnimator;
-    [SerializeField] private Animator rightVentAnimator;
-
+    [SerializeField] private Animator leftVentAnimator, rightVentAnimator;
     [SerializeField] private AudioSource[] doorSounds;
-    [SerializeField] private MeshRenderer lightButtonL;
-    [SerializeField] private MeshRenderer lightButtonR;
-    [SerializeField] private MeshRenderer doorButtonR;
-    [SerializeField] private MeshRenderer doorButtonL;
-
-    [SerializeField] private MeshRenderer blackPlaneR;
-    [SerializeField] private MeshRenderer blackPlaneL;
-
-    [SerializeField] private Light ventLightR;
-    [SerializeField] private Light ventLightL;
-    [SerializeField] private Light flashlight;
+    [SerializeField] private AudioSource buttonErr;
+    [SerializeField] private MeshRenderer lightButtonL, lightButtonR, doorButtonR, doorButtonL, blackPlaneR, blackPlaneL;
+    [SerializeField] private Light ventLightR, ventLightL, flashlight;
 
 
     private bool canUseR = true;
@@ -128,8 +120,16 @@ public class SecurityOffice : MonoBehaviour
         }
         else if (obj.CompareTag("ShockButton"))
         {
-            obj.GetComponent<ParticleSystem>().Emit(Random.Range(10, 30));
-            shockEvent.Invoke();
+            if (zubek.standingInOffice)
+            {
+                obj.GetComponent<ParticleSystem>().Emit(Random.Range(10, 30));
+                shockEvent.Invoke();
+            }
+            else
+            {
+                if (!buttonErr.isPlaying)
+                    buttonErr.Play();
+            }
         }
     }
 

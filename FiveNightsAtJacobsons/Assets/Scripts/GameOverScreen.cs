@@ -11,6 +11,7 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private AudioSource skillIssue, menuTheme;
     [SerializeField] private AudioDistortionFilter distortionFilter;
     [SerializeField] private GameObject[] animatronicObjs;
+    [SerializeField] private TMPro.TextMeshProUGUI holdToLeave; 
 
     public static GameManager.Animatronic diedTo;
 
@@ -28,7 +29,10 @@ public class GameOverScreen : MonoBehaviour
         {
             holdTimer += Time.deltaTime;
             if (holdTimer > 2f)
+            {
+                diedTo = GameManager.Animatronic.Wolf;
                 SceneManager.LoadScene(0);
+            }
         }
         else
         {
@@ -57,9 +61,23 @@ public class GameOverScreen : MonoBehaviour
         }
 
         // THE FUNNY!!!
+        // .2% chance
         if (Random.Range(1, 501) == 1)
             skillIssue.Play();
 
         staticVideo.color = Color.clear;
+
+        yield return new WaitForSeconds(3f);
+
+        timer = 0f;
+        while (timer < 2.5f)
+        {
+            holdToLeave.alpha = Mathf.Lerp(0f, 1f, timer / 2.5f);
+
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        holdToLeave.alpha = 1f;
     }
 }

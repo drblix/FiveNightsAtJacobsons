@@ -57,24 +57,26 @@ public class LinearAnimatronic : MonoBehaviour
         RightVent
     }
 
+    [SerializeField] private bool bypassNightOne;
+
     private int currentPoint = 0;
     private float timer = 0f;
     private bool zubekWait = false;
     private bool zubekCanAttack = false;
-    private bool standingInOffice = false;
+    [HideInInspector] public bool standingInOffice = false;
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
         securityOffice = FindObjectOfType<SecurityOffice>();
-        
+
         UpdatePoses();
         transform.position = Vector3.zero;
 
         if (moveVariation > moveTimer)
             moveVariation = moveTimer;
-        
+
         gameManager.applySettings.AddListener(SetSettings);
         gameManager.gameOverEvent.AddListener(() => enabled = false);
         FindObjectOfType<PowerManager>().powerOutEvent.AddListener(() => enabled = false);
@@ -84,8 +86,8 @@ public class LinearAnimatronic : MonoBehaviour
     private void Update()
     {
         enabled = !(activity == 0);
-        
-        if (zubekWait || (PlayerData.Night == 1 && gameManager.currentHour <= 3)) { return; }
+
+        if (zubekWait || (PlayerData.Night == 1 && gameManager.currentHour <= 3 && !bypassNightOne)) { return; }
         // if (zubekWait) { return; }
 
         if (timer > moveTimer + Random.Range(-moveVariation, moveVariation) && currentPoint != movePath.Length - 1)
@@ -95,12 +97,14 @@ public class LinearAnimatronic : MonoBehaviour
 
             timer = 0f;
         }
-        else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !gameManager.gameOver && GameManager.DoMoveRoll(activity)) 
+        else if (currentPoint == movePath.Length - 1 && timer > attackTimer && !gameManager.gameOver && GameManager.DoMoveRoll(activity))
         {
             // if the animatronic is on their last waypoint, and their way of access
             // is not blocked, kill the player
-            if (accessPoint == AccessPoint.LeftVent) {
-                if (securityOffice.LeftVentClosed) {
+            if (accessPoint == AccessPoint.LeftVent)
+            {
+                if (securityOffice.LeftVentClosed)
+                {
                     ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
                     ventSource.Play();
                     currentPoint = 0;
@@ -109,8 +113,10 @@ public class LinearAnimatronic : MonoBehaviour
                     return;
                 }
             }
-            else if (accessPoint == AccessPoint.RightVent) {
-                if (securityOffice.RightVentClosed) {
+            else if (accessPoint == AccessPoint.RightVent)
+            {
+                if (securityOffice.RightVentClosed)
+                {
                     ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
                     ventSource.Play();
                     currentPoint = 0;
@@ -119,7 +125,7 @@ public class LinearAnimatronic : MonoBehaviour
                     return;
                 }
             }
-            
+
             gameManager.PlayerDeath(transform, jumpscareOffset);
         }
 
@@ -127,7 +133,7 @@ public class LinearAnimatronic : MonoBehaviour
         {
             if (currentPoint != 4)
             {
-                timer += Time.deltaTime;     
+                timer += Time.deltaTime;
             }
             else if (!cctvMonitor.camerasOpen || zubekCanAttack)
             {
@@ -158,7 +164,7 @@ public class LinearAnimatronic : MonoBehaviour
                 StartCoroutine(ZubekWait());
                 return;
             }
-            
+
             // if not zubek, and currently at a point greater than their second point but less than their 3rd to last point
             if (!transform.name.Equals("Zubek") && (currentPoint > 1 && currentPoint < movePath.Length - 3))
             {
@@ -190,11 +196,11 @@ public class LinearAnimatronic : MonoBehaviour
             }
 
             // at the end of the path and is now by the office
-            if (currentPoint == movePath.Length - 1) 
+            if (currentPoint == movePath.Length - 1)
             {
                 Debug.Log("At office entrance");
             }
-            
+
             if (movePath[currentPoint].name.Contains("Vent") && !ventSource.isPlaying)
             {
                 ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
@@ -204,30 +210,32 @@ public class LinearAnimatronic : MonoBehaviour
             StartCoroutine(cctvMonitor.DisconnectCams(Random.Range(1.5f, 4f)));
         }
     }
-    
+
     private void UpdatePoses()
     {
-        for (int i = 0; i < poses.Length; i++) {
-            if (poses[i]) {
+        for (int i = 0; i < poses.Length; i++)
+        {
+            if (poses[i])
+            {
                 poses[i].SetActive(false);
             }
         }
     }
 
-    public void SetSettings(AnimatronicSettings settings) {
-        if (settings.animatronicName.ToString().Equals(transform.name)) {
+    public void SetSettings(AnimatronicSettings settings)
+    {
+        if (settings.animatronicName.ToString().Equals(transform.name))
+        {
             activity = settings.activity;
             attackTimer = settings.attackTimer;
             moveTimer = settings.moveTimer;
             moveVariation = settings.moveVariation;
 
-            if (activity > 0)
-            {
-                if (poses[0])
-                    poses[0].SetActive(true);
-                if (movePath[0])
-                    transform.position = movePath[0].position;
-            }
+            if (poses[0])
+                poses[0].SetActive(true);
+            if (movePath[0])
+                transform.position = movePath[0].position;
+
         }
     }
 
@@ -265,7 +273,7 @@ public class LinearAnimatronic : MonoBehaviour
 
     private void ShockedReaction()
     {
-        if (accessPoint == AccessPoint.Hallway && standingInOffice) 
+        if (accessPoint == AccessPoint.Hallway && standingInOffice)
         {
             StartCoroutine(BlackFlash());
             electricShock.Play();

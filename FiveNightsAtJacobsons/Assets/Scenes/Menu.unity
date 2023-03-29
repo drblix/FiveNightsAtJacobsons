@@ -11768,7 +11768,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<b><size=24>\xA9</size></b> 2023 Dead Pixel Studios\u2122"
+  m_text: "<b><size=24>\xA9</size></b> 2023 Dead Pixel Productions\u2122"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
   m_sharedMaterial: {fileID: -7813835905126009341, guid: 7a28a985f21e6344f8d4568c66159011, type: 2}
@@ -11795,8 +11795,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15.55
-  m_fontSizeBase: 15.55
+  m_fontSize: 13.64
+  m_fontSizeBase: 13.64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

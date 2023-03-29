@@ -166,6 +166,7 @@ public class CCTVMonitor : MonoBehaviour
             yield return new WaitUntil(() => !monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorUp"));
             monitorAnimating = false;
             cctvBlack.SetActive(true);
+            player.GetComponent<Camera>().farClipPlane = 1;
 
             cctvObj.SetActive(camerasOpen);
             monitorAnimator.gameObject.SetActive(false);
@@ -177,6 +178,7 @@ public class CCTVMonitor : MonoBehaviour
             cctvSources[2].Stop();
             cctvObj.SetActive(camerasOpen);
             cctvBlack.SetActive(false);
+            player.GetComponent<Camera>().farClipPlane = 27;
 
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => !monitorAnimator.GetCurrentAnimatorStateInfo(0).IsName("MonitorDown"));

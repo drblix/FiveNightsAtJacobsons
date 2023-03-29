@@ -166,6 +166,8 @@ public class GameManager : MonoBehaviour
         foreach (Transform child in animatronic)
             child.gameObject.SetActive(false);
         
+        Debug.Log(System.Enum.Parse(typeof(Animatronic), animatronic.name));
+        GameOverScreen.diedTo = (Animatronic)System.Enum.Parse(typeof(Animatronic), animatronic.name);
         StartCoroutine(player.Jumpscare(animatronic, jumpOffset));
     }
 

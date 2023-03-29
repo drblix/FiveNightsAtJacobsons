@@ -47,12 +47,13 @@ public class PuppetBox : MonoBehaviour
         gameManager.gameOverEvent.AddListener(() => enabled = false);
         transform.position = new Vector3(-44.79f, -0.991f, 55.49f);
 
-        // puppetOut = true;
         FindObjectOfType<PowerManager>().powerOutEvent.AddListener(() =>
         {
             gameObject.SetActive(false);
             enabled = false;
         });
+
+        SetPose(1);
     }
 
     private void Update()
@@ -89,7 +90,8 @@ public class PuppetBox : MonoBehaviour
             timer2 += Time.deltaTime;
         }
 
-        PuppetAction();
+        if (activity > 0)
+            PuppetAction();
     }
 
     private void PuppetAction()
@@ -115,6 +117,7 @@ public class PuppetBox : MonoBehaviour
             if (timer1 >= windDownTime)
             {
                 phase = 4;
+                StartCoroutine(cctvMonitor.DisconnectCams(1f));
                 //puppetOut = true;
             }
             else if (timer1 > (windDownTime / 1.15f))
