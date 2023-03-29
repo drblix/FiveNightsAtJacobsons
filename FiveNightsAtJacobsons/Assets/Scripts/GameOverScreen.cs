@@ -31,7 +31,7 @@ public class GameOverScreen : MonoBehaviour
             if (holdTimer > 2f)
             {
                 diedTo = GameManager.Animatronic.Wolf;
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene("Menu");
             }
         }
         else

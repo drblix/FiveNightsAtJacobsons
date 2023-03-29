@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
         }
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
 
     private void PlayerRotation()
@@ -238,6 +238,6 @@ public class Player : MonoBehaviour
     private IEnumerator LoadGameOver(float time)
     {
         yield return new WaitForSeconds(time);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
     }
 }

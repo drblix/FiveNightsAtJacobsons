@@ -83,13 +83,13 @@ public class MainMenu : MonoBehaviour
         else if (name.Equals(buttonNames[1]) && PlayerData.Night != 1)
         {
             PlayerData.SetNight(Mathf.Clamp(PlayerData.Night, 2, 5));
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Main");
         }
         else if (name.Equals(buttonNames[2]))
         {
             PlayerData.SetNight(6);
             GameManager.sixthNight = true;
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Main");
         }
         else if (name.Equals(buttonNames[3]))
         {
@@ -116,7 +116,7 @@ public class MainMenu : MonoBehaviour
 
             GameManager.twentyMode = count == 5;
             PlayerData.SetNight(7);
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Main");
         }
     }
 
@@ -273,7 +273,7 @@ public class MainMenu : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Main");
     }
 
     // Identifier = First character is animatronic, second is add one or subtract one

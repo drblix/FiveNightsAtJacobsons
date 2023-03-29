@@ -1,21 +1,15 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using UnityEngine.InputSystem;
 
 public class TrailerScene : MonoBehaviour
 {
     [SerializeField] private VideoPlayer videoPlayer;
 
-    private void Awake() 
-    {
-        
-    }
-
     private void Update() 
     {
-        Debug.Log(videoPlayer.time);   
+        if (videoPlayer.time >= 36f || Keyboard.current.anyKey.wasPressedThisFrame)
+            SceneManager.LoadScene("Menu");
     }
-
-    // private IEnumerator 
 }

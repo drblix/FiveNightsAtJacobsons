@@ -60,6 +60,6 @@ public class EndingScreen : MonoBehaviour
         
         PlayerData.SetSixth(true);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
 }

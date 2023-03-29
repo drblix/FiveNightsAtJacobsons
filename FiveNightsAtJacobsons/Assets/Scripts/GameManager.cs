@@ -215,16 +215,16 @@ public class GameManager : MonoBehaviour
         {
             sixthNight = false;
             twentyMode = false;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("Menu");
         }
         else if (PlayerData.Night == 5)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene("Ending");
         }
         else if (PlayerData.Night <= 4)
         {
             PlayerData.SetNight(PlayerData.Night + 1);
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Main");
         }
     }
 
@@ -250,37 +250,37 @@ public class GameManager : MonoBehaviour
             {
                 PlayerData.SetNight(1);
                 GameManager.sixthNight = false;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Main");
             }
             else if (Keyboard.current.numpad2Key.wasPressedThisFrame || Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(2);
                 GameManager.sixthNight = false;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Main");
             }
             else if (Keyboard.current.numpad3Key.wasPressedThisFrame || Keyboard.current.digit3Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(3);
                 GameManager.sixthNight = false;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Main");
             }
             else if (Keyboard.current.numpad4Key.wasPressedThisFrame || Keyboard.current.digit4Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(4);
                 GameManager.sixthNight = false;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Main");
             }
             else if (Keyboard.current.numpad5Key.wasPressedThisFrame || Keyboard.current.digit5Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(5);
                 GameManager.sixthNight = false;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Main");
             }
             else if (Keyboard.current.numpad6Key.wasPressedThisFrame || Keyboard.current.digit6Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(6);
                 GameManager.sixthNight = true;
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene("Main");
             }
             else if (Keyboard.current.numpad7Key.wasPressedThisFrame || Keyboard.current.digit7Key.wasPressedThisFrame)
             {
