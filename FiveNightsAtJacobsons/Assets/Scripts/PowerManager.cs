@@ -44,6 +44,9 @@ public class PowerManager : MonoBehaviour
         cheatMode = false;
 
         gameManager.gameOverEvent.AddListener(() => enabled = false);
+
+        if (GameManager.twentyMode)
+            divisionConstant = 7.85f;
     }
 
     private void Update() 

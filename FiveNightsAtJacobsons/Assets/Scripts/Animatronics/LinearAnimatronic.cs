@@ -107,6 +107,8 @@ public class LinearAnimatronic : MonoBehaviour
                 {
                     ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
                     ventSource.Play();
+                    StartCoroutine(VentFade());
+
                     currentPoint = 0;
                     UpdatePoses();
                     timer = 0f;
@@ -119,6 +121,8 @@ public class LinearAnimatronic : MonoBehaviour
                 {
                     ventSource.clip = ventClips[Random.Range(0, ventClips.Length)];
                     ventSource.Play();
+                    StartCoroutine(VentFade());
+
                     currentPoint = 0;
                     UpdatePoses();
                     timer = 0f;
@@ -305,5 +309,21 @@ public class LinearAnimatronic : MonoBehaviour
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    private IEnumerator VentFade()
+    {
+        float clipLength = ventSource.clip.length;
+        float ventTimer = 0f;
+
+        while (ventTimer < clipLength)
+        {
+            ventSource.volume = Mathf.Lerp(1f, 0f, ventTimer / clipLength);
+
+            ventTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        ventSource.volume = 1f;
     }
 }

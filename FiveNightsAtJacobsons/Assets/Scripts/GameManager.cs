@@ -246,43 +246,43 @@ public class GameManager : MonoBehaviour
 
         if (Keyboard.current.altKey.isPressed && Keyboard.current.nKey.isPressed)
         {   
-            if (Keyboard.current.numpad1Key.wasPressedThisFrame)
+            if (Keyboard.current.numpad1Key.wasPressedThisFrame || Keyboard.current.digit1Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(1);
                 GameManager.sixthNight = false;
                 SceneManager.LoadScene(1);
             }
-            else if (Keyboard.current.numpad2Key.wasPressedThisFrame)
+            else if (Keyboard.current.numpad2Key.wasPressedThisFrame || Keyboard.current.digit2Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(2);
                 GameManager.sixthNight = false;
                 SceneManager.LoadScene(1);
             }
-            else if (Keyboard.current.numpad3Key.wasPressedThisFrame)
+            else if (Keyboard.current.numpad3Key.wasPressedThisFrame || Keyboard.current.digit3Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(3);
                 GameManager.sixthNight = false;
                 SceneManager.LoadScene(1);
             }
-            else if (Keyboard.current.numpad4Key.wasPressedThisFrame)
+            else if (Keyboard.current.numpad4Key.wasPressedThisFrame || Keyboard.current.digit4Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(4);
                 GameManager.sixthNight = false;
                 SceneManager.LoadScene(1);
             }
-            else if (Keyboard.current.numpad5Key.wasPressedThisFrame)
+            else if (Keyboard.current.numpad5Key.wasPressedThisFrame || Keyboard.current.digit5Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(5);
                 GameManager.sixthNight = false;
                 SceneManager.LoadScene(1);
             }
-            else if (Keyboard.current.numpad6Key.wasPressedThisFrame)
+            else if (Keyboard.current.numpad6Key.wasPressedThisFrame || Keyboard.current.digit6Key.wasPressedThisFrame)
             {
                 PlayerData.SetNight(6);
                 GameManager.sixthNight = true;
                 SceneManager.LoadScene(1);
             }
-            else if (Keyboard.current.numpad7Key.wasPressedThisFrame)
+            else if (Keyboard.current.numpad7Key.wasPressedThisFrame || Keyboard.current.digit7Key.wasPressedThisFrame)
             {
                 StartCoroutine(NightFinished());
             }

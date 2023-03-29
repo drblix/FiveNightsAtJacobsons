@@ -17,8 +17,10 @@ public static class PlayerData
     {   
         if (File.Exists(dataPath))
         {
-            // Fetching data from json file and returning it
-            SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(dataPath));
+            // Decoding data, then converting from base 64 to a legible json
+            string decodedJson = DecodeBase64(File.ReadAllText(dataPath));
+            SaveData data = JsonUtility.FromJson<SaveData>(decodedJson);
+            
             Night = data.night;
             Stars = data.stars;
             UnlockedCustom = data.unlockedCustom;
@@ -28,22 +30,23 @@ public static class PlayerData
         else
         {
             WipeData();
-
-            SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(dataPath));
+            string convertedJson = DecodeBase64(File.ReadAllText(dataPath));
+            SaveData data = JsonUtility.FromJson<SaveData>(convertedJson);
             return data;
         }
     }
 
     private static void CreateSaveData() 
     {
-        // Creating json file w/ public fields
+        // Creating json file w/ public fields from encoded base64
         string json = JsonUtility.ToJson(new SaveData(Night, Stars, UnlockedCustom, UnlockedSixth));
+        string encodedData = EncodeBase64(json);
 
         // Creating directory for data
         Directory.CreateDirectory(Application.streamingAssetsPath + "/Player_Data/");
 
         // Writing to file
-        File.WriteAllText(dataPath, json);
+        File.WriteAllText(dataPath, encodedData);
     }
 
     public static void WipeData()
@@ -79,7 +82,18 @@ public static class PlayerData
         UnlockedSixth = s;
         CreateSaveData();
     }
-    
+
+    private static string EncodeBase64(string text)
+    {
+        byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+        return System.Convert.ToBase64String(textBytes);
+    }
+
+    private static string DecodeBase64(string encodedText)
+    {
+        byte[] textBytes = System.Convert.FromBase64String(encodedText);
+        return System.Text.Encoding.UTF8.GetString(textBytes);
+    }
 }
 
 

@@ -47,6 +47,9 @@ public class MainMenu : MonoBehaviour
     {
         if (!inCutscene)
             ResetDataTimer();
+        
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            Application.Quit();
     }
 
     private void ResetDataTimer()

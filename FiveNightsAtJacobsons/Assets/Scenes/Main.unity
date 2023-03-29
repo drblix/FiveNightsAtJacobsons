@@ -11302,7 +11302,7 @@ MonoBehaviour:
   officeLight: {fileID: 0}
   blackFlash: {fileID: 0}
   electricShock: {fileID: 0}
-  bypassNightOne: 0
+  bypassNightOne: 1
   standingInOffice: 0
 --- !u!82 &261492920
 AudioSource:
@@ -11326,7 +11326,7 @@ AudioSource:
   DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 15
-  Pan2D: 0
+  Pan2D: 0.2
   rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -36747,7 +36747,7 @@ AudioSource:
   DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 15
-  Pan2D: 0
+  Pan2D: -0.2
   rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -76349,7 +76349,7 @@ MonoBehaviour:
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 80
+    windDownTime: 60
   - animatronicName: 4
     activity: 12
     moveTimer: 8
@@ -76380,7 +76380,7 @@ MonoBehaviour:
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 60
+    windDownTime: 40
   - animatronicName: 4
     activity: 15
     moveTimer: 7
@@ -76390,31 +76390,31 @@ MonoBehaviour:
   twentyNight:
   - animatronicName: 0
     activity: 20
-    moveTimer: 4.5
+    moveTimer: 3.6
     moveVariation: 0
-    attackTimer: 4
+    attackTimer: 2.5
     windDownTime: 0
   - animatronicName: 1
     activity: 20
-    moveTimer: 6
+    moveTimer: 5
     moveVariation: 0.5
-    attackTimer: 1.7
+    attackTimer: 1.25
     windDownTime: 0
   - animatronicName: 2
     activity: 20
-    moveTimer: 4.5
+    moveTimer: 3.6
     moveVariation: 0
-    attackTimer: 4
+    attackTimer: 2.5
     windDownTime: 0
   - animatronicName: 3
     activity: 20
     moveTimer: 0
     moveVariation: 0
     attackTimer: 0
-    windDownTime: 60
+    windDownTime: 25.2
   - animatronicName: 4
     activity: 20
-    moveTimer: 6
+    moveTimer: 5.25
     moveVariation: 0
     attackTimer: 0
     windDownTime: 0
