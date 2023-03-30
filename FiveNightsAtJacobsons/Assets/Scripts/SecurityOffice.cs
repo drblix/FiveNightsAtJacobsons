@@ -131,6 +131,12 @@ public class SecurityOffice : MonoBehaviour
                     buttonErr.Play();
             }
         }
+        else if (obj.name.Equals("HornButton"))
+        {
+            AudioSource honk = obj.GetComponent<AudioSource>();
+            if (!honk.isPlaying)
+                honk.Play();
+        }
     }
 
     public void DisableLights()

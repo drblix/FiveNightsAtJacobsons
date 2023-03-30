@@ -136,11 +136,13 @@ public class GameManager : MonoBehaviour
         else
         {
             AnimatronicSettings[] settings = new AnimatronicSettings[5];
-            settings[0] = new AnimatronicSettings(Animatronic.Wolf, MainMenu.animActivities[0], 9f, 3f, 6.5f, 0f);
-            settings[1] = new AnimatronicSettings(Animatronic.Morrison, MainMenu.animActivities[1], 9f, 3f, 6.5f, 0f);
-            settings[2] = new AnimatronicSettings(Animatronic.Zubek, MainMenu.animActivities[2], 11f, 3f, 6.5f, 0f);
-            settings[3] = new AnimatronicSettings(Animatronic.Roush, MainMenu.animActivities[3], 0f, 0f, 0f, 50f);
-            settings[4] = new AnimatronicSettings(Animatronic.Flowers, MainMenu.animActivities[4], 9f, 3f, 6.5f, 0f);
+            float[,] customSettings = DetermineCustomSettings();
+
+            settings[0] = new AnimatronicSettings(Animatronic.Wolf, MainMenu.animActivities[0], customSettings[0,0], customSettings[0,1], customSettings[0,2], customSettings[0,3]);
+            settings[1] = new AnimatronicSettings(Animatronic.Morrison, MainMenu.animActivities[1], customSettings[1,0], customSettings[1,1], customSettings[1,2], customSettings[1,3]);
+            settings[2] = new AnimatronicSettings(Animatronic.Zubek, MainMenu.animActivities[2], customSettings[2,0], customSettings[2,1], customSettings[2,2], customSettings[2,3]);
+            settings[3] = new AnimatronicSettings(Animatronic.Roush, MainMenu.animActivities[3], customSettings[3,0], customSettings[3,1], customSettings[3,2], customSettings[3,3]);
+            settings[4] = new AnimatronicSettings(Animatronic.Flowers, MainMenu.animActivities[4], customSettings[4,0], customSettings[4,1], customSettings[4,2], customSettings[4,3]);
 
             foreach (AnimatronicSettings setting in settings)
                 applySettings.Invoke(setting);
@@ -289,6 +291,38 @@ public class GameManager : MonoBehaviour
         }
         else if (Keyboard.current.altKey.isPressed && Keyboard.current.pKey.wasPressedThisFrame)
             PowerManager.cheatMode = !PowerManager.cheatMode;
+    }
+
+    private float[,] DetermineCustomSettings()
+    {
+        float[,] settings = new float[5,4];
+        for (int x = 0; x < settings.GetLength(0); x++)
+        {
+            for (int y = 0; y < settings.GetLength(1); y++)
+            {
+                switch (y)
+                {
+                    case 0:
+                        // move timer
+                        settings[x,y] = Mathf.Lerp(14.5f, 4.25f, MainMenu.animActivities[y] / 20f);
+                        break;
+                    case 1:
+                        // move variation
+                        settings[x,y] = Mathf.Lerp(3f, 1f, MainMenu.animActivities[y] / 20f);
+                        break;
+                    case 2:
+                        // attack timer
+                        settings[x,y] = Mathf.Lerp(10f, 2.75f, MainMenu.animActivities[y] / 20f);
+                        break;
+                    case 3:
+                        // wind-down time
+                        settings[x,y] = Mathf.Lerp(210f, 30f, MainMenu.animActivities[y] / 20f);
+                        break;
+                }
+            }
+        }
+
+        return settings;
     }
 }
 

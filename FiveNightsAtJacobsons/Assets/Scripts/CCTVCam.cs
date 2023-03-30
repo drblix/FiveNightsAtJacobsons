@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Camera))]
 public class CCTVCam : MonoBehaviour
 {   
-    private const float CAM_SPEED = 25f;
+    private const float CAM_SPEED = 38f;
 
     [Tooltip("Texture that is used to render the camera")]
     public RenderTexture camTexture;
