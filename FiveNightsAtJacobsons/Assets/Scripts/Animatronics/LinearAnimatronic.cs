@@ -246,7 +246,7 @@ public class LinearAnimatronic : MonoBehaviour
     // Waiting until player opens their cameras then moving into office poised to attack
     private IEnumerator ZubekWait()
     {
-        yield return new WaitUntil(() => cctvMonitor.camerasOpen);
+        yield return new WaitUntil(() => (cctvMonitor.camerasOpen && !cctvMonitor.monitorAnimating));
         yield return new WaitForSeconds(0.5f);
 
         currentPoint++;

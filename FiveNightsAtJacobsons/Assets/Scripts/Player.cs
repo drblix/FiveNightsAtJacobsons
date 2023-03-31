@@ -117,6 +117,14 @@ public class Player : MonoBehaviour
             float speed = Mathf.Lerp(1, 0, (1f - mousePos.x) / .3f);
             mainCam.Rotate(rotAmount * speed);
         }
+        else if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            mainCam.Rotate(rotAmount * .5f);
+        }
+        else if (Keyboard.current.leftArrowKey.isPressed)
+        {
+            mainCam.Rotate(-rotAmount * .5f);
+        }
 
         // calculates the clamp angle using function
         // min and max are relative to the starting angle

@@ -92,7 +92,7 @@ public class Flowers : MonoBehaviour
         SelectPhase(true);
         yield return new WaitForSeconds(Random.Range(2f, 5f));
         flowersVent.Play();
-        yield return new WaitForSeconds(flowersVent.clip.length + .75f);
+        yield return new WaitForSeconds(flowersVent.clip.length + Random.Range(.75f, 1.5f));
         flowersVent.Stop();
 
         if (!securityOffice.LeftVentClosed)

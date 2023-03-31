@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class PuppetBox : MonoBehaviour
 {
-    private const float MAX_WINDDOWN_TIME = 120f;
-
     private GameManager gameManager;
     private CCTVMonitor cctvMonitor;
     private AudioSource stepSource;
@@ -110,7 +108,7 @@ public class PuppetBox : MonoBehaviour
             }
 
             // clamping timer value to prevent errors with the fill calculation
-            timer1 = Mathf.Clamp(timer1, 0f, MAX_WINDDOWN_TIME);
+            timer1 = Mathf.Clamp(timer1, 0f, windDownTime + 1f);
             CalculateFill();
 
             int phase = 1;
