@@ -247,7 +247,7 @@ public class LinearAnimatronic : MonoBehaviour
     private IEnumerator ZubekWait()
     {
         yield return new WaitUntil(() => (cctvMonitor.camerasOpen && !cctvMonitor.monitorAnimating));
-        yield return new WaitForSeconds(0.5f);
+        // yield return new WaitForSeconds(0.5f);
 
         currentPoint++;
 

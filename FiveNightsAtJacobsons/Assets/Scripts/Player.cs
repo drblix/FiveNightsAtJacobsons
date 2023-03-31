@@ -29,10 +29,14 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool canUseVentLight = true;
 
+    private float bobTime = 0f;
+    private Vector3 startingPos;
+
     private void Awake()
     {
         // assigning variables
         mainCam = Camera.main.transform;
+        startingPos = transform.position;
         phoneScript = FindObjectOfType<PhoneScript>();
         cctvMonitor = FindObjectOfType<CCTVMonitor>();
         gameManager = FindObjectOfType<GameManager>();
@@ -61,9 +65,9 @@ public class Player : MonoBehaviour
             if (Mouse.current.leftButton.wasReleasedThisFrame)
                 office.DisableLights();
 
-            bool lightState = playerInput.actions["LeftControl"].IsPressed() && canUseFlashlight && !PowerManager.powerEmpty;
+            bool lightState = (Keyboard.current.leftCtrlKey.isPressed || Keyboard.current.rightCtrlKey.isPressed) && canUseFlashlight && !PowerManager.powerEmpty;
 
-            if (!canUseFlashlight && playerInput.actions["LeftControl"].IsPressed())
+            if (!canUseFlashlight && (Keyboard.current.leftCtrlKey.isPressed || Keyboard.current.rightCtrlKey.isPressed))
             {
                 if (!deadLight.isPlaying)
                     deadLight.Play();
@@ -72,13 +76,13 @@ public class Player : MonoBehaviour
             {
                 deadLight.Stop();
             }
-
-            if (playerInput.actions["LeftControl"].WasPerformedThisFrame())
+            
+            if ((Keyboard.current.leftCtrlKey.wasPressedThisFrame && !Keyboard.current.rightCtrlKey.isPressed) || (Keyboard.current.rightCtrlKey.wasPressedThisFrame && !Keyboard.current.leftCtrlKey.isPressed))
             {
                 flashSource.clip = flashSounds[0]; 
                 flashSource.Play();
             }
-            else if (playerInput.actions["LeftControl"].WasReleasedThisFrame())
+            else if ((Keyboard.current.leftCtrlKey.wasReleasedThisFrame && !Keyboard.current.rightCtrlKey.isPressed) || (Keyboard.current.rightCtrlKey.wasReleasedThisFrame && !Keyboard.current.leftCtrlKey.isPressed))
             {
                 flashSource.clip = flashSounds[1]; 
                 flashSource.Play();
@@ -86,6 +90,7 @@ public class Player : MonoBehaviour
 
             hallFlashlight.enabled = lightState;
             hallBlocker.enabled = !lightState;
+            HeadSway();
         }
         else
         {
@@ -96,6 +101,7 @@ public class Player : MonoBehaviour
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
             UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+        
     }
 
     private void PlayerRotation()
@@ -204,6 +210,7 @@ public class Player : MonoBehaviour
             cctvMonitor.transform.Find("MonitorSprite").GetComponent<UnityEngine.UI.Image>().enabled = false;
         }
         
+        transform.position = startingPos;
         canInteract = false;
         gameManager.gameOver = true;
 
@@ -247,5 +254,18 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
+    }
+
+    private void HeadSway()
+    {
+        const float ZERO = 8 * Mathf.PI;
+
+        bobTime += Time.deltaTime;
+        if (bobTime >= ZERO)
+            bobTime = 0f;
+        
+        float offset = (Mathf.Sin(bobTime / 4) / 4) * (2 * Mathf.Cos(bobTime / 2) / 2);
+        Vector3 targetPos = startingPos + new Vector3(0f, offset, 0f);
+        transform.position = Vector3.Lerp(startingPos, targetPos, .2f);
     }
 }
