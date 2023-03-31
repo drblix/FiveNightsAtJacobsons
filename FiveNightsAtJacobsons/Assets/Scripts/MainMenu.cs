@@ -9,7 +9,7 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
     private const float RESET_HOLD_TIME = 2f;
-    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back", "Credits", "CreditsBack", "StartCustom" };
+    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back", "Credits", "CreditsBack", "StartCustom", "Captions", "Challenges", "ChallengesBack" };
 
     [SerializeField] private Light flashingLight;
     [SerializeField] private PostProcessVolume postProcessVolume;
@@ -21,8 +21,8 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] private RawImage staticVid;
     [SerializeField] private Image delFill, newspaper, blackFade;
-    [SerializeField] private TextMeshProUGUI continueBtn, nightDisplay;
-    [SerializeField] private GameObject sixthNight, customNight, mainContainer, customContainer, creditsContainer;
+    [SerializeField] private TextMeshProUGUI continueBtn, nightDisplay, challengesBtn;
+    [SerializeField] private GameObject sixthNight, customNight, mainContainer, customContainer, creditsContainer, captions_X, challengesContainer;
     [SerializeField] private GameObject[] stars;
     [SerializeField] private TextMeshProUGUI[] activityNums;
 
@@ -53,6 +53,14 @@ public class MainMenu : MonoBehaviour
         }
         else
             staticVid.color = Color.clear;
+
+        // resets challenge selection
+        GameManager.challengeIndex = -1;
+        GameManager.challengeSettings = null;
+        GameManager.twentyMode = false;
+        GameManager.sixthNight = false;
+        AudioListener.volume = 1f;
+        animActivities = new int[5];
     }
 
     private void Update()
@@ -130,6 +138,19 @@ public class MainMenu : MonoBehaviour
             PlayerData.SetNight(7);
             SceneManager.LoadScene("Main");
         }
+        else if (name.Equals(buttonNames[8]))
+        {
+            PhoneScript.captionsEnabled = !PhoneScript.captionsEnabled;
+            captions_X.SetActive(PhoneScript.captionsEnabled);
+        }
+        else if (name.Equals(buttonNames[9]))
+        {
+            StartCoroutine(FadeToFrom(mainContainer, challengesContainer));
+        }
+        else if (name.Equals(buttonNames[10]))
+        {
+            StartCoroutine(FadeToFrom(challengesContainer, mainContainer));
+        }
     }
 
     private void LoadOptions()
@@ -149,6 +170,17 @@ public class MainMenu : MonoBehaviour
             continueBtn.transform.Find("Arrows").GetComponent<TextMeshProUGUI>().SetText(">>");
         }
 
+        if (!data.unlockedChallenges)
+        {
+            challengesBtn.color = new Color(1, 1, 1, 0.372f);
+            challengesBtn.raycastTarget = false;
+        }
+        else
+        {
+            challengesBtn.color = Color.white;
+            challengesBtn.raycastTarget = true;
+        }
+
         for (int i = 0; i < stars.Length; i++)
             stars[i].SetActive(false);
         
@@ -157,6 +189,7 @@ public class MainMenu : MonoBehaviour
 
         sixthNight.SetActive(data.unlockedSixth);
         customNight.SetActive(data.unlockedCustom);
+        captions_X.SetActive(PhoneScript.captionsEnabled);
     }
 
     // Disables all poses the animatronic has and enables the provided one

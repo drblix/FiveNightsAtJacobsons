@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75c1a6f6335b2b4086302d39e6f77f9, type: 3}
+  m_Name: P8
+  m_EditorClassIdentifier: 
+  endStamp: 100
+  caption: They used to be allowed to roam free during the day too! But then there
+    was the "Fight of 87". It's amazing how the human body can live without the frontal
+    lobe, ya know? Now concerning your safety, the only real risk to you as a school
+    resource officer, if any, is that these teachers, if they happen to see you after
+    hours they might not recognize you as a person.

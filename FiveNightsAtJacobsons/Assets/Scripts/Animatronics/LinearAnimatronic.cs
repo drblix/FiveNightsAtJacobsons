@@ -87,7 +87,7 @@ public class LinearAnimatronic : MonoBehaviour
     {
         enabled = !(activity == 0);
 
-        if (zubekWait || (PlayerData.Night == 1 && gameManager.currentHour <= 3 && !bypassNightOne)) { return; }
+        if (zubekWait || (PlayerData.Night == 1 && gameManager.currentHour <= 2 && !bypassNightOne)) { return; }
         // if (zubekWait) { return; }
 
         if (timer > moveTimer + Random.Range(-moveVariation, moveVariation) && currentPoint != movePath.Length - 1)

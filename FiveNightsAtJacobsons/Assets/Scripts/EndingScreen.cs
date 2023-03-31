@@ -59,6 +59,7 @@ public class EndingScreen : MonoBehaviour
             PlayerData.SetStars(1);
         
         PlayerData.SetSixth(true);
+        PlayerData.SetChallenges(true);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }

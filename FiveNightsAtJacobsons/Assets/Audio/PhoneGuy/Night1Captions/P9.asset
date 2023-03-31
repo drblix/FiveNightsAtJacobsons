@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75c1a6f6335b2b4086302d39e6f77f9, type: 3}
+  m_Name: P9
+  m_EditorClassIdentifier: 
+  startStamp: 100
+  endStamp: 119
+  caption: They'll probably see you as a student breaking into the school after hours.
+    Now, since that's against the rules here at Jacobson, they'll probably try to
+    send you to detention. Um, now that wouldn't be so bad, if the detention hall
+    itself wasn't a torture chamber under the girls bathroom where the teachers draw
+    and quarter you.

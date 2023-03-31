@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource alarmSound;
     [SerializeField] private GameObject nightFinishedContainer;
     [SerializeField] private GameObject nightFinishedText;
+    [SerializeField] private GameObject[] figurines;
     [SerializeField] private bool displaySeconds = false;
 
 
@@ -44,6 +45,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AnimatronicSettings[] night5;
     [SerializeField] private AnimatronicSettings[] night6;
     [SerializeField] private AnimatronicSettings[] twentyNight;
+    
+    public static AnimatronicSettings[] challengeSettings = null;
+    public static int challengeIndex = -1;
 
     #endregion
 
@@ -61,7 +65,13 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         nightDisplay.SetText($"Night {PlayerData.Night}");
         
+        if (challengeIndex == 4)
+            AudioListener.volume = 0f;
+        else
+            AudioListener.volume = 1f;
+
         SetActivities();
+        DisplayFigurines();
     }
 
     private void Update() 
@@ -96,7 +106,12 @@ public class GameManager : MonoBehaviour
 
     private void SetActivities()
     {
-        if (twentyMode)
+        if (challengeIndex != -1)
+        {
+            foreach (AnimatronicSettings setting in challengeSettings)
+                applySettings.Invoke(setting);
+        }
+        else if (twentyMode)
         {
             // special twenty mode settings
             foreach (AnimatronicSettings setting in twentyNight)
@@ -164,12 +179,11 @@ public class GameManager : MonoBehaviour
         gameOverEvent.Invoke();
         gameOver = true;
         
-        Debug.Log("Game over");
         foreach (Transform child in animatronic)
             child.gameObject.SetActive(false);
         
-        Debug.Log(System.Enum.Parse(typeof(Animatronic), animatronic.name));
         GameOverScreen.diedTo = (Animatronic)System.Enum.Parse(typeof(Animatronic), animatronic.name);
+        AudioListener.volume = 1f;
         StartCoroutine(player.Jumpscare(animatronic, jumpOffset));
     }
 
@@ -212,8 +226,14 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-
-        if (sixthNight || twentyMode || PlayerData.Night >= 7)
+        if (challengeIndex != -1)
+        {
+            bool[] completed = PlayerData.GetPlayerData().completedChallenges;
+            completed[challengeIndex] = true;
+            PlayerData.SetChallenges(completed);
+            SceneManager.LoadScene("Menu");
+        }
+        else if (sixthNight || twentyMode || PlayerData.Night >= 7)
         {
             sixthNight = false;
             twentyMode = false;
@@ -323,6 +343,22 @@ public class GameManager : MonoBehaviour
         }
 
         return settings;
+    }
+
+    private void DisplayFigurines()
+    {
+        SaveData data = PlayerData.GetPlayerData();
+
+        figurines[0].SetActive(data.unlockedCustom);
+        figurines[1].SetActive(data.completedChallenges[0]);
+        figurines[2].SetActive(data.completedChallenges[1]);
+        figurines[3].SetActive(data.completedChallenges[2]);
+        figurines[4].SetActive(data.completedChallenges[3]);
+        figurines[5].SetActive(data.stars == 3);
+        
+        bool allCompleted = data.completedChallenges[0] && data.completedChallenges[1] && data.completedChallenges[2] && data.completedChallenges[3] && 
+                            data.completedChallenges[4] && data.unlockedChallenges && data.unlockedCustom && data.unlockedSixth && data.stars == 3;
+        figurines[6].SetActive(allCompleted);
     }
 }
 

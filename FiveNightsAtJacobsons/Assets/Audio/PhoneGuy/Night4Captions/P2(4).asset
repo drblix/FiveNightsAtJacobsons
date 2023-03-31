@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75c1a6f6335b2b4086302d39e6f77f9, type: 3}
+  m_Name: P2(4)
+  m_EditorClassIdentifier: 
+  startStamp: 0
+  endStamp: 28
+  caption: 'Do me a favor real quick, if you get the chance: right-most sink in the
+    student bathroom, please look for me. *distant pounding* I''m gonna try and hold
+    out as long as I can. Maybe it won''t be so bad. I''ve never been tortured before
+    *distant pounding*, and everything''s worth trying at least once, you know?'

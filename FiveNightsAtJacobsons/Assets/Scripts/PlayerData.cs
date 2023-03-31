@@ -5,27 +5,52 @@ using System.IO;
 /// Collection of various functions for obtaining and saving the player's data
 /// </summary>
 public static class PlayerData
-{   
+{
     public static int Night { get; private set; } = 1;
     public static int Stars { get; private set; } = 0;
     public static bool UnlockedCustom { get; private set; } = false;
     public static bool UnlockedSixth { get; private set; } = false;
+    public static bool UnlockedChallenges { get; private set; } = false;
+    public static bool[] CompletedChallenges { get; private set; } = new bool[5];
 
     private static readonly string dataPath = Application.streamingAssetsPath + "/Player_Data/Data.json";
 
-    public static SaveData GetPlayerData() 
-    {   
+    public static SaveData GetPlayerData()
+    {
         if (File.Exists(dataPath))
         {
             // Decoding data, then converting from base 64 to a legible json
-            string decodedJson = DecodeBase64(File.ReadAllText(dataPath));
-            SaveData data = JsonUtility.FromJson<SaveData>(decodedJson);
-            
-            Night = data.night;
-            Stars = data.stars;
-            UnlockedCustom = data.unlockedCustom;
-            UnlockedSixth = data.unlockedSixth;
-            return data;
+            try
+            {
+                string decodedJson = DecodeBase64(File.ReadAllText(dataPath));
+                SaveData data = JsonUtility.FromJson<SaveData>(decodedJson);
+
+                if (data.completedChallenges == null)
+                {
+                    Debug.LogError("ERR! Failed to fetch existing data. Wiping!");
+                    WipeData();
+                    string convertedJson = DecodeBase64(File.ReadAllText(dataPath));
+                    SaveData data2 = JsonUtility.FromJson<SaveData>(convertedJson);
+                    return data2;
+                }
+
+                Night = data.night;
+                Stars = data.stars;
+                UnlockedCustom = data.unlockedCustom;
+                UnlockedSixth = data.unlockedSixth;
+                UnlockedChallenges = data.unlockedChallenges;
+                CompletedChallenges = data.completedChallenges;
+                return data;
+            }
+            catch (System.Exception)
+            {
+                Debug.LogError("ERR! Failed to fetch existing data. Wiping!");
+                // error handling if player mishandled data or if it's just corrupted
+                WipeData();
+                string convertedJson = DecodeBase64(File.ReadAllText(dataPath));
+                SaveData data = JsonUtility.FromJson<SaveData>(convertedJson);
+                return data;
+            }
         }
         else
         {
@@ -36,10 +61,10 @@ public static class PlayerData
         }
     }
 
-    private static void CreateSaveData() 
+    private static void CreateSaveData()
     {
         // Creating json file w/ public fields from encoded base64
-        string json = JsonUtility.ToJson(new SaveData(Night, Stars, UnlockedCustom, UnlockedSixth));
+        string json = JsonUtility.ToJson(new SaveData(Night, Stars, UnlockedCustom, UnlockedSixth, UnlockedChallenges, CompletedChallenges));
         string encodedData = EncodeBase64(json);
 
         // Creating directory for data
@@ -56,6 +81,8 @@ public static class PlayerData
         Stars = 0;
         UnlockedCustom = false;
         UnlockedSixth = false;
+        UnlockedChallenges = false;
+        CompletedChallenges = new bool[5];
         CreateSaveData();
     }
 
@@ -83,6 +110,18 @@ public static class PlayerData
         CreateSaveData();
     }
 
+    public static void SetChallenges(bool c)
+    {
+        UnlockedChallenges = c;
+        CreateSaveData();
+    }
+
+    public static void SetChallenges(bool[] c)
+    {
+        CompletedChallenges = c;
+        CreateSaveData();
+    }
+
     private static string EncodeBase64(string text)
     {
         byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
@@ -106,12 +145,16 @@ public struct SaveData
     public int stars;
     public bool unlockedCustom;
     public bool unlockedSixth;
+    public bool unlockedChallenges;
+    public bool[] completedChallenges;
 
-    public SaveData(int n, int s, bool u, bool si)
+    public SaveData(int n, int s, bool u, bool u_s, bool u_c, bool[] c_c)
     {
         night = n;
         stars = s;
         unlockedCustom = u;
-        unlockedSixth = si;
+        unlockedSixth = u_s;
+        unlockedChallenges = u_c;
+        completedChallenges = c_c;
     }
 }
