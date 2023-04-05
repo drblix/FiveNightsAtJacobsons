@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         if (challengeIndex == 4)
             AudioListener.volume = 0f;
         else
-            AudioListener.volume = 1f;
+            AudioListener.volume = SettingsScreen.userVolume;
 
         SetActivities();
         DisplayFigurines();
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
             child.gameObject.SetActive(false);
         
         GameOverScreen.diedTo = (Animatronic)System.Enum.Parse(typeof(Animatronic), animatronic.name);
-        AudioListener.volume = 1f;
+        AudioListener.volume = SettingsScreen.userVolume;
         StartCoroutine(player.Jumpscare(animatronic, jumpOffset));
     }
 

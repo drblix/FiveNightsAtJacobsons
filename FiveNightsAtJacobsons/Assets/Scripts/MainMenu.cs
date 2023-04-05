@@ -9,7 +9,7 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
     private const float RESET_HOLD_TIME = 2f;
-    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back", "Credits", "CreditsBack", "StartCustom", "Captions", "Challenges", "ChallengesBack" };
+    private readonly string[] buttonNames = { "NewGame", "Continue", "Sixth", "Custom", "Back", "Credits", "CreditsBack", "StartCustom", "Captions", "Challenges", "ChallengesBack", "Settings", "SettingsBack" };
 
     [SerializeField] private Light flashingLight;
     [SerializeField] private PostProcessVolume postProcessVolume;
@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private RawImage staticVid;
     [SerializeField] private Image delFill, newspaper, blackFade;
     [SerializeField] private TextMeshProUGUI continueBtn, nightDisplay, challengesBtn;
-    [SerializeField] private GameObject sixthNight, customNight, mainContainer, customContainer, creditsContainer, captions_X, challengesContainer;
+    [SerializeField] private GameObject sixthNight, customNight, mainContainer, customContainer, creditsContainer, captions_X, challengesContainer, settingsContainer;
     [SerializeField] private GameObject[] stars;
     [SerializeField] private TextMeshProUGUI[] activityNums;
 
@@ -59,7 +59,7 @@ public class MainMenu : MonoBehaviour
         GameManager.challengeSettings = null;
         GameManager.twentyMode = false;
         GameManager.sixthNight = false;
-        AudioListener.volume = 1f;
+        AudioListener.volume = SettingsScreen.userVolume;
         animActivities = new int[5];
     }
 
@@ -150,6 +150,14 @@ public class MainMenu : MonoBehaviour
         else if (name.Equals(buttonNames[10]))
         {
             StartCoroutine(FadeToFrom(challengesContainer, mainContainer));
+        }
+        else if (name.Equals(buttonNames[11]))
+        {
+            StartCoroutine(FadeToFrom(mainContainer, settingsContainer));
+        }
+        else if (name.Equals(buttonNames[12]))
+        {
+            StartCoroutine(FadeToFrom(settingsContainer, mainContainer));
         }
     }
 
@@ -371,7 +379,6 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator FadeToFrom(GameObject from, GameObject to)
     {
-        // "to" is true if going to the custom menu
         const float LENGTH = 1.5f;
 
         blackFade.gameObject.SetActive(true);
